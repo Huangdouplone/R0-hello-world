@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="gjuV0LZZ9fgf0JSjHlaQcB">
+<head data-page-node-id="GIL3r4aiCCBJrR7rWhPp90">
+<meta charset="utf-8" data-page-node-id="RmANOEya6sCvawg8M7ooKU">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="uRTOCGmkcByKdXbFnif06o">
+<title>R0：从零开始的编程之路 · R0:hello world</title>
+<meta name="description" content="R0：从零开始的编程之路（R0:hello world）—— 覆盖 Python / C / C++ / Java 四门通用语言的自学课程，每门 10 阶段 40 节课，从第一行代码讲到语言纵深与运行时机制。">
+<meta name="author" content="bilibili 黄豆666 / huangdouplone">
+<meta name="keywords" content="R0,hello world,从零开始的编程之路,Python,C,C++,Java,编程自学,EDU系列,拾色造梦">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;}
+:root{
+  --accent:#2f7ed8;--accent2:#2e9e5b;
+  --green:#2e9e5b;--blue:#2f7ed8;--amber:#f0a020;--red:#e2553b;--purple:#8a63d2;
+  --ink:#233044;--sub:#6b7785;--bg:#eef2f6;--bg2:#f6f8fa;--card:#ffffff;--line:#e3e9ef;
+  --fg:#2b3440;
+}
+html[data-theme="dark"]{
+  --sub:#9aa7b6;--bg:#131a24;--bg2:#1b2431;--card:#1a2330;--line:#2a3542;--fg:#e6edf5;--ink:#e6edf5;
+}
+body{background:var(--bg);color:var(--fg);line-height:1.65;padding:18px;padding-bottom:60px;transition:background .2s,color .2s;}
+.container{max-width:1040px;margin:0 auto;padding:0 4px;}
+
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:264px;background:var(--card);border-right:1px solid var(--line);z-index:45;overflow-y:auto;padding:18px 14px;transform:translateX(-100%);transition:transform .25s;}
+.sidebar.open{transform:none;}
+.sb-toggle{display:none;position:fixed;left:12px;top:12px;z-index:46;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:18px;align-items:center;justify-content:center;cursor:pointer;}
+.sb-overlay{position:fixed;inset:0;background:rgba(10,18,32,.45);z-index:44;opacity:0;visibility:hidden;transition:opacity .2s;}
+.sb-overlay.show{opacity:1;visibility:visible;}
+.sb-resizer{position:absolute;right:0;top:0;bottom:0;width:5px;cursor:col-resize;}
+.sb-resizer:hover{background:var(--accent);opacity:.5;}
+.sb-hd{font-size:14px;font-weight:800;margin-bottom:10px;color:var(--accent);display:flex;justify-content:space-between;align-items:center;}
+.sb-nav{display:block;width:100%;text-align:left;border:none;background:transparent;color:var(--fg);padding:8px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;margin-bottom:2px;}
+.sb-nav:hover{background:var(--bg2);}
+.sb-nav.on{background:var(--accent);color:#fff;}
+.sb-sec{font-size:11.5px;color:var(--sub);margin:12px 0 6px;font-weight:700;letter-spacing:.5px;}
+.sb-item{padding:6px 10px;border-radius:8px;font-size:12.5px;cursor:pointer;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-item:hover{background:var(--bg2);color:var(--fg);}
+.sb-item.on{color:var(--accent);font-weight:700;}
+body.sbCollapsed .sidebar{transform:translateX(-100%);}
+
+.header{background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px;padding:20px 24px;margin-bottom:16px;color:#fff;box-shadow:0 6px 20px rgba(47,126,216,.25);}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.header h1{font-size:21px;font-weight:800;letter-spacing:.5px;}
+.header .sub{font-size:12.5px;opacity:.9;margin-top:3px;}
+.app-alt{font-size:13px;font-weight:700;letter-spacing:1px;opacity:.9;margin-top:2px;}
+.app-tagline{font-size:12.5px;opacity:.88;margin-top:7px;line-height:1.65;max-width:560px;}
+.header .right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.streak-chip,.coin-chip{background:rgba(255,255,255,.18);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;white-space:nowrap;}
+.level-badge{text-align:center;background:rgba(255,255,255,.18);border-radius:10px;padding:4px 12px;}
+.level-badge .lv{font-size:10.5px;opacity:.85;}
+.level-badge .tt{font-size:13px;font-weight:800;}
+.xp-wrap{min-width:130px;}
+.xp-top{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px;}
+.xp-bar{height:7px;background:rgba(255,255,255,.25);border-radius:6px;overflow:hidden;}
+.xp-fill{height:100%;background:#fff;border-radius:6px;transition:width .4s;}
+.theme-btn{width:38px;height:38px;border-radius:11px;border:none;background:rgba(255,255,255,.18);color:#fff;font-size:16px;cursor:pointer;}
+.lang-switch{display:flex;gap:2px;background:rgba(0,0,0,.14);border-radius:12px;padding:4px;flex-wrap:wrap;}
+.lang-pill{appearance:none;border:none;background:transparent;color:#fff;opacity:.82;cursor:pointer;font-size:13px;font-weight:600;padding:7px 12px;border-radius:9px;transition:background .15s,opacity .15s;white-space:nowrap;}
+.lang-pill:hover{opacity:1;}
+.lang-pill.active{background:#fff;color:var(--accent);opacity:1;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+.lang-bar{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.lb-hint{font-size:12px;opacity:.9;}
+.mini-prog{display:flex;gap:6px;flex-wrap:wrap;}
+.mp{font-size:11.5px;background:rgba(255,255,255,.16);border-radius:8px;padding:4px 9px;}
+.mp.on{background:#fff;color:var(--accent);font-weight:700;}
+
+.section{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:14px;border:1px solid var(--line);}
+.section h2{font-size:16.5px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.tag{font-size:11.5px;font-weight:600;background:var(--bg2);color:var(--sub);border-radius:999px;padding:3px 10px;}
+
+.btn{appearance:none;border:none;border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff;transition:transform .12s,filter .15s;position:relative;overflow:hidden;}
+.btn:hover{filter:brightness(1.06);}
+.btn:active{transform:scale(.97);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn.green{background:var(--green);}
+.btn.amber{background:var(--amber);}
+.btn.ghost{background:var(--bg2);color:var(--fg);border:1px solid var(--line);}
+.btn.small{padding:6px 12px;font-size:12.5px;border-radius:9px;}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:ripple .6s linear;pointer-events:none;}
+@keyframes ripple{to{transform:scale(2.4);opacity:0;}}
+
+.dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+.dash-card{background:var(--bg2);border-radius:12px;padding:14px;text-align:center;border:1px solid var(--line);}
+.dash-card .n{font-size:22px;font-weight:800;color:var(--accent);}
+.dash-card.g .n{color:var(--green);}
+.dash-card.p .n{color:var(--purple);}
+.dash-card.a .n{color:var(--amber);}
+.dash-card .l{font-size:11.5px;color:var(--sub);margin-top:2px;}
+
+.timer-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.timer-display{font-size:32px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--accent);min-width:110px;}
+.timer-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.timer-tip{font-size:12.5px;color:var(--sub);flex:1;min-width:200px;}
+
+.today-wrap{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;}
+.goal-ring{width:132px;height:132px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:conic-gradient(var(--accent) var(--p,0%),var(--line) 0);flex-shrink:0;}
+.goal-ring .in{width:104px;height:104px;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.goal-ring .gn{font-size:24px;font-weight:800;color:var(--accent);}
+.goal-ring .gl{font-size:11px;color:var(--sub);}
+.today-main{flex:1;min-width:240px;}
+.today-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);}
+.today-item:last-child{border-bottom:none;}
+.od{width:30px;height:30px;border-radius:9px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.info{flex:1;min-width:0;}
+.ti{font-size:13.5px;font-weight:600;cursor:pointer;}
+.ti:hover{color:var(--accent);}
+.me{font-size:11.5px;color:var(--sub);}
+
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+.phase{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;cursor:pointer;transition:transform .15s,border-color .15s;}
+.phase:hover{transform:translateY(-2px);border-color:var(--accent);}
+.phase.cur{border-color:var(--accent);background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 8%,transparent),transparent);}
+.ph-hd{font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.cur-tag{font-size:10.5px;background:var(--accent);color:#fff;border-radius:6px;padding:2px 6px;}
+.ph-ds{font-size:11.5px;color:var(--sub);margin:5px 0 8px;line-height:1.5;}
+.ph-bar{height:6px;background:var(--line);border-radius:5px;overflow:hidden;}
+.ph-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.ph-pg{font-size:11px;color:var(--sub);margin-top:5px;}
+
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.fb-label{font-size:12.5px;color:var(--sub);}
+.chip{appearance:none;border:1px solid var(--line);background:var(--bg2);color:var(--fg);border-radius:999px;padding:5px 13px;font-size:12.5px;cursor:pointer;}
+.chip.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.stage{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;background:var(--bg2);}
+.stage.open{border-color:var(--accent);}
+.stage-hd{display:flex;align-items:center;gap:11px;padding:13px 15px;cursor:pointer;user-select:none;}
+.stage-hd .ic{font-size:20px;}
+.stage-hd .nm{font-weight:700;font-size:14.5px;flex:1;min-width:0;}
+.stage-hd .nm small{display:block;font-weight:400;font-size:11.5px;color:var(--sub);line-height:1.5;}
+.lv-tag{font-size:11px;border-radius:7px;padding:3px 8px;white-space:nowrap;}
+.lv-basic{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green);}
+.lv-adv{background:color-mix(in srgb,var(--amber) 18%,transparent);color:#a6761a;}
+.lv-hard{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red);}
+.pg{font-size:12px;color:var(--sub);text-align:right;min-width:52px;}
+.stage-bar{height:5px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:4px;}
+.stage-bar i{display:block;height:100%;background:var(--accent);}
+.ar{font-size:13px;color:var(--sub);transition:transform .2s;}
+.stage.open .ar{transform:rotate(180deg);}
+.stage-bd{display:none;padding:0 15px 14px;border-top:1px dashed var(--line);}
+.stage.open .stage-bd{display:block;}
+.stage-goal{font-size:12.5px;color:var(--sub);background:var(--card);border-radius:9px;padding:9px 12px;margin:10px 0;}
+.stage-links{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+.stage-links a{font-size:11.5px;color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--accent);}
+.lesson{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:background .15s;}
+.lesson:hover{background:var(--card);}
+.lesson.last{background:color-mix(in srgb,var(--amber) 12%,transparent);}
+.lesson .chk{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0;}
+.lesson.done .chk{background:var(--green);border-color:var(--green);}
+.lesson.done .t{color:var(--sub);text-decoration:line-through;text-decoration-thickness:1px;}
+.lt{flex:1;min-width:0;}
+.lt .t{font-size:13.5px;font-weight:600;}
+.lt .m{font-size:11.5px;color:var(--sub);}
+.rev{color:var(--amber);font-weight:700;}
+.nav-lesson{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;}
+.lab-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:transform .15s,border-color .15s;}
+.lab-card:hover{transform:translateY(-3px);border-color:var(--accent);}
+.lab-card.locked{opacity:.6;cursor:not-allowed;}
+.lab-card.done{border-color:var(--green);}
+.lc-badge{font-size:20px;}
+.lc-t{font-weight:700;font-size:13.5px;margin:5px 0 3px;}
+.lc-m{font-size:11.5px;color:var(--sub);}
+
+.rev-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);}
+.mistake-item{background:var(--bg2);border-radius:11px;padding:11px 13px;margin-bottom:9px;border:1px solid var(--line);}
+.mistake-item .mq{font-size:13px;font-weight:600;}
+.mistake-item .ma{font-size:12px;color:var(--sub);margin-top:4px;line-height:1.6;}
+.heat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15px,1fr));gap:3px;}
+.cell{aspect-ratio:1;border-radius:3px;background:var(--line);cursor:pointer;}
+.cell[data-l="1"]{background:color-mix(in srgb,var(--accent) 28%,var(--line));}
+.cell[data-l="2"]{background:color-mix(in srgb,var(--accent) 55%,var(--line));}
+.cell[data-l="3"]{background:color-mix(in srgb,var(--accent) 78%,var(--line));}
+.cell[data-l="4"]{background:var(--accent);}
+.heat-legend{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--sub);margin-top:8px;}
+.note-item{background:var(--bg2);border-radius:11px;padding:11px 13px;margin-bottom:9px;border:1px solid var(--line);}
+.note-item .nt{font-size:12px;color:var(--sub);margin-bottom:4px;}
+.note-item .nb{font-size:13px;white-space:pre-wrap;}
+.note-tag{display:inline-block;font-size:11px;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);border-radius:6px;padding:2px 7px;margin-right:5px;}
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+.ach{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;opacity:.45;}
+.ach.got{opacity:1;border-color:var(--amber);}
+.ach .ai{font-size:24px;}
+.ach .an{font-size:12.5px;font-weight:700;margin-top:4px;}
+.ach .ad{font-size:11px;color:var(--sub);margin-top:2px;line-height:1.5;}
+.report{white-space:pre-wrap;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:13px 15px;font-size:12.5px;line-height:1.75;max-height:340px;overflow-y:auto;}
+/* 近 7 天 XP 趋势 */
+.week-bars{display:flex;align-items:flex-end;gap:8px;height:80px;margin-bottom:14px;padding:0 4px;}
+.wb{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;}
+.wb .bar{width:70%;max-width:34px;background:linear-gradient(180deg,#7db4f5,#3d86e0);border-radius:5px 5px 0 0;min-height:2px;transition:height .5s;}
+.wb.today .bar{background:linear-gradient(180deg,#ffd24a,#f0a020);}
+.wb .wl{font-size:11px;color:var(--sub);}
+.wb .wv{font-size:10.5px;color:var(--sub);font-weight:700;}
+/* 防过载横幅 / 复习提示 */
+.lock-banner{margin-top:8px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--red) 12%,transparent);border:1px solid color-mix(in srgb,var(--red) 32%,transparent);color:var(--red);font-size:13px;font-weight:600;line-height:1.6;}
+.rev-hint{font-size:12.5px;color:var(--amber);font-weight:600;padding:6px 2px;}
+.quota-hint{font-size:12px;color:var(--sub);padding:4px 2px;}
+.quota-hint b{color:var(--accent);}
+/* 侧边栏折叠适配 */
+body.sbCollapsed{padding-left:18px !important;}
+body.sbCollapsed .sb-toggle{display:flex;}
+.sb-link{display:block;margin-top:14px;padding:9px 11px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);font-size:12px;color:var(--accent);text-decoration:none;line-height:1.6;word-break:break-all;}
+.sb-link:hover{border-color:var(--accent);}
+.sb-link small{display:block;color:var(--sub);font-size:10.5px;margin-top:2px;}
+.series-link{display:inline-flex;align-items:center;gap:6px;color:var(--accent);text-decoration:none;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:600;background:color-mix(in srgb,var(--accent) 8%,transparent);}
+.series-link:hover{background:var(--accent);color:#fff;}
+.set-hint{font-size:11.5px;color:var(--sub);}
+.empty-hint{font-size:12.5px;color:var(--sub);padding:10px 0;}
+
+.set-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);flex-wrap:wrap;}
+.set-row label{min-width:150px;font-size:13px;font-weight:600;}
+.set-row input[type=text],.set-row input[type=number],.set-row input[type=time]{border:1px solid var(--line);border-radius:9px;padding:7px 11px;font-size:13px;background:var(--bg2);color:var(--fg);}
+.style-shop{margin-top:14px;}
+.style-shop h3{font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;}
+.style-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--bg2);text-align:center;cursor:pointer;}
+.style-card.owned{border-color:var(--green);}
+.style-card.active{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent);}
+.sc-prev{height:44px;border-radius:9px;margin-bottom:8px;}
+.sc-n{font-size:12.5px;font-weight:700;}
+.sc-m{font-size:11px;color:var(--sub);}
+.controls{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap;}
+.foot{font-size:11.5px;color:var(--sub);margin-top:12px;line-height:1.7;}
+
+.modal-mask{position:fixed;inset:0;background:rgba(10,18,32,.55);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:26px 14px;overflow-y:auto;}
+.modal-mask.show{display:flex;}
+.modal{background:var(--card);border-radius:16px;padding:22px 24px;max-width:680px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:mIn .22s ease;}
+@keyframes mIn{from{transform:translateY(14px);opacity:0;}to{transform:none;opacity:1;}}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:5px;}
+.modal h4{font-size:13.5px;font-weight:700;margin:14px 0 7px;color:var(--accent);}
+.modal .meta{font-size:12px;color:var(--sub);margin-bottom:10px;}
+.modal-actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap;}
+.sum{margin:0;padding-left:20px;}
+.sum li{font-size:13.5px;margin-bottom:6px;line-height:1.75;}
+.pit{background:color-mix(in srgb,var(--red) 10%,transparent);border-left:4px solid var(--red);border-radius:9px;padding:10px 13px;font-size:13px;line-height:1.7;}
+.ex-box{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-top:12px;}
+.ex-q{font-size:13.5px;font-weight:600;}
+.ex-a{font-size:13px;color:var(--sub);margin-top:8px;line-height:1.7;}
+.target{background:color-mix(in srgb,var(--green) 10%,transparent);border-radius:10px;padding:10px 13px;font-size:13px;margin-top:12px;line-height:1.7;}
+.lock-note{background:color-mix(in srgb,var(--amber) 14%,transparent);border-radius:10px;padding:10px 13px;font-size:12.5px;margin-top:12px;}
+.notes{width:100%;min-height:76px;border:1px solid var(--line);border-radius:11px;padding:11px 13px;font-size:13px;background:var(--bg2);color:var(--fg);resize:vertical;margin-top:14px;line-height:1.7;}
+.copy-code{position:relative;background:#1e2733;border-radius:11px;overflow:hidden;}
+.copy-code pre{padding:13px 15px;overflow-x:auto;font-size:12.5px;line-height:1.7;color:#e6edf5;font-family:Consolas,"Courier New",monospace;}
+.copy-code .cp{position:absolute;right:8px;top:8px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:4px 10px;font-size:11.5px;cursor:pointer;z-index:2;}
+.kw{color:#79b8ff;}.st{color:#9ecbff;}.cm{color:#8b9cb0;font-style:italic;}
+.code-area{width:100%;min-height:110px;border:1px solid var(--line);border-radius:11px;padding:11px 13px;font-size:12.5px;background:var(--bg2);color:var(--fg);font-family:Consolas,"Courier New",monospace;resize:vertical;line-height:1.6;}
+.out-area{min-height:70px;}
+.lab-req{margin:0;padding-left:20px;}
+.lab-req li{font-size:13px;margin-bottom:5px;line-height:1.7;}
+.q-dots{display:flex;gap:5px;margin:8px 0;flex-wrap:wrap;}
+.q-dots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block;}
+.q-dots i.on{background:var(--accent);}
+.q-dots i.ok{background:var(--green);}
+.q-dots i.no{background:var(--red);}
+.q-opt{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-bottom:8px;cursor:pointer;background:var(--bg2);font-size:13.5px;transition:border-color .15s,background .15s;}
+.q-opt:hover{border-color:var(--accent);}
+.q-opt .abc{width:23px;height:23px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.q-opt.right{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,transparent);}
+.q-opt.wrong{border-color:var(--red);background:color-mix(in srgb,var(--red) 10%,transparent);}
+.q-why{background:var(--bg2);border-radius:11px;padding:11px 13px;font-size:13px;margin-top:10px;line-height:1.7;}
+.intro-step{display:flex;gap:11px;align-items:flex-start;margin:11px 0;}
+.intro-step .n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.intro-step div{font-size:13px;line-height:1.7;}
+
+.toast-wrap{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.toast{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:11px;padding:10px 15px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.14);animation:tIn .25s;max-width:340px;}
+.toast.xp{border-left-color:var(--green);}
+.toast.warn{border-left-color:var(--amber);}
+.toast.ach{border-left-color:var(--purple);}
+@keyframes tIn{from{transform:translateX(30px);opacity:0;}to{transform:none;opacity:1;}}
+
+.to-top{position:fixed;right:18px;bottom:18px;z-index:43;width:46px;height:46px;border-radius:50%;border:none;background:linear-gradient(135deg,#2f7ed8,#2e9e5b);color:#fff;font-size:22px;cursor:pointer;box-shadow:0 8px 24px rgba(47,126,216,.35);opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .2s,transform .2s;}
+.to-top.show{opacity:1;visibility:visible;transform:none;}
+@media(min-width:980px){body{padding-left:284px;}.sidebar{transform:none;}}
+@media(max-width:979px){.sb-toggle{display:flex;}}
+@media(max-width:640px){.header h1{font-size:18px;}.goal-ring{width:100%;}.today-wrap{gap:12px;}}
+
+.cele-mask{position:fixed;inset:0;background:rgba(10,18,32,.72);z-index:500;display:flex;align-items:center;justify-content:center;animation:fadeIn .3s;}
+.cele-card{background:var(--card);border-radius:22px;padding:34px 40px;text-align:center;max-width:440px;width:90%;animation:celePop .55s cubic-bezier(.2,1.4,.4,1);box-shadow:0 30px 80px rgba(0,0,0,.45);}
+@keyframes celePop{from{transform:scale(.4);opacity:0;}to{transform:scale(1);opacity:1;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.cele-icon{font-size:64px;animation:bounceIn 1s;}
+@keyframes bounceIn{0%{transform:scale(0) rotate(-30deg);}60%{transform:scale(1.25) rotate(8deg);}100%{transform:scale(1) rotate(0);}}
+.cele-card h3{margin:10px 0 6px;font-size:20px;}
+.cele-card p{font-size:14px;color:var(--sub);}
+.confetti{position:fixed;top:-24px;z-index:501;pointer-events:none;display:block;animation:confFall linear forwards;}
+@keyframes confFall{to{transform:translateY(112vh) rotate(720deg);}}
+
+.ob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0 6px;}
+.ob-card{border:2px solid var(--line);background:var(--bg2);border-radius:14px;padding:14px 12px;cursor:pointer;text-align:center;transition:transform .15s,border-color .15s,box-shadow .15s;}
+.ob-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.1);}
+.ob-card.sel{border-color:var(--accent);background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 12%,transparent),transparent);}
+.ob-ic{font-size:30px;line-height:1.1;}
+.ob-nm{font-weight:700;margin-top:6px;font-size:15px;}
+.ob-ds{font-size:12px;color:var(--sub);margin-top:4px;line-height:1.5;}
+.ob-lv{display:block;border:2px solid var(--line);background:var(--bg2);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;text-align:left;transition:border-color .15s,background .15s;}
+.ob-lv.sel{border-color:var(--accent);background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 12%,transparent),transparent);}
+.ob-lv b{font-size:15px;display:block;margin-bottom:3px;}
+.ob-lv span{font-size:12.5px;color:var(--sub);}
+.pt-bar{height:8px;border-radius:6px;background:var(--line);overflow:hidden;margin:8px 0 14px;}
+.pt-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s;}
+.pt-meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--sub);margin-bottom:6px;}
+.pt-res{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0;}
+.pt-res .row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13.5px;}
+.pt-res .row:last-child{border-bottom:none;}
+.pt-res .row b{color:var(--accent);}
+.weak-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.weak-tag{font-size:12px;padding:4px 9px;border-radius:999px;background:color-mix(in srgb,#d9534f 12%,transparent);color:#d9534f;border:1px solid color-mix(in srgb,#d9534f 30%,transparent);}
+.strong-tag{font-size:12px;padding:4px 9px;border-radius:999px;background:color-mix(in srgb,#2e9e5b 12%,transparent);color:#2e9e5b;border:1px solid color-mix(in srgb,#2e9e5b 30%,transparent);}
+
+.xl-box{border:1px solid var(--line);border-left:4px solid var(--accent2);background:var(--bg2);border-radius:12px;padding:12px 14px;margin:14px 0 0;}
+.xl-hd{font-weight:700;font-size:14px;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.xl-sub{font-size:12.5px;color:var(--sub);margin-bottom:8px;}
+.xl-grp{padding:10px 0;border-top:1px dashed var(--line);}
+.xl-grp:first-of-type{border-top:none;}
+.xl-item{border-top:1px dashed var(--line);padding:9px 0;display:flex;gap:10px;align-items:flex-start;}
+.xl-item:first-of-type{border-top:none;}
+.xl-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px;background:var(--accent);color:#fff;white-space:nowrap;flex-shrink:0;}
+.xl-badge.lock{background:var(--line);color:var(--sub);}
+.xl-body{flex:1;min-width:0;}
+.xl-t{font-size:13.5px;font-weight:600;margin-bottom:2px;}
+.xl-t.locked{color:var(--sub);}
+.xl-d{font-size:12.5px;color:var(--sub);line-height:1.6;}
+.xl-warn{margin-top:8px;font-size:12.5px;padding:8px 10px;border-radius:9px;background:color-mix(in srgb,#e0a020 14%,transparent);color:#8a6212;line-height:1.6;}
+.xl-pre{margin-top:8px;font-size:12.5px;color:var(--sub);}
+.xl-pre a{color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--accent);cursor:pointer;}
+
+.deep-box{border:1px solid var(--line);background:var(--bg2);border-radius:12px;padding:12px 14px;margin:10px 0;}
+.deep-box ol{margin:0;padding-left:20px;}
+.deep-box li{margin-bottom:7px;line-height:1.75;font-size:13.8px;}
+.deep-box li:last-child{margin-bottom:0;}
+.recap-box{margin:10px 0;padding:10px 14px;border-radius:11px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 12%,transparent),transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);font-size:13.5px;line-height:1.7;}
+.code-cr{margin:6px 0 2px;font-size:11.5px;color:var(--sub);opacity:.75;letter-spacing:.2px;}
+
+.locale-btn{appearance:none;border:1px solid var(--line);background:var(--bg2);color:var(--fg);border-radius:9px;padding:7px 11px;font-size:12px;font-weight:700;cursor:pointer;transition:border-color .15s,background .15s;}
+.locale-btn:hover{border-color:var(--accent);}
+.locale-btn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+.lock-tip{font-size:12px;color:var(--sub);margin-top:10px;text-align:center;line-height:1.6;}
+</style>
+</head>
+<body data-page-node-id="D6gEWavI8cfEfpzAoXeqDj">
+<button class="sb-toggle" id="sbToggle" aria-label="打开导航" data-page-node-id="F8llzNhECI8rlUBmHPDAQh">☰</button>
+<aside class="sidebar" id="sidebar" aria-label="导航" data-page-node-id="DYX2PKfn8cd3yiCHQVaqWE"></aside>
+<div class="sb-overlay" id="sbOverlay" data-page-node-id="zssyIxzEkTXFJIn3ce7Ehx"></div>
+<button class="to-top" id="toTop" aria-label="返回顶部" title="返回顶部" data-page-node-id="sU7ANvRuIxYWr4bCyPVhPN">↑</button>
+
+<div class="container" data-page-node-id="BdOK2daRgKGw1wivwNMr6o">
+  <div class="header" data-page-node-id="kf81V2ko3acNvj21gvZClm">
+    <div class="header-top" data-page-node-id="FGcIYJUlZTA71Abz4hXrci">
+      <div data-page-node-id="uKw96rPg1ijXiisMYho9v3">
+        <h1 data-page-node-id="KGBTbqpXr5isFFb50BUlL2">🚀 R0：从零开始的编程之路</h1>
+        <div class="app-alt" id="appAlt">R0:hello world</div>
+        <div class="app-tagline" id="appTagline">四门通用语言各 10 阶段 40 节课，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。</div>
+        <div class="sub" id="learnerLine" data-page-node-id="SrUxhGfZZ3SySjVfbcPd9t"></div>
+      </div>
+      <div class="right" data-page-node-id="I41BQw9FlfqLqdBgrS7ATq">
+        <div class="streak-chip" id="streakChip" data-page-node-id="5nNHfLTT2gDeh8uCOUU70X">🔥 连续 0 天</div>
+        <div class="coin-chip" id="coinChip" title="星币：学习/复习赚取，可在「设置与数据 → 主页风格商店」解锁主页风格（纯外观）" data-page-node-id="yo67UGXLUKDag0OKlYC3do">🪙 0</div>
+        <div class="level-badge" data-page-node-id="aFN1RrUe0BckOY0iK2d3iX"><div class="lv" data-page-node-id="nM5gSaL7SMmzGXhxgFx8TD">等级</div><div class="tt" id="lvTitle" data-page-node-id="LToiZVpldCg1izjFGDdH4e">萌新学徒</div></div>
+        <div class="xp-wrap" data-page-node-id="4BGnKXRbdctU5iYc5zEI2I">
+          <div class="xp-top" data-page-node-id="5Hdzvte0GhRAiVn2hepKuB"><span id="xpText" data-page-node-id="jr3CWDdAOwpukkXsCPVrL5">0 XP</span><span id="lvText" data-page-node-id="DI58omJw6LtvDqYdgP4Ktw">Lv.1</span></div>
+          <div class="xp-bar" data-page-node-id="Tgj8ciCAiEwywa6IhDdVSY"><div class="xp-fill" id="xpFill" data-page-node-id="1Uz16wvJGwMWVqMl5yLt1R"></div></div>
+        </div>
+        <button class="theme-btn" id="themeBtn" data-act="theme" title="切换浅色 / 深色 / 跟随系统" data-page-node-id="sIxwpR9Hjdz2dstgLWjnDH">🌓</button>
+        <div class="lang-switch" id="langSwitch" role="group" aria-label="语言切换" data-page-node-id="VJ8O9WnfMx28D3oOTlg02d"></div>
+        <div id="localeBox" style="display:flex;gap:4px" title="界面语言 / Interface language" data-page-node-id="jpPSXNoeL6sTIHmrMQIIgW"></div>
+      </div>
+    </div>
+    <div class="lang-bar" data-page-node-id="5RZIVSKiZB31bUoIxfQyma">
+      <span class="lb-hint" data-page-node-id="GS4baePLeEDDtuCR9jEzGN">四门语言进度：</span>
+      <div class="mini-prog" id="miniProg" data-page-node-id="dox1FqPkNjfTH3qe5oavnd"></div>
+    </div>
+  </div>
+
+  <div id="checkinSlot" data-page-node-id="5gF6JdY6RZ1ces7zuEvQOU"></div>
+
+  <div class="section" id="dashSec" data-page-node-id="BATKR6LdWOP9dRZgoCGyB3">
+    <h2 data-page-node-id="07gi1yfQWOjqSCcHC0pGMW">📊 成长仪表盘</h2>
+    <div class="dash" id="dash" data-page-node-id="3Dfr131TNri808rUtZHuN7"></div>
+  </div>
+
+  <div class="section" id="timerSec" data-page-node-id="0BSXtzFLT4PSUc1GWNKYhe">
+    <h2 data-page-node-id="XO6QbTODRRPY8vgHs17bic">⏱️ 学习计时 <span class="tag" data-page-node-id="esbF8pFoNPINuPijzJXJEI">专注当下</span></h2>
+    <div class="timer-wrap" data-page-node-id="rpz7igufU0rQQEOJrOUyjU">
+      <div class="timer-display" id="timerDisplay" data-page-node-id="laPfXhqPx8wPT1nntXlCOt">00:00</div>
+      <div class="timer-actions" data-page-node-id="T4BL9pJ4OHzdtih1eBRUCf">
+        <button class="btn green" data-act="timer-start" id="timerStartBtn" data-page-node-id="bjDfQYnMj4DxwYnvQMz2SB">▶ 开始</button>
+        <button class="btn amber" data-act="timer-pause" id="timerPauseBtn" style="display:none" data-page-node-id="ncEYqha9o1rkW0WswcfAoJ">⏸ 暂停</button>
+        <button class="btn ghost" data-act="timer-stop" data-page-node-id="Ib1AfqxFEvUhtdaqiMq7y5">⏹ 结束并记录</button>
+      </div>
+      <div class="timer-tip" id="timerTip" data-page-node-id="1GkVsDngoZUujkq3fT3RiB">点「开始」计时，专注学完一节后点「结束并记录」，时长会累计进今日学时。</div>
+    </div>
+  </div>
+
+  <div class="section" id="todaySec" data-page-node-id="zhLGbKrRHhsyEMi15yQMRI">
+    <h2 data-page-node-id="WUEn9R6C2HOqW5DNEdj9NP">🎯 今日任务 <span class="tag" data-page-node-id="z3juKKoHzHeTikBYyC6lhC">今日事今日毕</span></h2>
+    <div class="today-wrap" data-page-node-id="oke82omGFu82C3IJG6Bn9p">
+      <div class="goal-ring" id="goalRing" data-page-node-id="xAZCsRqO8aZbpLVC95J8NQ"></div>
+      <div class="today-main" data-page-node-id="7q0hzChFEtLldrXZBAtopG"><div id="todayList" data-page-node-id="dPQY6JcFh00dpXQ4PJpyJa"></div></div>
+    </div>
+  </div>
+
+  <div class="section" id="phasesSec" data-page-node-id="PhLfuRE4kxyqt4W93W7VUo">
+    <h2 data-page-node-id="aMFJeDCrLx5Eazk5IGKcX9">🗺️ 学习路线 <span class="tag" id="phaseTag" data-page-node-id="uBVJPmgcKzDwFzRzYKdZvf"></span></h2>
+    <div class="phases" id="phases" data-page-node-id="c0DKgOrT6JMgWcBFKmHZ8R"></div>
+  </div>
+
+  <div class="section" id="stagesSec" data-page-node-id="7Im1WCMFrNMwE5s466tfZR">
+    <h2 data-page-node-id="GUw8k1cEZHZb7lynCCXFuS">📚 课程全景 <span class="tag" id="curTag" data-page-node-id="tgJcQELtLmW9UNZls8xONW"></span></h2>
+    <div class="filter-bar" data-page-node-id="zmBgxef1uztsFrwE2N1hiS">
+      <span class="fb-label" data-page-node-id="s1nxzVIf28w2zPlKXwuUxA">难度筛选：</span>
+      <button class="chip active" data-act="stage-filter" data-filter="all" data-page-node-id="wC4wlfbGF7axQ20c5HI2IH">全部</button>
+      <button class="chip" data-act="stage-filter" data-filter="basic" data-page-node-id="J9QtTfuaN0zIivTu40uvq5">🟢 基础</button>
+      <button class="chip" data-act="stage-filter" data-filter="adv" data-page-node-id="w9REkHEvG41Mdhp4fdUaxN">🟡 进阶</button>
+      <button class="chip" data-act="stage-filter" data-filter="hard" data-page-node-id="mNsH2Xlb514jTRBjC6JfWt">🔴 挑战</button>
+      <input type="text" id="searchInput" placeholder="搜索课程标题 / 阶段名…" style="flex:1;min-width:160px;border:1px solid var(--line);border-radius:9px;padding:6px 11px;font-size:12.5px;background:var(--bg2);color:var(--fg)" data-page-node-id="NEKNRzyHFQq7iKRx0vRfoE">
+    </div>
+    <div id="stages" data-filter="all" data-page-node-id="xOvYYEQdskNIuFXafMRV8G"></div>
+  </div>
+
+  <div class="section" id="labSec" data-page-node-id="XHcpE8kJHD1QA33LRFcnCU">
+    <h2 data-page-node-id="Yf3r8rZOnwL5kYIEn6Ior5">💻 编程实战 <span class="tag" data-page-node-id="3GKhOQIirF6S7Cn2AcofKT">每阶段一道</span></h2>
+    <div class="lab-grid" id="labGrid" data-page-node-id="dcZq6noEs9RrIEnpKP36DG"></div>
+  </div>
+
+  <div class="section" id="reviewSec" data-page-node-id="Sk1ny0UP5iBU5XdDj3Mg1F">
+    <h2 data-page-node-id="PmzTCPaFtlq7LLrADPTSuc">🔁 复习队列 <span class="tag" data-page-node-id="EHbp5DTKmKyi1Jp7nl1U1B">间隔重复</span></h2>
+    <div id="reviewList" data-page-node-id="KGKoslGq6RIqV2miVfuE6l"></div>
+  </div>
+
+  <div class="section" id="mistakeSec" data-page-node-id="6YrS3SMdmrumSfxK8G8lN9">
+    <h2 data-page-node-id="VNdgTxKQKn9hQOsor3nfSP">📕 错题本 <span class="tag" data-page-node-id="2jsF9sYD7VVBUZ2ysUreHj">从错误里长记性</span></h2>
+    <div id="mistakeList" data-page-node-id="nB805lg6A62fY0QFlhvNiv"></div>
+    <button class="btn small ghost" data-act="clear-mistake" style="margin-top:10px" data-page-node-id="uK3vHYnWaKkhPKDExekIkh">清空错题本</button>
+  </div>
+
+  <div class="section" id="heatSec" data-page-node-id="u84qRWE6sEcFb6SmKvRqMJ">
+    <h2 data-page-node-id="aUXSweDm2YNtLXBjme2eyb">🔥 学习热力图 <span class="tag" data-page-node-id="fr2wtOmNqBaWAvFiJVeZek">近 18 周</span></h2>
+    <div class="heat-grid" id="heatGrid" data-page-node-id="gFJz0sR8NilRjSHsd8Feqs"></div>
+    <div class="heat-legend" data-page-node-id="v8BSEyXIdvEKeYmygGjHc4"><span data-page-node-id="K24QJMTCptPaGCy7nNZ1Gl">少</span><i class="cell" style="width:12px;height:12px" data-page-node-id="CbJefznxf9LlHmokXO6gQz"></i><i class="cell" data-l="1" style="width:12px;height:12px" data-page-node-id="PstC2C03DK4oks6h9c1zm1"></i><i class="cell" data-l="2" style="width:12px;height:12px" data-page-node-id="H7m0bpCTVblAAkHoezc6GC"></i><i class="cell" data-l="3" style="width:12px;height:12px" data-page-node-id="wAQEoPhpH3tIAaIWVPMwFw"></i><i class="cell" data-l="4" style="width:12px;height:12px" data-page-node-id="WBH2IHc3vEU8Rg80UbOekG"></i><span data-page-node-id="aJz25xZCCsoCsEKHGCeWOL">多</span></div>
+  </div>
+
+  <div class="section" id="noteSec" data-page-node-id="pVqPPthXyo0USltBwFMUgq">
+    <h2 data-page-node-id="B6M1vM4Bh0eHEkxw5kswcK">📝 笔记中心 <span class="tag" data-page-node-id="9Yc1K5euMqOFGQK9FGtPEd">支持 #标签</span></h2>
+    <input type="text" id="noteSearch" placeholder="搜索笔记内容或 #标签…" style="width:100%;border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:13px;background:var(--bg2);color:var(--fg);margin-bottom:10px" data-page-node-id="7UhBsYKaGw3r2DwWBEfpP9">
+    <div id="noteList" data-page-node-id="dcXqBBJVXbOX0ASWgVB7UU"></div>
+  </div>
+
+  <div class="section" id="achSec" data-page-node-id="YiLEPQSZ9Yua25byiAZgQd">
+    <h2 data-page-node-id="cHvCKBx5Kj0eZ0D8Om5Uhe">🏆 成就徽章 <span class="tag" id="achTag" data-page-node-id="aAlTckgAMJROIoWlTWyHW1"></span></h2>
+    <div class="ach-grid" id="achGrid" data-page-node-id="Qcn6Wj7IQ2mVtVPkknRiEq"></div>
+  </div>
+
+  <div class="section" id="reportSec" data-page-node-id="nCTxU8Y1jJ2c2bBciKVgUW">
+    <h2 data-page-node-id="AAFqs8NMxqvBME2BAnQWFn">📝 每日进度报告 <span class="tag">近 7 天 XP 趋势</span></h2>
+    <div class="week-bars" id="weekBars"></div>
+    <div class="report" id="dailyReport" data-page-node-id="leVUHNCuzm5OGWuyOKqCZq"></div>
+    <div class="controls" data-page-node-id="xdvUNzxM7Hu9FvkvXSAyb9">
+      <button class="btn small" data-act="copy-report" data-page-node-id="OP9D1AMGYMUu1Ct8WlZ4kJ">复制今日报告</button>
+      <button class="btn small ghost" data-act="refresh-report" data-page-node-id="lfNFLE5FKYWFkOQxTqL7KP">刷新</button>
+      <button class="btn small ghost" data-act="week-report" data-page-node-id="WIFynHuEzluamGX6N8k1pd">本周报告</button>
+      <button class="btn small ghost" data-act="month-report" data-page-node-id="BFCMBVWDSygLPBtb7kbIfN">本月报告</button>
+      <button class="btn small ghost" data-act="copy-period" data-page-node-id="h4iGm9htVDSfMPIsisECBH">复制周期报告</button>
+      <button class="btn small ghost" data-act="dl-period" data-page-node-id="CGoq8xz7tvnK5VRDxBZo4G">下载 .md</button>
+    </div>
+    <div class="report" id="periodReport" style="margin-top:10px;display:none" data-page-node-id="wYFce2Ng2IGS1yfn7tg8R3"></div>
+  </div>
+
+  <div class="section" id="settingSec" data-page-node-id="YQ4uaYbI7yFqIFWoVdz32A">
+    <h2 data-page-node-id="NlqrE03AzIG5sdkcpuN06x">⚙️ 设置与数据</h2>
+    <div class="set-row" data-page-node-id="JY3qsOOl5fADHPIJxcCOWk"><label data-i18n="lbl_name" data-page-node-id="qLWlqNRFxc89xgzhdvY1Mk">学习者昵称</label><input type="text" id="nameInput" placeholder="例如：小明" data-page-node-id="2FAnkHGuQSuUEhQqZSY2kp"><span class="set-hint" data-page-node-id="EByUw0MD9ruOwaGbLPZjTD">会出现在打卡和日报里</span></div>
+    <div class="set-row" data-page-node-id="BFbVvXp8GF2lSul8wmXukp"><label data-i18n="lbl_goal" data-page-node-id="OLG9UGYzJ6OYYkLzKZIQwJ">每日目标（节）</label><input type="number" id="goalInput" min="1" max="10" value="2" data-page-node-id="I6P9EhrcwjDqw7BqvQDgQs"><span class="set-hint" data-page-node-id="JMhvzAvtWxS13AMCr9VeR9">建议 1~3 节，贵在坚持</span></div>
+    <div class="set-row" data-page-node-id="QYrs1A6fAIWHvRQKCDw2QJ"><label data-i18n="lbl_remind" data-page-node-id="oxDJxjfWGRZUzmgmPHXguB">打卡提醒时间</label><input type="time" id="remindInput" value="20:00" data-page-node-id="7IdlK1VjmUouizB9JRECte"><span class="set-hint" data-page-node-id="UOBF4CADPxVPlG9ajUx26G">到点未打卡时页面会高亮提醒</span></div>
+    <div class="set-row" data-page-node-id="5tNcPueJ04820DIhClGDEK"><label data-i18n="lbl_notify" data-page-node-id="xs39q7FIXQDyCCEjFKBrON">浏览器通知</label><button class="btn small ghost" data-act="notify" id="notifyBtn" data-page-node-id="nhk2i221wJrGJBcpnGbzP1">🔔 开启桌面通知</button><span class="set-hint" id="notifyStat" data-page-node-id="jHOuI4PakmuIgSpayeP5ZT">未开启（页面保持打开时，到点也会弹窗提醒）</span></div>
+    <div class="set-row" data-page-node-id="qLt2OmHPfJvVD4W5bHj9Wu"><label data-i18n="lbl_cap" data-page-node-id="h9TKuZaXwdm4e3exteh8gq">每日新学上限（节）</label><input type="number" id="capInput" min="1" max="10" value="4" data-page-node-id="igoHQaVc4jQ1zxCbsuDkiA"><span class="set-hint" data-page-node-id="1CpuSFxbfC9QFwZMrVGCQn">认知科学建议每天新学不超过 3~5 节，避免贪多嚼不烂</span></div>
+    <div class="set-row" data-page-node-id="QDIJqd2NABk7Mkd5XCHEKp"><label data-i18n="lbl_lock" data-page-node-id="6m8GmqgECDSYZB1Cjkf6fz">复习溢出锁定阈值</label><input type="number" id="lockInput" min="3" max="20" value="8" data-page-node-id="A8Qz1VgIi7zc6ngeE4TlPq"><span class="set-hint" data-page-node-id="Rj5KSPcwDrDoBCFZ7xABVF">待复习超过此数时，当天锁定新学、只能复习</span></div>
+    <div class="set-row" data-page-node-id="YFlI9sVyLF6AuCqBIEWH9e"><label data-i18n="lbl_track" data-page-node-id="RzzwR41sSaGsHT0nJYwzAd">主修路线</label><span class="set-hint" id="trackStat" data-page-node-id="VnKvAiXbDW7Yn1WiRjxCRZ">—</span><button class="btn small ghost" data-act="retake-placement" data-i18n="btn_retake" data-page-node-id="xpfDO7s7yAa43whOywvKml">🔄 重新做摸底测试</button></div>
+    <div class="set-row" data-page-node-id="SWPMAJmUKA9cUDjssw3J0a"><label data-i18n="lbl_locale" data-page-node-id="kAb9AqfvaUwfw8l9v9lTjB">界面语言</label><span class="set-hint" id="localeStat" data-page-node-id="7RVgZnqs1V9wWRLxrNJlEi">—</span></div>
+    <div class="style-shop" data-page-node-id="D3P82igHTnvFnGoqGWtCEX">
+      <h3 data-page-node-id="KlHbcxQKFA5XJZjzcaLdHh">🎨 主页风格商店 <span class="tag" data-page-node-id="ibtnl7jJtdzoQf4WLeRoKP">星币解锁 · 纯外观</span></h3>
+      <div class="shop-grid" id="styleShop" data-page-node-id="mXbWi5ZrkxYTlRhrJxZPU9"></div>
+      <div class="set-hint" style="margin-top:8px" data-page-node-id="CRjkUnLs4uj6psDRAFWBzN">学习/复习/打卡/测评均赚取 🪙 星币；星币仅用于解锁主页配色风格，绝不 pay-to-win 跳过学习。</div>
+    </div>
+    <div class="controls" data-page-node-id="wHWQirebJHWAk5anfvH15q">
+      <button class="btn ghost" data-act="export" data-page-node-id="HFeEX9I3kfdlCIjO0GLCsT">导出备份</button>
+      <button class="btn ghost" data-act="import" data-page-node-id="5hIfifoh4tjaOPypAgyteK">导入恢复</button>
+      <button class="btn ghost" data-act="reset" style="color:var(--red)" data-page-node-id="SQTRLN9EoLgEHyj3eBpUIs">清空重置</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" data-page-node-id="W9NBJM2kHCIbFgEQynFquo">
+    </div>
+    <div class="set-hint" id="backupHint" style="display:none;margin-top:8px;color:var(--amber)" data-page-node-id="2MxGhvAxe1YKbLeT8TgmV2">💾 你已有学习记录但超过 14 天没导出备份了，建议点上方「导出备份」保存一份，防止浏览器清理缓存丢失进度。</div>
+    <div class="foot" data-page-node-id="fAmjrD6EGAWltgH1vwh7RH">所有数据仅保存在你本机浏览器中；定期「导出备份」可防止换设备或清理缓存后丢失。</div>
+  </div>
+
+  <div class="foot" style="text-align:center;margin-top:18px" data-page-node-id="YDTj7oi1Lwjl4LljAVALgN">
+    bilibili 黄豆666 / huangdouplone · (c) 2026 · 学习用途免费，转载请注明出处<br data-page-node-id="kUCLhLktGxrGrKPNLhnYcC">
+    Copyright (c) 2026 bilibili Huangdou666 / huangdouplone — free for learning, attribution required.
+    <div style="margin-top:12px">
+      🔗 <span id="seriesLabel">EDU系列其他项目：</span>
+      <a class="series-link" id="agiLink" href="https://huangdouplone.github.io/R0-hello-agi/" target="_blank" rel="noopener">🤖 R0:hello agi · 从零开始的 AGI 之路</a>
+    </div>
+    <div id="eduLine" style="margin-top:14px;font-size:11px;opacity:.7;letter-spacing:.5px">隶属于拾色造梦企划EDU系列</div>
+  </div>
+</div>
+
+<div class="modal-mask" id="modalMask" data-page-node-id="cblE3br2tFh1QrFjBSmZLI"><div class="modal" id="modalBox" data-page-node-id="bJBfCYG3sOEmHmdvw83HNC"></div></div>
+<div class="toast-wrap" id="toastWrap" data-page-node-id="ZfVNBoGf7ecwmwGgSvRL70"></div>
+
+<script src="lang-data-python.js"></script>
+<script src="lang-data-c.js"></script>
+<script src="lang-data-cpp.js"></script>
+<script src="lang-data-java.js"></script>
+<script src="lang-enhance-python.js"></script>
+<script src="lang-enhance-c.js"></script>
+<script src="lang-enhance-cpp.js"></script>
+<script src="lang-enhance-java.js"></script>
+<script src="lang-placement.js"></script>
+<script src="lang-crosslinks.js"></script>
+<script src="lang-i18n.js"></script>
+<script>
+/* ================================================================
+ * R0：从零开始的编程之路（R0:hello world）· 主程序
+ * 制作者：Bilibili 黄豆666 (huangdouplone) · (c) 2026 All rights reserved.
+ * 目的：让学习者仅凭本站课程即可从零学到语言纵深。
+ * 功能：分班测试定起点 · 主修路线隔离 · 跨语言对照 · 间隔复习 · 进度追踪。
+ * 四门语言（Python / C / C++ / Java）各 10 阶段 40 节，不做任何职业路线适配；
+ * 数据全部保存在本机浏览器。
+ * ================================================================ */
+
+/* ============ 语言定义 ============ */
+const LANGS=[
+ {id:"python",dk:"py",  name:"Python",icon:"🐍",c1:"#3776ab",c2:"#ffd43b"},
+ {id:"c",     dk:"c",   name:"C",     icon:"🔧",c1:"#5c6bc0",c2:"#283593"},
+ {id:"cpp",   dk:"cpp", name:"C++",   icon:"⚙️",c1:"#00599c",c2:"#f34b7d"},
+ {id:"java",  dk:"java",name:"Java",  icon:"☕",c1:"#e2553b",c2:"#f0a020"}
+];
+function langMeta(id){return LANGS.filter(function(x){return x.id===id;})[0]||LANGS[0];}
+function langStages(id){var m=langMeta(id);return ((window.LANG_DATA||{})[m.dk]||{stages:[]}).stages;}
+function langPhases(id){var m=langMeta(id);return ((window.LANG_DATA||{})[m.dk]||{phases:[]}).phases;}
+
+/* ---- 扩展数据源 ---- */
+var ENH=window.LESSON_EXTRA||{};
+var PLACEMENT=window.PLACEMENT||{};
+var XLS=window.CROSSLINKS||[];
+var I18N=window.I18N||{ui:{},stages:{},lessons:{}};
+
+/* ---- 双语 ---- */
+var LOCALE="zh";
+function T(key,vars){
+  var e=I18N.ui&&I18N.ui[key];
+  if(!e)return key;
+  var s=(LOCALE==="en"?(e.en||e.zh):e.zh)||key;
+  if(vars)Object.keys(vars).forEach(function(k){s=s.replace(new RegExp("\\{"+k+"\\}","g"),vars[k]);});
+  return s;
+}
+function stName(s){var m=I18N.stages&&I18N.stages[s.id];return (LOCALE==="en"&&m&&m.n)?m.n:s.name;}
+function stDesc(s){var m=I18N.stages&&I18N.stages[s.id];return (LOCALE==="en"&&m&&m.d)?m.d:s.desc;}
+function lsTitle(l){var m=I18N.lessons&&I18N.lessons[l.id];return (LOCALE==="en"&&m)?m:l.title;}
+function isEn(){return LOCALE==="en";}
+function minTxt(n){return isEn()?("≈"+n+" min"):("约 "+n+" 分钟");}
+
+/* ---- 版权注释（代码块使用，中英双文） ---- */
+var CR_ZH="版权：bilibili 黄豆666 / huangdouplone · (c) 2026，学习用途免费，转载请注明出处";
+var CR_EN="Copyright (c) 2026 bilibili Huangdou666 / huangdouplone — free for learning, attribution required.";
+function crMarker(langId){return (langMeta(langId||curLang).dk==="py")?"# ":"// ";}
+function crComment(langId){var m=crMarker(langId);return m+CR_ZH+"\n"+m+CR_EN;}
+
+/* ---- 课程深化 ---- */
+function extraOf(id){
+  var e=ENH[id];
+  if(!e)return {out:[],deep:[],recap:""};
+  return {out:e.out?(Array.isArray(e.out)?e.out:[e.out]):[],deep:e.deep||[],recap:e.recap||""};
+}
+
+/* ---- 跨语言对照 ---- */
+function groupsOfLesson(id){return XLS.filter(function(g){return g.m.some(function(e){return e[1]===id;});});}
+function mainTrack(){return (data&&data.track)||"python";}
+function countDone(langId){
+  var st=langStages(langId),n=0;
+  st.forEach(function(s){s.lessons.forEach(function(l){if(data.completed[l.id])n++;});});
+  return n;
+}
+function mainDone(){return countDone(mainTrack());}
+var UNLOCK_STEPS=[10,20,30];
+function unlockNeed(langId){
+  if(!data.track||langId===mainTrack())return 0;
+  var others=LANGS.filter(function(l){return l.id!==mainTrack();}).map(function(l){return l.id;});
+  var i=others.indexOf(langId);
+  if(i<0)return UNLOCK_STEPS[UNLOCK_STEPS.length-1];
+  return UNLOCK_STEPS[Math.min(i,UNLOCK_STEPS.length-1)];
+}
+function trackUnlocked(langId){
+  if(!data||!data.track)return true;
+  if(langId===mainTrack())return true;
+  return mainDone()>=unlockNeed(langId);
+}
+function crossNeed(){return 6;}
+function crossUnlocked(){return (data&&data.flags&&data.flags.crossUnlocked)||mainDone()>=crossNeed();}
+
+let curLang="python";
+let CURRICULUM=[];
+let PHASES=[];
+
+const TITLES=["萌新学徒","代码新手","语法行者","函数旅人","多语言者","对象学徒","算法新星","数据匠人","现代行者","项目匠人","进阶工程师","系统达人","语言通才","工程匠人","全栈行者"];
+const ACHIEVEMENTS=[
+ {id:"first",icon:"🥇",t:"第一步",d:"完成第 1 节课"},
+ {id:"l10",icon:"📗",t:"十节进阶",d:"累计完成 10 节"},
+ {id:"l50",icon:"📘",t:"半百课程",d:"累计完成 50 节"},
+ {id:"l100",icon:"💯",t:"百节筑基",d:"累计完成 100 节"},
+ {id:"stage1",icon:"🏁",t:"首阶段通关",d:"通关任意一个阶段"},
+ {id:"stage5",icon:"🧱",t:"五阶段通关",d:"通关 5 个阶段"},
+ {id:"poly2",icon:"🌐",t:"双语学者",d:"两门语言各完成 10 节"},
+ {id:"poly3",icon:"🗺️",t:"三语学者",d:"三门语言各完成 10 节"},
+ {id:"poly4",icon:"👑",t:"语言通才",d:"四门语言各完成 10 节"},
+ {id:"langdone",icon:"🎓",t:"单语言毕业",d:"完成任意一门语言的全部课程"},
+ {id:"week",icon:"🔥",t:"一周坚持",d:"连续学习 7 天"},
+ {id:"month",icon:"📅",t:"月度达人",d:"连续学习 30 天"},
+ {id:"hundred",icon:"🌟",t:"百日筑基",d:"连续学习 100 天"},
+ {id:"review",icon:"🔁",t:"温故知新",d:"完成首次复习"},
+ {id:"review20",icon:"🧠",t:"记忆大师",d:"累计 20 次复习"},
+ {id:"night",icon:"🦉",t:"深夜学者",d:"在 0:00–5:00 学习"},
+ {id:"early",icon:"🐦",t:"早起鸟",d:"在 5:00–8:00 学习"},
+ {id:"xp1000",icon:"⚡",t:"千锤百炼",d:"累计 XP 达到 1000"},
+ {id:"xp5000",icon:"🏵️",t:"学有所成",d:"累计 XP 达到 5000"},
+ {id:"scribe",icon:"📝",t:"勤学笔记",d:"写下第一篇笔记"},
+ {id:"notes10",icon:"📓",t:"笔记达人",d:"累计 10 篇笔记"},
+ {id:"quizFirst",icon:"🎖️",t:"首战告捷",d:"通过首个阶段测评"},
+ {id:"quizPerfect",icon:"👑",t:"满分学员",d:"任意测评拿满分"},
+ {id:"quiz5",icon:"📚",t:"阶段学霸",d:"通过 5 个阶段测评"},
+ {id:"labFirst",icon:"🧪",t:"初试锋芒",d:"完成首个编程实战"},
+ {id:"lab5",icon:"🔧",t:"百炼成钢",d:"完成 5 个编程实战"},
+ {id:"aiFirst",icon:"🤖",t:"AI 学伴",d:"首次生成 AI 批改提示词"},
+ {id:"mistake1",icon:"📕",t:"错题收藏家",d:"首次答错并收入错题本"},
+ {id:"focus",icon:"⏳",t:"专注达人",d:"累计专注 600 分钟"}
+];
+const QUOTES=["种一棵树最好的时间是十年前，其次是现在。","每天进步 1%，一年后强大 37 倍。","代码是写给人看的，只是恰好能在机器上运行。","慢即是快：扎实的基础胜过仓促的进度。","你不是不会，只是还没学。","报错不是失败，是编译器在教你。","先让它能跑，再让它优雅。","完成比完美更重要。","指针并不可怕，可怕的是从没真正理解过它。","百日之基，始于今日一课。"];
+const STYLES=[
+ {id:"default",nameKey:"skin_default",c1:"#2f7ed8",c2:"#2e9e5b",cost:0},
+ {id:"sunset",nameKey:"skin_sunset",c1:"#e2553b",c2:"#f0a020",cost:60},
+ {id:"forest",nameKey:"skin_forest",c1:"#2e9e5b",c2:"#1f7a8c",cost:60},
+ {id:"violet",nameKey:"skin_violet",c1:"#8a63d2",c2:"#5c6bc0",cost:90},
+ {id:"ocean",nameKey:"skin_ocean",c1:"#00599c",c2:"#2f7ed8",cost:90},
+ {id:"cherry",nameKey:"skin_cherry",c1:"#e2557b",c2:"#f0a0c0",cost:120},
+ /* 与「R0:hello agi」站皮肤取并集：以下 4 款为整套调色板皮肤（vars 覆盖通用站变量） */
+ {id:"neon",nameKey:"skin_neon",cost:60,vars:{"--bg":"#0e1020","--card":"#171a2e","--line":"#2a2f4a","--fg":"#e8ecff","--sub":"#9aa3c7","--accent":"#7c5cff","--amber":"#ffb454","--bg2":"#1d2138","--shadow":"0 6px 20px rgba(0,0,0,.45)","--red":"#ff6b8a"}},
+ {id:"sakura",nameKey:"skin_sakura",cost:80,vars:{"--bg":"#fff5f8","--card":"#ffffff","--line":"#ffd9e6","--fg":"#5a2a3a","--sub":"#b07d92","--accent":"#ff7eb3","--amber":"#ffb35c","--bg2":"#ffe9f1","--shadow":"0 6px 18px rgba(255,126,179,.18)","--red":"#ff5c8a"}},
+ {id:"paper",nameKey:"skin_paper",cost:100,vars:{"--bg":"#f6f3ec","--card":"#fffdf8","--line":"#e3dccb","--fg":"#2e2a22","--sub":"#8a8170","--accent":"#3a7d6e","--amber":"#c08a2d","--bg2":"#efeadd","--shadow":"0 4px 14px rgba(60,50,30,.12)","--red":"#c0492f"}},
+ {id:"cyber",nameKey:"skin_cyber",cost:140,vars:{"--bg":"#06140f","--card":"#0c2018","--line":"#1d3a2c","--fg":"#d8fff0","--sub":"#79b89c","--accent":"#22e0b0","--amber":"#ffd866","--bg2":"#102a20","--shadow":"0 6px 20px rgba(0,0,0,.5)","--red":"#ff7a8a"}}
+];
+/* 皮肤可覆盖的变量（含 --accent/--accent2：切换主题时统一复位，避免残留） */
+const SKIN_VARS=["--bg","--card","--line","--fg","--sub","--accent","--accent2","--amber","--bg2","--shadow","--red"];
+function skinName(s){return s?T(s.nameKey):"";}
+
+/* ============ 状态与持久化 ============ */
+const STORAGE_KEY="r0_hello_world_v1";
+/* 兼容早期版本用过的本地存档键（拼接写法，避免遗留旧标识） */
+var LEGACY_KEYS=["lang_depth_selfstudy_v1","wb_lang_"+"work"+"bench_v1"];
+const RIV=[2,4,7,15,30,60];
+let data=null, openStage=null, quizState=null, remindTimer=null, labId=null;
+let timer={running:false,start:0,elapsed:0,iv:null};
+let sbResizer=null, searchQ="", modalLessonId=null;
+
+function defaultData(){return{version:1,name:"学习者",goal:2,xp:0,coins:0,lang:"python",
+ unlockedStyles:["default"],activeStyle:"default",dailyNewCap:4,reviewLock:8,
+ completed:{},daily:{},notes:{},quiz:{},achievements:{},labs:{},mistakes:{},phaseSeen:{},
+ aiUsed:0,focusMinutes:0,flags:{},lastExport:null,reviewCount:0,
+ streak:0,longestStreak:0,lastStudyDate:null,lastCheckinDate:null,
+ settings:{theme:"auto",remind:"20:00",notify:false,locale:"zh"},locale:"zh",
+ track:"",onboarded:0,placement:null,
+ startedDate:todayStr(),introSeen:0};}
+function loadData(){
+  try{
+    var raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw){                                  // 从旧存档键静默迁移，避免丢进度
+      for(var i=0;i<LEGACY_KEYS.length;i++){
+        var old=localStorage.getItem(LEGACY_KEYS[i]);
+        if(old){raw=old;localStorage.setItem(STORAGE_KEY,old);localStorage.removeItem(LEGACY_KEYS[i]);break;}
+      }
+    }
+    if(raw)data=JSON.parse(raw);
+  }catch(e){}
+  var def=defaultData();
+  if(!data||data.version!==1)data=def;
+  else data=Object.assign({},def,data,{settings:Object.assign({},def.settings,data.settings||{}),quiz:data.quiz||{},mistakes:data.mistakes||{}});
+  if(!data.track)data.track=data.lang||"python";
+  if(!data.locale)data.locale=(data.settings&&data.settings.locale)||"zh";
+  LOCALE=data.locale==="en"?"en":"zh";
+  data.flags=data.flags||{};
+  data.completed=data.completed||{};
+}
+function saveData(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}}
+
+/* ============ 工具 ============ */
+function $(id){return document.getElementById(id);}
+function todayStr(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function parseDay(s){return new Date(s+"T00:00:00");}
+function daysSince(s){return Math.round((new Date()-parseDay(s))/86400000);}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];});}
+function pad2(n){return n<10?"0"+n:""+n;}
+function allLessons(){var r=[];CURRICULUM.forEach(function(s){s.lessons.forEach(function(l){r.push({stage:s,lesson:l});});});return r;}
+function findLesson(id){for(var i=0;i<CURRICULUM.length;i++){var s=CURRICULUM[i];for(var j=0;j<s.lessons.length;j++){if(s.lessons[j].id===id)return{stage:s,lesson:s.lessons[j]};}}return null;}
+function totalLessons(){return CURRICULUM.reduce(function(a,s){return a+s.lessons.length;},0);}
+function completedCount(){return CURRICULUM.reduce(function(a,s){return a+s.lessons.filter(function(l){return data.completed[l.id];}).length;},0);}
+function completedTotal(){return Object.keys(data.completed).length;}
+function langOfLesson(id){
+  if(id.indexOf("cpp-")===0)return "cpp";
+  if(id.indexOf("java-")===0)return "java";
+  if(id.indexOf("py-")===0)return "python";
+  if(id.indexOf("c-")===0)return "c";
+  return "python";
+}
+function doneByLang(){var r={};LANGS.forEach(function(L){r[L.id]=countDone(L.id);});return r;}
+function levelInfo(xp){
+  var acc=0;
+  for(var i=1;i<=15;i++){
+    var need=100*i;
+    if(xp<acc+need||i===15)return{level:i,title:TITLES[i-1]||TITLES[0],into:xp-acc,need:need,acc:acc};
+    acc+=need;
+  }
+  return{level:15,title:TITLES[14],into:xp,need:100,acc:0};
+}
+/* ============ 反馈 ============ */
+function toast(msg,type){
+  var wrap=$("toastWrap");if(!wrap)return;
+  var el=document.createElement("div");
+  el.className="toast"+(type?" "+type:"");
+  el.textContent=msg;
+  wrap.appendChild(el);
+  setTimeout(function(){el.style.transition="opacity .3s,transform .3s";el.style.opacity="0";el.style.transform="translateX(20px)";setTimeout(function(){el.remove();},320);},2600);
+}
+function copyText(txt,okMsg){
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){if(okMsg)toast(okMsg,"xp");});}
+    else{
+      var ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();
+      document.execCommand("copy");ta.remove();if(okMsg)toast(okMsg,"xp");
+    }
+  }catch(e){}
+}
+function gainXp(n){data.xp=(data.xp||0)+n;}
+function gainCoins(n){data.coins=(data.coins||0)+n;renderCoins();}
+function updateStreak(){
+  var t=todayStr();
+  if(data.lastStudyDate===t)return;
+  if(data.lastStudyDate){
+    var gap=Math.round((parseDay(t)-parseDay(data.lastStudyDate))/86400000);
+    data.streak=(gap===1)?(data.streak||0)+1:1;
+  }else data.streak=1;
+  data.lastStudyDate=t;
+  if(data.streak>(data.longestStreak||0))data.longestStreak=data.streak;
+}
+function recordDaily(xp,minutes){
+  var t=todayStr(),d=data.daily[t]||{xp:0,lessons:0,reviews:0,minutes:0};
+  d.xp=(d.xp||0)+xp;d.minutes=(d.minutes||0)+(minutes||0);
+  data.daily[t]=d;
+}
+function renderCoins(){var el=$("coinChip");if(el)el.textContent="🪙 "+(data.coins||0);}
+
+/* ============ 成就 ============ */
+function hasAch(id){return !!data.achievements[id];}
+function grantAch(id){
+  if(data.achievements[id])return false;
+  data.achievements[id]=Date.now();
+  var a=ACHIEVEMENTS.filter(function(x){return x.id===id;})[0];
+  if(a)celebrate(a.icon,a.t,a.d);
+  return true;
+}
+function completedInLang(langId){
+  var st=langStages(langId),n=0;
+  st.forEach(function(s){s.lessons.forEach(function(l){if(data.completed[l.id])n++;});});
+  return n;
+}
+function stageDoneCount(){
+  var n=0;LANGS.forEach(function(L){
+    langStages(L.id).forEach(function(s){
+      if(s.lessons.length&&s.lessons.every(function(l){return data.completed[l.id];}))n++;
+    });
+  });
+  return n;
+}
+function checkAchievements(){
+  var tot=completedTotal(),got=false;
+  if(tot>=1)got=grantAch("first")||got;
+  if(tot>=10)got=grantAch("l10")||got;
+  if(tot>=50)got=grantAch("l50")||got;
+  if(tot>=100)got=grantAch("l100")||got;
+  if(stageDoneCount()>=1)got=grantAch("stage1")||got;
+  if(stageDoneCount()>=5)got=grantAch("stage5")||got;
+  var tens=LANGS.filter(function(L){return completedInLang(L.id)>=10;}).length;
+  if(tens>=2)got=grantAch("poly2")||got;
+  if(tens>=3)got=grantAch("poly3")||got;
+  if(tens>=4)got=grantAch("poly4")||got;
+  var grad=LANGS.some(function(L){
+    var st=langStages(L.id);if(!st.length)return false;
+    var tot2=st.reduce(function(a,s){return a+s.lessons.length;},0);
+    return tot2>0&&completedInLang(L.id)>=tot2;
+  });
+  if(grad)got=grantAch("langdone")||got;
+  if(data.streak>=7)got=grantAch("week")||got;
+  if(data.streak>=30)got=grantAch("month")||got;
+  if(data.streak>=100)got=grantAch("hundred")||got;
+  if((data.reviewCount||0)>=1)got=grantAch("review")||got;
+  if((data.reviewCount||0)>=20)got=grantAch("review20")||got;
+  var h=new Date().getHours();
+  if(h>=0&&h<5)got=grantAch("night")||got;
+  if(h>=5&&h<8)got=grantAch("early")||got;
+  if(data.xp>=1000)got=grantAch("xp1000")||got;
+  if(data.xp>=5000)got=grantAch("xp5000")||got;
+  if(Object.keys(data.notes).length>=1)got=grantAch("scribe")||got;
+  if(Object.keys(data.notes).length>=10)got=grantAch("notes10")||got;
+  if(Object.keys(data.quiz).length>=1)got=grantAch("quizFirst")||got;
+  if(Object.keys(data.quiz).length>=5)got=grantAch("quiz5")||got;
+  Object.keys(data.quiz).forEach(function(k){var q=data.quiz[k];if(q.total&&q.score===q.total)got=grantAch("quizPerfect")||got;});
+  if(Object.keys(data.labs).length>=1)got=grantAch("labFirst")||got;
+  if(Object.keys(data.labs).length>=5)got=grantAch("lab5")||got;
+  if(data.aiUsed>0)got=grantAch("aiFirst")||got;
+  if(Object.keys(data.mistakes).length>=1)got=grantAch("mistake1")||got;
+  if((data.focusMinutes||0)>=600)got=grantAch("focus")||got;
+  if(got){saveData();renderAch();}
+  return got;
+}
+function confetti(n){
+  var colors=["#2f7ed8","#2e9e5b","#f0a020","#e2553b","#8a63d2"];
+  for(var i=0;i<n;i++){
+    var c=document.createElement("i");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.width=(6+Math.random()*6)+"px";
+    c.style.height=(10+Math.random()*8)+"px";
+    c.style.background=colors[i%colors.length];
+    c.style.animationDuration=(1.6+Math.random()*1.4)+"s";
+    document.body.appendChild(c);
+    (function(el){setTimeout(function(){el.remove();},3200);})(c);
+  }
+}
+function celebrate(icon,title,desc){
+  var mask=document.createElement("div");
+  mask.className="cele-mask";
+  mask.innerHTML='<div class="cele-card"><div class="cele-icon">'+icon+'</div><h3>'+escapeHtml(title)+'</h3>'+
+    '<p>'+escapeHtml(desc)+'</p><div class="modal-actions" style="justify-content:center">'+
+    '<button class="btn green" id="celeOk">太棒了，继续！</button></div></div>';
+  document.body.appendChild(mask);confetti(40);
+  mask.addEventListener("click",function(e){if(e.target.id==="celeOk"||e.target===mask)mask.remove();});
+}
+
+/* ============ 风格商店 ============ */
+function renderStyleShop(){
+  var g=$("styleShop");if(!g)return;
+  g.innerHTML=STYLES.map(function(s){
+    var owned=(data.unlockedStyles||[]).indexOf(s.id)>=0;
+    var active=(data.activeStyle||"default")===s.id;
+    var prev=s.vars
+      ?("linear-gradient(135deg,"+s.vars["--bg"]+" 0%,"+s.vars["--accent"]+" 55%,"+s.vars["--amber"]+" 100%)")
+      :("linear-gradient(135deg,"+s.c1+","+s.c2+")");
+    return '<div class="style-card'+(owned?" owned":"")+(active?" active":"")+'" '+(owned?'data-act="use-style"':'data-act="buy-style"')+' data-id="'+s.id+'">'+
+      '<div class="sc-prev" style="background:'+prev+'"></div>'+
+      '<div class="sc-n">'+escapeHtml(skinName(s))+'</div>'+
+      '<div class="sc-m">'+(owned?(active?T("shop_inuse"):T("shop_use")):("🪙 "+s.cost))+'</div></div>';
+  }).join("");
+}
+function buyStyle(id){
+  var s=STYLES.filter(function(x){return x.id===id;})[0];if(!s)return;
+  if((data.unlockedStyles||[]).indexOf(id)>=0){setStyle(id);return;}
+  if((data.coins||0)<s.cost){toast("星币不足，还差 "+(s.cost-data.coins)+" 🪙","warn");return;}
+  data.coins-=s.cost;
+  data.unlockedStyles=(data.unlockedStyles||[]).concat([id]);
+  setStyle(id);saveData();renderStyleShop();renderCoins();
+  toast(T("shop_unlocked",{name:skinName(s)}),"ach");
+}
+function setStyle(id){
+  data.activeStyle=id;saveData();applyStyle();renderStyleShop();
+}
+function applyStyle(){
+  var s=STYLES.filter(function(x){return x.id===(data.activeStyle||"default");})[0]||STYLES[0];
+  var m=langMeta(curLang),root=document.documentElement;
+  /* 先复位皮肤变量：从「调色板皮肤」切回「强调色皮肤」时不留残留 */
+  SKIN_VARS.forEach(function(k){root.style.setProperty(k,"");});
+  if(s&&s.vars){
+    Object.keys(s.vars).forEach(function(k){root.style.setProperty(k,s.vars[k]);});
+    root.style.setProperty("--accent",s.vars["--accent"]||m.c1);
+    root.style.setProperty("--accent2",s.vars["--amber"]||m.c2);
+  }else{
+    root.style.setProperty("--accent",s?s.c1:m.c1);
+    root.style.setProperty("--accent2",s?s.c2:m.c2);
+  }
+}
+
+/* ============ 渲染 ============ */
+function renderHeader(){
+  var li=levelInfo(data.xp||0),m=langMeta(curLang);
+  $("lvTitle").textContent=li.title;
+  $("lvText").textContent="Lv."+li.level;
+  $("xpText").textContent=(data.xp||0)+" XP";
+  $("xpFill").style.width=Math.min(100,Math.round(li.into/li.need*100))+"%";
+  $("streakChip").textContent=(isEn()?"🔥 ":"🔥 ")+(data.streak||0)+(isEn()?" days":" 天");
+  var trackTxt=(data.track&&data.track!==curLang)?(" · "+T("track_lang")+" "+langMeta(data.track).icon):"";
+  $("learnerLine").textContent=(isEn()
+    ? ((data.name||"Learner")+"'s programming journey · now "+m.icon+" "+m.name+" · "+CURRICULUM.length+" stages / "+totalLessons()+" lessons")
+    : ((data.name||"学习者")+" 的编程语言成长之旅 · 当前 "+m.icon+" "+m.name+trackTxt+" · "+CURRICULUM.length+" 阶段 "+totalLessons()+" 节"));
+  var byLang=doneByLang();
+  var hint=$("miniProg").previousElementSibling;
+  if(hint&&hint.className==="lb-hint")hint.textContent=isEn()?"Track progress:":"路线进度：";
+  $("miniProg").innerHTML=LANGS.filter(function(L){return L.id===curLang||trackUnlocked(L.id)||!data.track;}).map(function(L){
+    var st=langStages(L.id),tot=st.reduce(function(a,s){return a+s.lessons.length;},0)||1;
+    var isMain=(L.id===data.track);
+    return '<div class="mp'+(L.id===curLang?" on":"")+'" data-act="set-lang" data-id="'+L.id+'" title="'+
+      (isMain?(isEn()?"main track":"主修路线"):(isEn()?"switch to ":"切换到 "))+L.name+'">'+
+      L.icon+" "+L.name+" "+byLang[L.id]+"/"+tot+(isMain?" ★":"")+'</div>';
+  }).join("");
+}
+function renderDash(){
+  var cnt=completedCount(),tot=totalLessons()||1;
+  var totalMin=Object.keys(data.daily).reduce(function(a,k){return a+((data.daily[k].minutes)||0);},0);
+  var achN=Object.keys(data.achievements).length;
+  var cards=[
+    {n:Math.round(cnt/tot*100)+"%",l:(isEn()?langMeta(curLang).name+" progress":langMeta(curLang).name+" 进度"),c:""},
+    {n:cnt+"/"+tot,l:(isEn()?"done in this language":"当前语言已学"),c:"g"},
+    {n:completedTotal(),l:(isEn()?"total across languages":"四语言累计（节）"),c:"p"},
+    {n:Math.round(totalMin/60*10)/10+"h",l:(isEn()?"total focus":"累计学时"),c:"a"},
+    {n:achN+"/"+ACHIEVEMENTS.length,l:(isEn()?"achievements":"成就徽章"),c:""},
+    {n:(data.streak||0)+(isEn()?"d":""),l:(isEn()?"current streak":"连续天数"),c:"g"}
+  ];
+  $("dash").innerHTML=cards.map(function(c){
+    return '<div class="dash-card '+c.c+'"><div class="n">'+c.n+'</div><div class="l">'+escapeHtml(c.l)+'</div></div>';
+  }).join("");
+}
+function renderCheckin(){
+  var slot=$("checkinSlot");if(!slot)return;
+  var done=data.lastCheckinDate===todayStr();
+  slot.innerHTML='<div class="section" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 20px">'+
+    '<div style="flex:1;min-width:200px;font-size:14px;font-weight:700">'+(isEn()?"📅 Daily check-in":"📅 每日打卡")+
+    ' <span style="font-weight:400;color:var(--sub);font-size:12.5px">· '+
+    (isEn()?("streak "+(data.streak||0)+" days, best "+(data.longestStreak||0)):("连续 "+(data.streak||0)+" 天 · 最长 "+(data.longestStreak||0)+" 天"))+'</span></div>'+
+    '<button class="btn green" data-act="checkin" '+(done?"disabled":"")+'>'+
+    (done?(isEn()?"✓ Checked in":"✓ 今日已打卡"):(isEn()?"Check in +5 XP":"打卡 +5 XP"))+'</button></div>';
+}
+/* 毕业日期预估（技术同步自 EDU 系列 AGI 项目）：按近 7 天节奏推算当前语言学完日期 */
+function etaText(){
+  var last7=0;
+  for(var i=0;i<7;i++){var d=new Date();d.setDate(d.getDate()-i);last7+=((data.daily[todayStr(d)]||{}).lessons||0);}
+  var rem=totalLessons()-completedCount();
+  if(rem<=0)return T("eta_done");
+  if(last7<=0)return T("eta_none");
+  var avg=last7/7,days=Math.ceil(rem/avg),eta=new Date();eta.setDate(eta.getDate()+days);
+  return T("eta_calc",{a:avg.toFixed(1),y:eta.getFullYear(),m:eta.getMonth()+1,d:eta.getDate(),r:rem});
+}
+function renderToday(){
+  var d=data.daily[todayStr()]||{};
+  var doneN=(d.lessons||0)+(d.reviews||0);
+  var goal=data.goal||2;
+  var pct=Math.min(100,Math.round(doneN/goal*100));
+  $("goalRing").style.setProperty("--p",pct+"%");
+  $("goalRing").innerHTML='<div class="in"><div class="gn">'+doneN+"/"+goal+'</div><div class="gl">'+(isEn()?"today":"今日目标")+'</div></div>';
+  var items=[];
+  var lastId=(data.flags&&data.flags.lastLesson)||"";
+  var lastF=lastId?findLesson(lastId):null;
+  if(lastF&&!data.completed[lastF.lesson.id]){
+    items.push({i:"📍",t:(isEn()?"Continue: ":"继续上次：")+lsTitle(lastF.lesson),m:stName(lastF.stage)+" · "+minTxt(lastF.lesson.min),act:"lesson",id:lastF.lesson.id});
+  }
+  var due=dueLessons();
+  if(due.length)items.push({i:"🔁",t:(isEn()?due.length+" lesson(s) due":(due.length+" 节课待复习")),m:(isEn()?"spaced repetition keeps memory fresh":"间隔复习，趁还没忘巩固一下"),act:"lesson",id:due[0].lesson.id});
+  var next=allLessons().filter(function(x){return !data.completed[x.lesson.id];});
+  next.slice(0,4).forEach(function(x,i){
+    items.push({i:"📖",t:lsTitle(x.lesson),m:stName(x.stage)+" · "+minTxt(x.lesson.min)+(i===0?(isEn()?" · start here":" · 推荐现在开始"):""),act:"lesson",id:x.lesson.id});
+  });
+  if(!items.length)items.push({i:"🎉",t:(isEn()?"All lessons done!":"当前语言课程已全部学完！"),m:(isEn()?"Review, or unlock another language":"可复习巩固，或推进主修进度解锁其他语言"),act:"",id:""});
+  var todayHtml=items.map(function(it){
+    return '<div class="today-item"><div class="od">'+it.i+'</div><div class="info">'+
+      '<div class="ti"'+(it.act?' data-act="'+it.act+'" data-id="'+it.id+'"':'')+'>'+escapeHtml(it.t)+'</div>'+
+      '<div class="me">'+escapeHtml(it.m)+'</div></div></div>';
+  }).join("");
+  /* 每日学习上限保护：复习提醒 + 防过载横幅（与 EDU 系列 AGI 项目一致） */
+  var dueN=dueLessons().length;
+  if(dueN>0){
+    todayHtml+='<div class="rev-hint">🔁 '+(isEn()?("You have "+dueN+" "):("你有 "+dueN+" 节"))+escapeHtml(T("rev_hint"))+
+      '，<a data-act="sb-nav" data-target="reviewSec" style="color:var(--amber);border-bottom:1px dashed var(--amber);cursor:pointer">'+
+      (isEn()?"go review (+3 XP each)":"去复习（每节 +3 XP · +2 🪙）")+'</a></div>';
+  }
+  var lock=newLessonLockReason();
+  if(lock){
+    todayHtml+='<div class="lock-banner">🔒 '+escapeHtml(lock)+'</div>';
+  }else{
+    var cap=data.dailyNewCap||4,usedN=(data.daily[todayStr()]||{}).lessons||0;
+    todayHtml+='<div class="quota-hint">🛡️ '+escapeHtml(T("quota_left"))+'：<b>'+Math.max(0,cap-usedN)+" / "+cap+'</b>'+
+      (isEn()?" · pace yourself, consistency beats cramming":" · 每天少量但持续，胜过一次学爆")+'</div>';
+  }
+  todayHtml+='<div class="set-hint" style="margin-top:8px">🏁 '+etaText()+'</div>';
+  $("todayList").innerHTML=todayHtml;
+}
+function renderPhases(){
+  var curIdx=CURRICULUM.length-1;
+  for(var i=0;i<CURRICULUM.length;i++){
+    if(CURRICULUM[i].lessons.some(function(l){return !data.completed[l.id];})){curIdx=i;break;}
+  }
+  $("phases").innerHTML=PHASES.map(function(p){
+    var st=p.range[0],en=p.range[1],tot=0,done=0,min=0;
+    for(var i=st;i<=en&&i<CURRICULUM.length;i++){
+      var s=CURRICULUM[i];tot+=s.lessons.length;
+      s.lessons.forEach(function(l){if(data.completed[l.id])done++;min+=l.min;});
+    }
+    var pct=tot?Math.round(done/tot*100):0;
+    var isCur=curIdx>=st&&curIdx<=en;
+    var firstId=CURRICULUM[st]?CURRICULUM[st].id:"";
+    return '<div class="phase'+(isCur?" cur":"")+'" data-act="phase" data-id="'+firstId+'" title="'+(isEn()?"jump to this part":"点击跳到该篇章")+'">'+
+      '<div class="ph-hd">'+p.icon+' '+escapeHtml(p.name)+((tot&&done===tot)?' 🏆':'')+(isCur?'<span class="cur-tag">📍 '+(isEn()?"now":"当前")+'</span>':'')+'</div>'+
+      '<div class="ph-ds">'+escapeHtml(p.desc)+' · '+(isEn()?"≈":"约 ")+Math.round(min/60)+(isEn()?" h":" 小时")+' · '+(isEn()?"suggested ":"建议 ")+p.wk+(isEn()?" w":" 周")+'</div>'+
+      '<div class="ph-bar"><i style="width:'+pct+'%"></i></div><div class="ph-pg">'+done+'/'+tot+' '+(isEn()?"lessons":"节")+' · '+pct+'%</div></div>';
+  }).join("");
+  var tag=$("phaseTag");
+  if(tag){var tw=PHASES.reduce(function(a,p){return a+(p.wk||0);},0);tag.textContent=PHASES.length+(isEn()?" parts · ≈":" 大篇章 · 全程约 ")+tw+(isEn()?" w total":" 周");}
+}
+function renderStages(){
+  if(!openStage){
+    var nx=allLessons().filter(function(x){return !data.completed[x.lesson.id];})[0];
+    openStage=nx?nx.stage.id:(CURRICULUM[0]?CURRICULUM[0].id:null);
+  }
+  var q=searchQ;
+  var lastLessonId=(data.flags&&data.flags.lastLesson)||"";
+  $("curTag").textContent=CURRICULUM.length+(isEn()?" stages · ":" 阶段 · ")+totalLessons()+(isEn()?" lessons · ":" 节 · ")+(isEn()?"done ":"已完成 ")+completedCount()+(isEn()?"":" 节");
+  $("stages").innerHTML=CURRICULUM.map(function(s){
+    var ls=s.lessons;
+    if(q){
+      var sn=stName(s).toLowerCase(),sd=stDesc(s).toLowerCase();
+      var stageHit=sn.indexOf(q)>=0||sd.indexOf(q)>=0;
+      ls=stageHit?s.lessons:s.lessons.filter(function(l){return lsTitle(l).toLowerCase().indexOf(q)>=0;});
+      if(ls.length===0)return "";
+    }
+    var done=s.lessons.filter(function(l){return data.completed[l.id];}).length;
+    var pct=Math.round(done/s.lessons.length*100);
+    var qz=data.quiz[s.id];
+    var lvMap={basic:["🟢",T("filter_basic")],adv:["🟡",T("filter_adv")],hard:["🔴",T("filter_hard")]};
+    var lvI=lvMap[s.lv||"basic"];
+    var lessons=ls.map(function(l){
+      var c=data.completed[l.id];
+      var rev=c&&needReview(l.id)?' <span class="rev">· '+(isEn()?"due":"待复习")+'</span>':"";
+      var isLast=l.id===lastLessonId;
+      return '<div class="lesson '+(c?"done":"")+(isLast?" last":"")+'" data-act="lesson" data-id="'+l.id+'" title="'+(isLast?(isEn()?"📍 you left off here — click to continue":"📍 上次学到这里，点击继续"):"")+'">'+
+        '<div class="chk">'+(c?"✓":"")+'</div>'+
+        '<div class="lt"><div class="t">'+escapeHtml(lsTitle(l))+'</div><div class="m">'+minTxt(l.min)+rev+(isLast?(" · "+(isEn()?"last visited":"上次学到")):"")+'</div></div></div>';
+    }).join("");
+    var links=(s.links||[]).map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+'</a>';}).join("");
+    return '<div class="stage'+(s.id===openStage?" open":"")+'" id="stage-'+s.id+'" data-level="'+(s.lv||"basic")+'">'+
+      '<div class="stage-hd" data-act="stage" data-id="'+s.id+'">'+
+        '<div class="ic">'+s.icon+'</div>'+
+        '<div class="nm">'+escapeHtml(stName(s))+'<small>'+escapeHtml(stDesc(s))+'</small></div>'+
+        '<span class="lv-tag lv-'+(s.lv||"basic")+'">'+lvI[0]+" "+lvI[1]+'</span>'+
+        '<div class="pg">'+done+"/"+s.lessons.length+'<div class="stage-bar"><i style="width:'+pct+'%"></i></div></div>'+
+        '<div class="ar">▾</div>'+
+      '</div>'+
+      '<div class="stage-bd">'+
+        '<div class="stage-goal">🎯 '+escapeHtml(s.goal)+'</div>'+
+        '<div class="stage-links">'+links+'</div>'+lessons+
+        '<div class="nav-lesson">'+
+          '<button class="btn small" data-act="quiz" data-id="'+s.id+'">'+(qz?(isEn()?"📝 Retake quiz (best ":"📝 再做阶段测评（最高 ")+qz.score+"/"+qz.total+(isEn()?")":"）"):(isEn()?"📝 Stage quiz (3 Q)":"📝 阶段测评（3 题）"))+'</button>'+
+          '<button class="btn small green" data-act="lab" data-id="'+s.id+'">💻 '+(data.labs[s.id]?(isEn()?"View lab":"查看实战题"):(isEn()?"Unlock lab":"解锁实战题"))+'</button>'+
+        '</div>'+
+      '</div></div>';
+  }).join("");
+  applyStageFilter();
+}
+function applyStageFilter(){
+  var f=($("stages")&&$("stages").dataset.filter)||"all";
+  Array.prototype.forEach.call(document.querySelectorAll("#stages .stage"),function(el){
+    el.style.display=(f==="all"||el.dataset.level===f)?"":"none";
+  });
+}
+function renderLabs(){
+  var g=$("labGrid");if(!g)return;
+  g.innerHTML=CURRICULUM.map(function(s){
+    var unlocked=s.lessons.filter(function(l){return data.completed[l.id];}).length>=Math.ceil(s.lessons.length/2);
+    var done=!!data.labs[s.id];
+    return '<div class="lab-card'+(unlocked?"":" locked")+(done?" done":"")+'" '+(unlocked?'data-act="lab" data-id="'+s.id+'"':'')+' title="'+(unlocked?"":(isEn()?"finish half of this stage to unlock":"完成本阶段一半课程即解锁"))+'">'+
+      '<div class="lc-badge">'+(done?"✅":unlocked?"💻":"🔒")+'</div>'+
+      '<div class="lc-t">'+escapeHtml(s.lab.t)+'</div>'+
+      '<div class="lc-m">'+escapeHtml(stName(s))+' · '+(s.lab.xp||20)+' XP'+(unlocked?"":" · "+(isEn()?"locked":"未解锁"))+'</div></div>';
+  }).join("");
+}
+function renderReview(){
+  var due=dueLessons();
+  if(due.length===0){
+    $("reviewList").innerHTML='<div class="empty-hint">'+(isEn()?"Nothing due yet. Completed lessons enter the queue at 2 / 4 / 7 / 15 / 30 / 60 day intervals.":"暂无到期复习项。学过的课程会按 2 / 4 / 7 / 15 / 30 / 60 天的间隔自动进入复习队列。")+'</div>';
+    return;
+  }
+  $("reviewList").innerHTML=due.map(function(x){
+    var c=data.completed[x.lesson.id];
+    return '<div class="rev-item"><div class="ti" data-act="lesson" data-id="'+x.lesson.id+'">'+escapeHtml(lsTitle(x.lesson))+'</div>'+
+      '<div class="me">'+escapeHtml(stName(x.stage))+' · '+(isEn()?"round ":"第 ")+((c.stage||0)+1)+(isEn()?"":" 轮")+'</div>'+
+      '<button class="btn small green" data-act="review" data-id="'+x.lesson.id+'">'+(isEn()?"Review done +3":"完成复习 +3")+'</button></div>';
+  }).join("");
+}
+function renderMistakes(){
+  var ks=Object.keys(data.mistakes);
+  var box=$("mistakeList");
+  if(!ks.length){box.innerHTML='<div class="empty-hint">'+(isEn()?"No mistakes recorded yet. Wrong quiz answers land here automatically.":"还没有错题。测评答错的题会自动收进这里。")+'</div>';return;}
+  box.innerHTML=ks.sort(function(a,b){return (data.mistakes[b].ts||0)-(data.mistakes[a].ts||0);}).map(function(k){
+    var m=data.mistakes[k];
+    return '<div class="mistake-item"><div class="mq">❓ '+escapeHtml(m.q)+'</div>'+
+      '<div class="ma">✗ '+(isEn()?"You chose: ":"你选了：")+escapeHtml(m.chosen)+'<br>✓ '+(isEn()?"Correct: ":"正确答案：")+escapeHtml(m.correct)+
+      '<br>💡 '+escapeHtml(m.why)+'<br><span style="opacity:.7">'+escapeHtml(m.stageName||"")+'</span></div>'+
+      '<button class="btn small ghost" data-act="del-mistake" data-id="'+k+'" style="margin-top:8px">'+(isEn()?"Remove":"删除")+'</button></div>';
+  }).join("");
+}
+function renderHeat(){
+  var g=$("heatGrid");if(!g)return;
+  var cells="",today=new Date();
+  var start=new Date(today);start.setDate(start.getDate()-125);
+  start.setDate(start.getDate()-start.getDay());
+  for(var i=0;i<126;i++){
+    var d=new Date(start);d.setDate(d.getDate()+i);
+    if(d>today){cells+='<i class="cell" style="opacity:.25"></i>';continue;}
+    var key=todayStr(d);
+    var rec=data.daily[key];
+    var n=rec?((rec.lessons||0)+(rec.reviews||0)):0;
+    var lv=n===0?0:n===1?1:n===2?2:n<=4?3:4;
+    cells+='<i class="cell" data-date="'+key+'" data-l="'+lv+'" title="'+key+(n?(" · "+n+(isEn()?" items":" 项")):"")+'" style="'+(n?"cursor:pointer":"")+'"></i>';
+  }
+  g.innerHTML=cells;
+}
+function openDayDetail(date){
+  var rec=data.daily[date]||{};
+  var html='<h3>📅 '+escapeHtml(date)+'</h3>'+
+    '<div class="report">'+(isEn()?"New lessons":"新学课程")+'：'+(rec.lessons||0)+'\n'+
+    (isEn()?"Reviews":"复习")+'：'+(rec.reviews||0)+'\n'+
+    (isEn()?"Focus (min)":"专注分钟")+'：'+(rec.minutes||0)+'\n'+
+    (isEn()?"XP gained":"获得 XP")+'：'+(rec.xp||0)+'</div>'+
+    '<div class="modal-actions"><button class="btn ghost" data-act="close-modal">'+escapeHtml(T("close"))+'</button></div>';
+  showModal(html);
+}
+function renderNotes(){
+  var q=($("noteSearch")&&$("noteSearch").value.trim().toLowerCase())||"";
+  var ks=Object.keys(data.notes).filter(function(k){return (data.notes[k]||"").trim();});
+  if(q){
+    ks=ks.filter(function(k){
+      var f=findLesson(k);
+      return (data.notes[k]||"").toLowerCase().indexOf(q)>=0||(f&&lsTitle(f.lesson).toLowerCase().indexOf(q)>=0);
+    });
+  }
+  ks.sort(function(a,b){return (data.completed[b]&&data.completed[b].ts||0)-(data.completed[a]&&data.completed[a].ts||0);});
+  var box=$("noteList");
+  if(!ks.length){box.innerHTML='<div class="empty-hint">'+(isEn()?"No notes yet. Open any lesson and write down your thoughts.":"还没有笔记。打开任意课程，在底部写下你的心得与疑问。")+'</div>';return;}
+  box.innerHTML=ks.map(function(k){
+    var f=findLesson(k);
+    var title=f?lsTitle(f.lesson):k;
+    var body=escapeHtml(data.notes[k]).replace(/(#[\u4e00-\u9fa5\w]+)/g,'<span class="note-tag">$1</span>');
+    return '<div class="note-item"><div class="nt">📖 '+escapeHtml(title)+'</div><div class="nb">'+body+'</div>'+
+      '<button class="btn small ghost" data-act="lesson" data-id="'+k+'" style="margin-top:8px">'+(isEn()?"Open lesson":"打开这节课")+'</button></div>';
+  }).join("");
+}
+function renderAch(){
+  var got=Object.keys(data.achievements).length;
+  var tag=$("achTag");if(tag)tag.textContent=got+" / "+ACHIEVEMENTS.length;
+  $("achGrid").innerHTML=ACHIEVEMENTS.map(function(a){
+    var on=!!data.achievements[a.id];
+    return '<div class="ach'+(on?" got":"")+'"><div class="ai">'+a.icon+'</div><div class="an">'+escapeHtml(a.t)+'</div><div class="ad">'+escapeHtml(a.d)+'</div></div>';
+  }).join("");
+}
+function renderReport(){
+  var t=todayStr(),d=data.daily[t]||{};
+  var q=QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  var txt="📊 "+(isEn()?"Daily Report":"每日学习报告")+" · "+t+"\n"+
+    (isEn()?"Learner":"学习者")+"："+(data.name||"学习者")+"\n"+
+    (isEn()?"Language":"当前语言")+"："+langMeta(curLang).icon+" "+langMeta(curLang).name+
+      (data.track?("（"+(isEn()?"main: ":"主修：")+langMeta(data.track).name+"）"):"")+"\n"+
+    "────────────────\n"+
+    (isEn()?"New lessons":"今日新学")+"："+(d.lessons||0)+" "+(isEn()?"":"节")+"\n"+
+    (isEn()?"Reviews":"今日复习")+"："+(d.reviews||0)+" "+(isEn()?"":"次")+"\n"+
+    (isEn()?"Focus":"今日专注")+"："+(d.minutes||0)+" "+(isEn()?"min":"分钟")+"\n"+
+    (isEn()?"XP today":"今日 XP")+"："+(d.xp||0)+"\n"+
+    (isEn()?"Total XP / Coins":"累计 XP / 星币")+"："+(data.xp||0)+" / "+(data.coins||0)+"\n"+
+    (isEn()?"Streak":"连续天数")+"："+(data.streak||0)+" "+(isEn()?"days":"天")+"（"+(isEn()?"best ":"最长 ")+(data.longestStreak||0)+"）\n"+
+    (isEn()?"Progress":"进度")+"："+completedCount()+" / "+totalLessons()+"（"+langMeta(curLang).name+"）· "+(isEn()?"all langs ":"四语言累计 ")+completedTotal()+"\n"+
+    (isEn()?"Due for review":"待复习")+"："+dueLessons().length+" "+(isEn()?"":"节")+"\n"+
+    "────────────────\n💬 "+q;
+  $("dailyReport").textContent=txt;
+  renderWeekBars();
+}
+/* 进度革新：近 7 天 XP 趋势柱状图 */
+function renderWeekBars(){
+  var box=$("weekBars");if(!box)return;
+  var days7=[],i;
+  for(i=6;i>=0;i--){
+    var dd=new Date();dd.setDate(dd.getDate()-i);
+    var ds=todayStr(dd);
+    days7.push({ds:ds,xp:(data.daily[ds]||{}).xp||0,lab:"日一二三四五六".charAt(dd.getDay()),today:i===0,md:(dd.getMonth()+1)+"/"+dd.getDate()});
+  }
+  var max=Math.max(10,days7.reduce(function(a,x){return Math.max(a,x.xp);},0));
+  box.innerHTML=days7.map(function(x){
+    return '<div class="wb'+(x.today?" today":"")+'" title="'+x.ds+" · "+x.xp+' XP">'+
+      '<div class="wv">'+(x.xp||"")+'</div>'+
+      '<div class="bar" style="height:'+Math.max(3,Math.round(x.xp/max*52))+'px"></div>'+
+      '<div class="wl">'+x.lab+'</div></div>';
+  }).join("");
+}
+function periodReport(days,label){
+  var end=new Date(),lines=[],tot={lessons:0,reviews:0,minutes:0,xp:0},activeDays=0;
+  for(var i=0;i<days;i++){
+    var d=new Date(end);d.setDate(d.getDate()-i);
+    var k=todayStr(d),r=data.daily[k];
+    if(r&&((r.lessons||0)+(r.reviews||0)+(r.minutes||0))>0)activeDays++;
+    if(r){tot.lessons+=r.lessons||0;tot.reviews+=r.reviews||0;tot.minutes+=r.minutes||0;tot.xp+=r.xp||0;}
+  }
+  lines.push("📈 "+(isEn()?(days+"-Day Report"):(label+"学习报告"))+"（"+(isEn()?"last ":"近 ")+days+(isEn()?" days":" 天")+"）");
+  lines.push((isEn()?"Active days":"活跃天数")+"："+activeDays+" / "+days);
+  lines.push((isEn()?"New lessons":"新学课程")+"："+tot.lessons+(isEn()?"":" 节"));
+  lines.push((isEn()?"Reviews":"复习次数")+"："+tot.reviews+(isEn()?"":" 次"));
+  lines.push((isEn()?"Focus":"专注时长")+"："+tot.minutes+(isEn()?" min":" 分钟"));
+  lines.push((isEn()?"XP":"获得 XP")+"："+tot.xp);
+  lines.push((isEn()?"Achievements":"成就")+"："+Object.keys(data.achievements).length+" / "+ACHIEVEMENTS.length);
+  lines.push("");
+  LANGS.forEach(function(L){
+    var st=langStages(L.id),t=st.reduce(function(a,s){return a+s.lessons.length;},0)||1;
+    lines.push(langMeta(L.id).icon+" "+langMeta(L.id).name+"："+completedInLang(L.id)+" / "+t);
+  });
+  var el=$("periodReport");
+  el.style.display="";el.textContent=lines.join("\n");
+  toast((isEn()?label+" report generated":label+"报告已生成"),"xp");
+}
+function renderBackupHint(){
+  var el=$("backupHint");if(!el)return;
+  var has=Object.keys(data.completed).length>0;
+  var stale=!data.lastExport||daysSince(data.lastExport)>14;
+  el.style.display=(has&&stale)?"":"none";
+}
+function renderAll(){
+  renderHeader();renderDash();renderCheckin();renderToday();renderPhases();renderStages();
+  renderLabs();renderReview();renderMistakes();renderHeat();renderNotes();renderAch();
+  renderReport();renderBackupHint();renderStyleShop();renderSidebar();renderCoins();
+}
+
+/* ============ 侧边栏 ============ */
+var SERIES_URL="https://huangdouplone.github.io/R0-hello-agi/";
+var ICON_MAP={dashSec:"📊",timerSec:"⏱️",todaySec:"🎯",phasesSec:"🗺️",stagesSec:"📚",labSec:"💻",
+ reviewSec:"🔁",mistakeSec:"📕",heatSec:"🔥",noteSec:"📝",achSec:"🏆",reportSec:"📈",settingSec:"⚙️"};
+/* 取真实 DOM 顺序（页面里 .section 出现的先后），保证侧栏与正文一一对应 */
+function realSectionOrder(){
+  var out=[];
+  Array.prototype.forEach.call(document.querySelectorAll(".container > .section"),function(sec){
+    if(sec.id)out.push(sec.id);
+  });
+  return out;
+}
+/* 只取 h2 的第一个文本节点，避免把 <span class="tag"> 的文案也拼进来 */
+function sectionLabel(sec){
+  var h2=sec.querySelector("h2");if(!h2)return sec.id;
+  var node=h2.firstChild;
+  var txt=node&&node.nodeType===3?node.nodeValue:h2.textContent;
+  return String(txt).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\uFE0F]/gu,"").trim()||sec.id;
+}
+function ensureResizer(){
+  var sb=$("sidebar");if(!sb)return;
+  if(!sbResizer){
+    sbResizer=document.createElement("div");
+    sbResizer.className="sb-resizer";
+    sbResizer.addEventListener("mousedown",function(e){sbResizer.dataset.drag="1";e.preventDefault();});
+  }
+  if(sbResizer.parentNode!==sb)sb.appendChild(sbResizer);   // renderSidebar 会重建内容，这里补回
+}
+function renderSidebar(){
+  var sb=$("sidebar");if(!sb)return;
+  var flags=data.flags||{};
+  var navCollapsed=!!flags.sbNavCollapsed;
+  var chCollapsed=!!flags.sbChaptersCollapsed;
+  var html='<div class="sb-hd"><span>🧭 '+(isEn()?"Navigation":"导航")+'</span>'+
+    '<button class="sb-nav" data-act="sb-collapse" style="width:auto;padding:2px 8px;font-size:11px" title="'+(isEn()?"Collapse sidebar":"收起侧栏")+'">«</button></div>';
+  html+='<div class="sb-sec" data-act="sb-toggle-nav" style="cursor:pointer">🧭 '+(isEn()?"Page Sections":"页面区块")+' '+(navCollapsed?"▸":"▾")+'</div>';
+  if(!navCollapsed){
+    html+=realSectionOrder().map(function(id){
+      var sec=$(id);if(!sec)return "";
+      return '<button class="sb-nav" data-act="sb-nav" data-target="'+id+'">'+(ICON_MAP[id]||"•")+" "+escapeHtml(sectionLabel(sec))+'</button>';
+    }).join("");
+  }
+  html+='<div class="sb-sec" data-act="sb-toggle-chapters" style="cursor:pointer">📚 '+(isEn()?"Chapters":"课程章节")+'（'+CURRICULUM.length+'）'+(chCollapsed?"▸":"▾")+'</div>';
+  if(!chCollapsed){
+    html+=CURRICULUM.map(function(s,si){
+      var done=s.lessons.filter(function(l){return data.completed[l.id];}).length;
+      var all=s.lessons.length&&done===s.lessons.length;
+      var cur=(data.flags&&data.flags.lastStage)===s.id;
+      return '<div class="sb-item'+(cur?" on":"")+'" data-act="sb" data-id="'+s.id+'" title="'+escapeHtml(stName(s))+'">'+
+        (all?"✅":s.icon)+" "+(si+1)+". "+escapeHtml(stName(s))+
+        ' <span style="opacity:.7">'+done+"/"+s.lessons.length+'</span></div>';
+    }).join("");
+  }
+  html+='<a class="sb-link" href="'+SERIES_URL+'" target="_blank" rel="noopener">🔗 '+(isEn()?"More in the EDU series: ":"EDU系列其他项目：")+'R0:hello agi · 从零开始的 AGI 之路<small>'+SERIES_URL+'</small></a>';
+  sb.innerHTML=html;
+  ensureResizer();
+  updateSbSpy();
+}
+function updateSbSpy(){
+  var best=null,bestY=-9999;
+  realSectionOrder().forEach(function(id){
+    var el=$(id);if(!el)return;
+    var y=el.getBoundingClientRect().top;
+    if(y<160&&y>bestY){bestY=y;best=id;}
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".sb-nav[data-target]"),function(b){
+    b.classList.toggle("on",b.dataset.target===best);
+  });
+}
+function openSidebar(){$("sidebar").classList.add("open");$("sbOverlay").classList.add("show");document.body.classList.remove("sbCollapsed");}
+function closeSidebar(){$("sidebar").classList.remove("open");$("sbOverlay").classList.remove("show");}
+
+/* ============ 学习动作 ============ */
+function completeLesson(id){
+  if(data.completed[id])return;
+  var f=findLesson(id);if(!f)return;
+  data.completed[id]={ts:Date.now(),stage:0};
+  updateStreak();recordDaily(10,0);
+  var d=data.daily[todayStr()];d.lessons=(d.lessons||0)+1;
+  data.flags=data.flags||{};data.flags.lastLesson=id;data.flags.lastStage=f.stage.id;
+  saveData();gainXp(10);gainCoins(5);
+  checkPhaseDone(f.stage.id);checkAchievements();renderAll();
+  toast((isEn()?"✅ Completed: ":"✅ 完成《")+lsTitle(f.lesson)+(isEn()?"":"》"),"xp");
+}
+function undoLesson(id){
+  if(!data.completed[id])return;
+  delete data.completed[id];saveData();renderAll();
+  toast(isEn()?"Marked as not complete":"已取消完成标记");
+}
+function checkIn(){
+  var t=todayStr();
+  if(data.lastCheckinDate===t){toast(isEn()?"Already checked in today":"今天已经打过卡啦");return;}
+  data.lastCheckinDate=t;updateStreak();
+  var bonus=(data.streak>=3)?10:5;
+  recordDaily(bonus,0);saveData();gainXp(bonus);gainCoins(3);
+  renderAll();toast((isEn()?"🎯 Checked in! ":"🎯 打卡成功！连续 ")+(data.streak||0)+(isEn()?" day streak":" 天"),"ach");
+}
+function reviewDue(id){
+  var c=data.completed[id];if(!c)return false;
+  var next=(c.stage||0);
+  if(next>=RIV.length)return false;
+  return daysSince(todayStr(new Date(c.ts)))>=RIV[next];
+}
+function needReview(id){return reviewDue(id);}
+function dueLessons(){return allLessons().filter(function(x){return needReview(x.lesson.id);});}
+function doReview(id){
+  var c=data.completed[id];if(!c)return;
+  c.stage=(c.stage||0)+1;c.ts=Date.now();
+  updateStreak();recordDaily(3,0);
+  var d=data.daily[todayStr()];d.reviews=(d.reviews||0)+1;
+  data.reviewCount=(data.reviewCount||0)+1;
+  saveData();gainXp(3);gainCoins(2);
+  checkAchievements();renderAll();
+  toast(isEn()?"🔁 Reviewed, memory +1":"🔁 复习完成，记忆 +1","xp");
+}
+function newLessonLockReason(){
+  var cap=data.dailyNewCap||4;
+  var d=data.daily[todayStr()]||{};
+  if((d.lessons||0)>=cap)return (isEn()?"Daily new-lesson limit reached (":"今日新学已达上限（")+cap+(isEn()?"). Review today's material first.":" 节），先复习巩固今天学的内容吧。");
+  if(dueLessons().length>=(data.reviewLock||8))return (isEn()?"Review backlog of ":"待复习课程积压 ")+dueLessons().length+(isEn()?" (threshold ":" 节（阈值 ")+(data.reviewLock||8)+(isEn()?"). Clear some reviews first.":"），先把复习清一清再学新的。");
+  return "";
+}
+function checkPhaseDone(stageId){
+  var idx=-1;CURRICULUM.forEach(function(s,i){if(s.id===stageId)idx=i;});
+  if(idx<0)return;
+  var pi=-1;
+  PHASES.forEach(function(p,i){if(idx>=p.range[0]&&idx<=p.range[1])pi=i;});
+  if(pi<0)return;
+  var p=PHASES[pi],allDone=true;
+  for(var i=p.range[0];i<=p.range[1]&&i<CURRICULUM.length;i++){
+    CURRICULUM[i].lessons.forEach(function(l){if(!data.completed[l.id])allDone=false;});
+  }
+  if(allDone&&!data.phaseSeen[p.name]){
+    data.phaseSeen[p.name]=Date.now();
+    gainXp(50);gainCoins(30);saveData();
+    celebrate("🏆",p.name+(isEn()?" complete!":" 通关！"),(isEn()?"You finished this part. +50 XP / +30 coins":"你学完了这一篇章，+50 XP / +30 🪙"));
+  }
+}
+/* ============ 语法高亮与版权注释 ============ */
+var KW_MAP={
+ python:["def","class","return","if","elif","else","for","while","import","from","in","not","and","or","None","True","False","lambda","try","except","with","as","yield","pass","break","continue","global","nonlocal","self"],
+ c:["int","char","float","double","void","return","if","else","for","while","do","switch","case","break","continue","struct","union","enum","typedef","sizeof","static","const","include","define","malloc","free","NULL"],
+ cpp:["int","void","return","if","else","for","while","class","struct","public","private","template","typename","auto","const","constexpr","namespace","std","new","delete","override","virtual","nullptr","using","static_cast","noexcept"],
+ java:["public","private","protected","class","interface","static","void","int","double","return","if","else","for","while","new","this","super","final","try","catch","throws","import","package","extends","implements","null","true","false"]
+};
+/* 单遍扫描：注释 > 字符串 > 关键字，避免二次匹配已插入的标签 */
+function highlight(code,lang){
+  var s=escapeHtml(code);
+  var kw=KW_MAP[lang]||[];
+  if(!kw.length)return s;
+  var cmSrc=(lang==="python")?"#[^\\n]*":"//[^\\n]*";
+  var strSrc="&quot;[\\s\\S]*?&quot;|&#39;[\\s\\S]*?&#39;";
+  var kwSrc="\\b(?:"+kw.join("|")+")\\b";
+  var master=new RegExp("("+cmSrc+")|("+strSrc+")|("+kwSrc+")","g");
+  return s.replace(master,function(m,cm,st,k){
+    if(cm)return '<span class="cm">'+cm+'</span>';
+    if(st)return '<span class="st">'+st+'</span>';
+    return '<span class="kw">'+k+'</span>';
+  });
+}
+/* 带双文版权注释的代码块（注释随代码一并复制） */
+function codeBlock(code,lang){return highlight(crComment(lang)+"\n"+code,lang);}
+
+/* ============ 跨语言对照面板 ============ */
+function findLessonGlobal(langId,lessonId){
+  var st=langStages(langId);
+  for(var i=0;i<st.length;i++){for(var j=0;j<st[i].lessons.length;j++){if(st[i].lessons[j].id===lessonId)return{stage:st[i],lesson:st[i].lessons[j]};}}
+  return null;
+}
+function prereqOf(id){
+  var lang=langOfLesson(id),st=langStages(lang),si=-1;
+  for(var i=0;i<st.length;i++){for(var j=0;j<st[i].lessons.length;j++){if(st[i].lessons[j].id===id)si=i;}}
+  if(si<=0)return [];
+  var out=[];
+  for(var k=0;k<si&&out.length<4;k++){
+    for(var m=0;m<st[k].lessons.length&&out.length<4;m++){
+      var l=st[k].lessons[m];
+      if(!data.completed[l.id])out.push({lang:lang,id:l.id,title:lsTitle(l)});
+    }
+  }
+  return out;
+}
+function crossPanel(id){
+  if(!XLS.length)return "";
+  var gs=groupsOfLesson(id);
+  if(!gs.length)return "";
+  var need=crossNeed(),open=crossUnlocked();
+  var head='<div class="xl-box"><div class="xl-hd">🌐 '+escapeHtml(T("xl_title"))+'</div>'+
+    '<div class="xl-sub">'+escapeHtml(T("xl_hint"))+'</div>';
+  if(!open){
+    var prog=isEn()?("progress "+mainDone()+"/"+need):("当前进度 "+mainDone()+" / "+need+" 节");
+    return head+'<div class="xl-d">🔒 '+escapeHtml(T("xl_locked",{n:need}))+'（'+escapeHtml(prog)+'）</div></div>';
+  }
+  var body="";
+  gs.forEach(function(g){
+    body+='<div class="xl-grp"><div class="xl-t">'+escapeHtml(g.n)+'</div>'+
+      '<div class="xl-d">'+escapeHtml(g.t)+'</div>'+
+      '<div class="xl-warn"><b>⚠️ '+escapeHtml(T("xl_diff"))+'：</b>'+escapeHtml(g.w)+'</div>';
+    g.m.forEach(function(e){
+      if(e[1]===id)return;
+      var L=langMeta(e[0]==="py"?"python":e[0]);
+      var unlocked=trackUnlocked(L.id);
+      var fg=findLessonGlobal(L.id,e[1]);
+      var title=fg?lsTitle(fg.lesson):e[1];
+      var attr=unlocked?' data-act="goto-lesson" data-lang="'+L.id+'" data-id="'+e[1]+'"':'';
+      body+='<div class="xl-item"'+attr+' style="'+(unlocked?"cursor:pointer;":"")+'">'+
+        '<span class="xl-badge'+(unlocked?"":" lock")+'">'+L.icon+" "+(unlocked?L.name:"🔒")+'</span>'+
+        '<div class="xl-body"><div class="xl-t'+(unlocked?"":" locked")+'">'+escapeHtml(title)+'</div>'+
+        '<div class="xl-d">'+escapeHtml(unlocked?e[2]:T("track_unlock_at",{n:unlockNeed(L.id)}))+'</div></div></div>';
+    });
+    body+='</div>';
+  });
+  var pre=prereqOf(id);
+  if(pre.length){
+    body+='<div class="xl-pre"><b>📌 '+escapeHtml(T("xl_prereq"))+'：</b>'+
+      pre.map(function(p){return '<a data-act="goto-lesson" data-lang="'+p.lang+'" data-id="'+p.id+'">'+langMeta(p.lang).icon+" "+escapeHtml(p.title)+'</a>';}).join(" · ")+'</div>';
+  }
+  return head+body+'</div>';
+}
+function gotoLesson(langId,lessonId){
+  if(!trackUnlocked(langId)){
+    toast((isEn()?"🔒 Locked — finish ":"🔒 尚未解锁，完成主修语言 ")+unlockNeed(langId)+(isEn()?" lessons first":" 节后开放"),"warn");
+    return;
+  }
+  if(langId!==curLang){data.lang=langId;saveData();applyLang(langId);renderAll();}
+  openLesson(lessonId);
+}
+
+/* ============ 弹窗 ============ */
+function showModal(html){$("modalBox").innerHTML=html;$("modalMask").classList.add("show");}
+function closeModal(){$("modalMask").classList.remove("show");modalLessonId=null;quizState=null;labId=null;}
+function openLesson(id){
+  var f=findLesson(id);if(!f)return;
+  modalLessonId=id;
+  data.flags=data.flags||{};data.flags.lastLesson=id;data.flags.lastStage=f.stage.id;saveData();
+  var l=f.lesson,done=!!data.completed[id];
+  var lock=(!done)?newLessonLockReason():"";
+  var idx=f.stage.lessons.indexOf(l);
+  var x=extraOf(id);
+  var html='<h3>'+escapeHtml(lsTitle(l))+'</h3>'+
+    '<div class="meta">'+escapeHtml(stName(f.stage))+' · '+minTxt(l.min)+' · '+langMeta(curLang).icon+" "+langMeta(curLang).name+'</div>'+
+    '<h4>📖 '+escapeHtml(T("sum_title"))+'</h4><ul class="sum">'+l.summary.map(function(t){return "<li>"+escapeHtml(t)+"</li>";}).join("")+'</ul>'+
+    '<h4>💻 '+escapeHtml(T("code_title"))+'</h4><div class="copy-code"><button class="cp" data-act="copy-code">'+escapeHtml(T("copy"))+'</button><pre><code>'+codeBlock(l.code,curLang)+'</code></pre></div>'+
+    (x.out&&x.out.length?'<h4>🖥️ '+escapeHtml(T("out_title"))+'</h4><div class="copy-code"><pre><code>'+escapeHtml(x.out.join("\n"))+'</code></pre></div>':'')+
+    (x.deep&&x.deep.length?'<h4>🔍 '+escapeHtml(T("deep_title"))+'</h4><div class="deep-box"><ol>'+x.deep.map(function(p){return "<li>"+escapeHtml(p)+"</li>";}).join("")+'</ol></div>':'')+
+    '<h4>⚠️ '+escapeHtml(T("pit_title"))+'</h4><div class="pit">'+escapeHtml(l.pit)+'</div>'+
+    '<div class="ex-box"><div class="ex-q">🤔 '+escapeHtml(l.ex.q)+'</div>'+
+      '<div class="ex-a" hidden>'+escapeHtml(l.ex.a)+'</div>'+
+      '<button class="btn small ghost" data-act="reveal" style="margin-top:8px">'+escapeHtml(T("reveal"))+'</button></div>'+
+    (x.recap?'<div class="recap-box"><b>⚡ '+escapeHtml(T("recap_title"))+'：</b>'+escapeHtml(x.recap)+'</div>':'')+
+    '<div class="target">🎯 '+escapeHtml(T("target_title"))+'：'+escapeHtml(l.target)+'</div>'+
+    crossPanel(id)+
+    (lock?'<div class="lock-note">🔒 '+escapeHtml(lock)+'</div>':'')+
+    '<textarea class="notes" id="noteBox" placeholder="'+escapeHtml(T("notes_ph"))+'">'+escapeHtml(data.notes[id]||"")+'</textarea>'+
+    '<div class="modal-actions">'+
+      '<button class="btn green" data-act="complete" data-id="'+id+'" '+(lock?"disabled":"")+'>'+(done?("✓ "+T("completed")):(T("complete")+" +10 XP"))+'</button>'+
+      (done?'<button class="btn ghost" data-act="undo" data-id="'+id+'">'+escapeHtml(T("undo"))+'</button>':'')+
+      (idx>0?'<button class="btn ghost" data-act="lesson" data-id="'+f.stage.lessons[idx-1].id+'">← '+escapeHtml(T("prev"))+'</button>':'')+
+      (idx<f.stage.lessons.length-1?'<button class="btn ghost" data-act="lesson" data-id="'+f.stage.lessons[idx+1].id+'">'+escapeHtml(T("next"))+' →</button>':'')+
+      '<button class="btn ghost" data-act="close-modal">'+escapeHtml(T("close"))+'</button>'+
+    '</div>';
+  showModal(html);
+  var nb=$("noteBox");
+  if(nb)nb.addEventListener("input",function(){data.notes[id]=nb.value;saveData();});
+  if(done&&needReview(id)){
+    var extra=document.createElement("div");
+    extra.innerHTML='<div class="modal-actions"><button class="btn amber" data-act="review" data-id="'+id+'">🔁 '+escapeHtml(T("need_review"))+'（+3 XP）</button></div>';
+    $("modalBox").appendChild(extra);
+  }
+}
+function startQuiz(stageId){
+  var s=CURRICULUM.filter(function(x){return x.id===stageId;})[0];
+  if(!s||!s.quiz.length)return;
+  quizState={id:stageId,idx:0,qs:s.quiz,ans:[]};
+  showQuiz();
+}
+function showQuiz(){
+  var st=quizState,s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
+  if(!s)return;
+  if(st.idx>=st.qs.length){finishQuiz();return;}
+  var q=st.qs[st.idx];
+  var html='<h3>📝 '+escapeHtml(T("quiz_of"))+' · '+escapeHtml(stName(s))+'</h3>'+
+    '<div class="meta">'+escapeHtml(T("quiz_progress",{a:st.idx+1,b:st.qs.length}))+'</div>'+
+    '<div class="q-dots">'+st.qs.map(function(_,i){
+      var c=i<st.ans.length?(st.ans[i]===st.qs[i].a?"ok":"no"):(i===st.idx?"on":"");
+      return '<i class="'+c+'"></i>';}).join("")+'</div>'+
+    '<div style="font-size:16px;font-weight:600;margin:10px 0">'+escapeHtml(q.q)+'</div>'+
+    q.o.map(function(o,i){return '<div class="q-opt" data-act="opt" data-i="'+i+'"><div class="abc">'+["A","B","C","D"][i]+'</div><div>'+escapeHtml(o)+'</div></div>';}).join("")+
+    '<div class="modal-actions"><button class="btn ghost" data-act="close-modal">'+escapeHtml(T("quiz_exit"))+'</button></div>';
+  showModal(html);
+}
+function answerQuiz(i){
+  var st=quizState;if(!st)return;
+  var q=st.qs[st.idx];
+  st.ans.push(i);
+  if(i!==q.a){
+    var s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
+    data.mistakes[st.id+"-"+st.idx]={q:q.q,chosen:q.o[i],correct:q.o[q.a],why:q.why,stageName:s?stName(s):"",ts:Date.now()};
+    saveData();
+  }
+  var html='<div class="q-why">'+(i===q.a?("✅ "+T("correct")+"！"):("❌ "+T("wrong")+"："+escapeHtml(q.o[q.a])))+'<br>💡 '+escapeHtml(q.why)+'</div>'+
+    '<div class="modal-actions"><button class="btn" data-act="next-q">'+(st.idx+1>=st.qs.length?T("quiz_result")+" →":T("quiz_next")+" →")+'</button></div>';
+  var box=document.createElement("div");box.innerHTML=html;
+  document.querySelectorAll(".q-opt").forEach(function(el){el.style.pointerEvents="none";});
+  var el=document.querySelectorAll(".q-opt")[i];
+  if(el)el.classList.add(i===q.a?"right":"wrong");
+  if(i!==q.a){var right=document.querySelectorAll(".q-opt")[q.a];if(right)right.classList.add("right");}
+  $("modalBox").appendChild(box);
+}
+function finishQuiz(){
+  var st=quizState,s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
+  var score=st.ans.filter(function(a,i){return a===st.qs[i].a;}).length;
+  var prev=data.quiz[st.id];
+  if(!prev||score>prev.score){
+    data.quiz[st.id]={score:score,total:st.qs.length,ts:Date.now()};
+    gainXp(10);gainCoins(10);
+  }
+  saveData();checkAchievements();renderAll();
+  var tip=score===st.qs.length?(isEn()?"Perfect! Solid grasp of this stage 🏆":"满分！这一阶段掌握得很扎实 🏆")
+    :score>=st.qs.length*0.6?(isEn()?"Passed. Wrong answers are in your mistake book — review the related lessons.":"及格通过，错题已进错题本，建议回看对应课程。")
+    :(isEn()?"Revisit this stage's explanations and examples, then try again.":"建议重看本阶段的讲解与示例，再做一次。");
+  var html='<h3>🎉 '+escapeHtml(T("quiz_done"))+'</h3><div class="meta">'+escapeHtml(stName(s))+'</div>'+
+    '<div class="report">'+escapeHtml(T("quiz_score"))+"："+score+" / "+st.qs.length+"\n"+tip+'</div>'+
+    '<div class="modal-actions"><button class="btn green" data-act="quiz" data-id="'+st.id+'">'+escapeHtml(T("quiz_again"))+'</button>'+
+    '<button class="btn ghost" data-act="close-modal">'+escapeHtml(T("close"))+'</button></div>';
+  showModal(html);
+  quizState=null;
+}
+function openLab(stageId){
+  var s=CURRICULUM.filter(function(x){return x.id===stageId;})[0];if(!s)return;
+  labId=stageId;
+  var rec=data.labs[stageId]||{};
+  var html='<h3>💻 '+escapeHtml(s.lab.t)+'</h3><div class="meta">'+escapeHtml(stName(s))+' · '+(s.lab.xp||20)+' XP</div>'+
+    '<h4>📋 '+escapeHtml(T("lab_req"))+'</h4><ul class="lab-req">'+s.lab.req.map(function(r){return "<li>"+escapeHtml(r)+"</li>";}).join("")+'</ul>'+
+    '<h4>🧩 '+escapeHtml(T("lab_starter"))+'</h4><div class="copy-code"><button class="cp" data-act="copy-code">'+escapeHtml(T("copy"))+'</button><pre><code>'+codeBlock(s.lab.starter,curLang)+'</code></pre></div>'+
+    '<div class="pit">💡 '+escapeHtml(T("lab_hint"))+'：'+escapeHtml(s.lab.hint)+'</div>'+
+    '<h4>✍️ '+escapeHtml(T("lab_code"))+'</h4><textarea class="code-area" id="labCode" placeholder="'+(isEn()?"Paste your code here…":"在这里粘贴你的代码…")+'">'+escapeHtml(rec.code||"")+'</textarea>'+
+    '<h4>🖥️ '+escapeHtml(T("lab_out"))+'</h4><textarea class="out-area code-area" id="labOut" placeholder="'+(isEn()?"Paste your program output here…":"把程序的运行输出粘贴到这里…")+'">'+escapeHtml(rec.out||"")+'</textarea>'+
+    '<div class="modal-actions">'+
+      '<button class="btn green" data-act="finish-lab" data-id="'+stageId+'">'+escapeHtml(T("lab_finish"))+' +'+(s.lab.xp||20)+' XP</button>'+
+      '<button class="btn" data-act="ai-prompt">🤖 '+escapeHtml(T("lab_ai"))+'</button>'+
+      '<button class="btn ghost" data-act="close-modal">'+escapeHtml(T("close"))+'</button>'+
+    '</div><div id="aiOut"></div>';
+  showModal(html);
+}
+function completeLab(){
+  var id=labId;if(!id)return;
+  var s=CURRICULUM.filter(function(x){return x.id===id;})[0];if(!s)return;
+  var code=$("labCode")?$("labCode").value:"",out=$("labOut")?$("labOut").value:"";
+  if(!code.trim()){toast(isEn()?"Paste your code first":"先粘贴你的代码再提交","warn");return;}
+  data.labs[id]={code:code,out:out,ts:Date.now()};
+  updateStreak();recordDaily(s.lab.xp||20,0);
+  saveData();gainXp(s.lab.xp||20);gainCoins(12);
+  checkAchievements();renderAll();
+  toast("🎉 "+(isEn()?"Lab complete! +":"实战完成！+")+(s.lab.xp||20)+" XP","ach");
+  closeModal();
+}
+function generateAiPrompt(){
+  var id=labId;if(!id)return;
+  var s=CURRICULUM.filter(function(x){return x.id===id;})[0];if(!s)return;
+  var code=$("labCode")?$("labCode").value:"(未填写)";
+  var out=$("labOut")?$("labOut").value:"(未填写)";
+  var m=langMeta(curLang);
+  var p="你是一位严格的"+m.name+"教学助教，请按下面的结构批改我的代码。\n\n"+
+    "【题目】"+s.lab.t+"\n【所属阶段】"+stName(s)+"\n\n"+
+    "【任务要求】\n"+s.lab.req.map(function(r,i){return (i+1)+". "+r;}).join("\n")+"\n\n"+
+    "【我的代码】\n"+code+"\n\n"+
+    "【运行输出】\n"+out+"\n\n"+
+    "【请按以下顺序给出反馈】\n"+
+    "1. 正确性：是否满足全部要求？给出结论（通过 / 需修改）。\n"+
+    "2. 问题清单：逐条指出 bug 与隐患，标明大致行号与原因。\n"+
+    "3. 最小改动建议：给出关键片段的改法（不要直接给完整答案）。\n"+
+    "4. 规范与习惯：命名、边界、错误处理、"+(m.dk==="c"||m.dk==="cpp"?"内存管理":"可读性")+"等方面。\n"+
+    "5. 一个进阶追问，检验我是否真的理解。\n\n"+
+    "请用中文回答，语气直接、具体，不要泛泛而谈。";
+  data.aiUsed=(data.aiUsed||0)+1;saveData();checkAchievements();
+  var box=$("aiOut");
+  if(box){
+    box.innerHTML='<h4>🤖 AI 批改提示词</h4><div class="copy-code" style="background:var(--bg2)"><pre id="aiPre" style="color:var(--fg)">'+escapeHtml(p)+'</pre></div>'+
+      '<div class="modal-actions"><button class="btn small" data-act="copy-ai">'+escapeHtml(T("copy"))+'</button></div>';
+  }
+}
+
+/* ============ 主题 / 语言 / 双语 ============ */
+function applyTheme(){
+  var pref=(data.settings&&data.settings.theme)||"auto";
+  var dark=pref==="dark"||(pref==="auto"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+  document.documentElement.dataset.theme=dark?"dark":"light";
+  var btn=$("themeBtn");
+  if(btn){btn.textContent=pref==="auto"?"🌓":pref==="dark"?"🌙":"☀️";btn.title="当前："+({auto:"跟随系统",dark:"深色",light:"浅色"})[pref]+"，点击切换";}
+  applyStyle();
+}
+function applyLang(id){
+  if(!langMeta(id))id="python";
+  curLang=id;
+  CURRICULUM=langStages(id);
+  PHASES=langPhases(id);
+  openStage=null;
+  var m=langMeta(id);
+  document.documentElement.style.setProperty("--accent",m.c1);
+  document.documentElement.style.setProperty("--accent2",m.c2);
+  var sw=$("langSwitch");
+  if(sw){
+    sw.innerHTML=LANGS.filter(function(L){return L.id===id||trackUnlocked(L.id)||!data.track;}).map(function(L){
+      return '<button class="lang-pill'+(L.id===id?" active":"")+'" data-act="set-lang" data-id="'+L.id+'" title="'+(isEn()?"switch to ":"切换到 ")+L.name+'">'+L.icon+" "+L.name+'</button>';
+    }).join("");
+    var locked=LANGS.filter(function(L){return L.id!==id&&data.track&&!trackUnlocked(L.id);});
+    if(locked.length){
+      var tip=document.createElement("div");
+      tip.className="lock-tip";
+      tip.innerHTML="🔒 "+locked.map(function(L){return L.icon+" "+L.name+"（"+escapeHtml(T("track_unlock_at",{n:unlockNeed(L.id)}))+"）";}).join("　")+
+        '<br><span style="opacity:.8">'+escapeHtml(T("track_switch_note"))+'</span>';
+      sw.appendChild(tip);
+    }
+  }
+}
+function setLang(id){
+  if(id===curLang)return;
+  if(!trackUnlocked(id)){
+    toast((isEn()?"🔒 Locked — finish ":"🔒 尚未解锁，完成主修语言 ")+unlockNeed(id)+(isEn()?" lessons first":" 节后开放"),"warn");
+    return;
+  }
+  data.lang=id;saveData();
+  applyLang(id);renderAll();
+  toast((isEn()?"Switched to ":"已切换到 ")+langMeta(id).icon+" "+langMeta(id).name+(isEn()?" · progress kept":" · 进度已自动保留"));
+}
+function setLocale(loc){
+  LOCALE=(loc==="en")?"en":"zh";
+  data.locale=LOCALE;data.settings=data.settings||{};data.settings.locale=LOCALE;
+  saveData();applyLang(curLang);renderAll();bindSettings();renderLocaleBtn();applyStaticI18n();
+  toast(LOCALE==="en"?"Switched to English":"已切换为中文");
+}
+function renderLocaleBtn(){
+  var box=$("localeBox");if(!box)return;
+  box.innerHTML='<button class="locale-btn'+(LOCALE==="zh"?" on":"")+'" data-act="locale" data-id="zh">中</button>'+
+    '<button class="locale-btn'+(LOCALE==="en"?" on":"")+'" data-act="locale" data-id="en">EN</button>';
+}
+var SEC_I18N={dashSec:"sec_dash",timerSec:"sec_timer",todaySec:"sec_today",phasesSec:"sec_phases",
+ stagesSec:"sec_stages",labSec:"sec_lab",reviewSec:"sec_review",mistakeSec:"sec_mistake",
+ heatSec:"sec_heat",noteSec:"sec_notes",achSec:"sec_ach",reportSec:"sec_report",settingSec:"sec_settings"};
+var TAG_I18N={timerSec:"timer_focus",todaySec:"today_tag",reportSec:"report_tag"};
+function setNodeText(el,key){
+  if(!el)return;
+  var node=el.firstChild;
+  if(!node||node.nodeType!==3)return;
+  if(!el.dataset.emo){
+    var m=String(node.nodeValue).match(/^\s*[^\w\u4e00-\u9fa5]*\s*/);
+    el.dataset.emo=m?m[0]:"";
+  }
+  node.nodeValue=el.dataset.emo+T(key);
+}
+function applyStaticI18n(){
+  setNodeText(document.querySelector(".header h1"),"app_title");
+  var alt=$("appAlt");if(alt)alt.textContent=T("app_alt");
+  var tagline=$("appTagline");if(tagline)tagline.textContent=T("app_tagline");
+  Object.keys(SEC_I18N).forEach(function(id){
+    var sec=$(id);if(!sec)return;
+    setNodeText(sec.querySelector("h2"),SEC_I18N[id]);
+    if(TAG_I18N[id]){var tg=sec.querySelector("h2 .tag");if(tg)tg.textContent=T(TAG_I18N[id]);}
+  });
+  setNodeText(document.querySelector("#settingSec .style-shop h3"),"sec_shop");
+  var sTag=document.querySelector("#settingSec .style-shop h3 .tag");
+  if(sTag)sTag.textContent=isEn()?"coins · cosmetic only":"星币解锁 · 纯外观";
+  var fb=document.querySelector(".filter-bar .fb-label");
+  if(fb)fb.textContent=T("lbl_filter");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-act=stage-filter]"),function(c){
+    var k={all:"filter_all",basic:"filter_basic",adv:"filter_adv",hard:"filter_hard"}[c.dataset.filter];
+    if(k)setNodeText(c,k);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"),function(el){
+    var key=el.dataset.i18n;
+    if(el.tagName==="BUTTON"){
+      if(!el.dataset.emo){var m0=String(el.textContent).match(/^\s*[^\w\u4e00-\u9fa5]*\s*/);el.dataset.emo=m0?m0[0]:"";}
+      el.textContent=el.dataset.emo+T(key);
+    }else el.textContent=T(key);
+  });
+  var foot=document.querySelector("#settingSec .foot");
+  if(foot)foot.textContent=T("foot_note");
+  var sl=$("seriesLabel");
+  if(sl)sl.textContent=isEn()?"More in the EDU series:":"EDU系列其他项目：";
+  var al=$("agiLink");
+  if(al)al.textContent=isEn()?"🤖 R0:hello agi · From Zero to AGI":"🤖 R0:hello agi · 从零开始的 AGI 之路";
+  var el2=$("eduLine");
+  if(el2)el2.textContent=isEn()?"Part of the 「Shise Zaomeng」EDU series":"隶属于拾色造梦企划EDU系列";
+}
+
+/* ============ 计时器 ============ */
+function fmtSec(s){return pad2(Math.floor(s/60))+":"+pad2(s%60);}
+function scrollToEl(el){
+  if(!el)return;
+  if(typeof el.scrollIntoView==="function"){try{el.scrollIntoView({behavior:"smooth",block:"start"});return;}catch(e){}}
+  var y=el.getBoundingClientRect().top+(window.scrollY||0)-10;
+  if(typeof window.scrollTo==="function")window.scrollTo(0,y);
+}
+function timerTick(){
+  var s=Math.floor((Date.now()-timer.start+timer.elapsed)/1000);
+  $("timerDisplay").textContent=fmtSec(s);
+}
+function timerStart(){
+  if(timer.running)return;
+  timer.running=true;timer.start=Date.now();
+  timer.iv=setInterval(timerTick,500);
+  $("timerStartBtn").style.display="none";$("timerPauseBtn").style.display="";
+  $("timerTip").textContent=isEn()?"Focusing… the timer keeps running if you leave the page.":"专注中……离开页面也会继续计时，记得回来点「结束并记录」。";
+}
+function timerPause(){
+  if(!timer.running)return;
+  timer.elapsed+=Date.now()-timer.start;timer.running=false;clearInterval(timer.iv);
+  $("timerStartBtn").style.display="";$("timerPauseBtn").style.display="none";
+  $("timerStartBtn").textContent="▶ "+(isEn()?"Resume":"继续");
+  $("timerTip").textContent=isEn()?"Paused. Resume when ready.":"已暂停，点「继续」接着计时。";
+}
+function timerStop(){
+  if(timer.running)timer.elapsed+=Date.now()-timer.start;
+  clearInterval(timer.iv);
+  var mins=Math.max(0,Math.round(timer.elapsed/60000));
+  timer={running:false,start:0,elapsed:0,iv:null};
+  $("timerDisplay").textContent="00:00";
+  $("timerStartBtn").style.display="";$("timerPauseBtn").style.display="none";
+  $("timerStartBtn").textContent="▶ "+(isEn()?"Start":"开始");
+  if(mins>0){
+    recordDaily(0,mins);
+    data.focusMinutes=(data.focusMinutes||0)+mins;
+    updateStreak();saveData();renderAll();
+    $("timerTip").textContent=(isEn()?"Logged ":"已记录 ")+mins+(isEn()?" min, total ":" 分钟专注时长，累计 ")+(data.focusMinutes||0)+(isEn()?" min.":" 分钟。");
+    toast("⏱️ "+(isEn()?"Focus ":"专注 ")+mins+(isEn()?" min logged":" 分钟已记录"),"xp");
+    checkAchievements();
+  }else{
+    $("timerTip").textContent=isEn()?"Less than a minute — not logged.":"本次时长不足 1 分钟，未记录。";
+  }
+}
+function fireRemind(){
+  if(data.lastCheckinDate===todayStr())return;
+  toast((isEn()?"⏰ Time to check in! Keep your ":"⏰ 打卡时间到！今天还没打卡，连续 ")+(data.streak||0)+(isEn()?"-day streak":" 天别断哦"),"ach");
+  if(data.settings.notify&&("Notification"in window)&&Notification.permission==="granted"){
+    try{new Notification(isEn()?"Study Reminder":"学习打卡提醒",{body:(isEn()?"Not checked in yet — keep the ":"今天还没打卡哦，保持连续 ")+(data.streak||0)+(isEn()?"-day streak 🔥":" 天 🔥")});}catch(e){}
+  }
+  renderCheckin();
+}
+function scheduleRemind(){
+  if(remindTimer)clearTimeout(remindTimer);
+  var t=data.settings.remind;if(!t)return;
+  var parts=t.split(":"),now=new Date();
+  var target=new Date(now.getFullYear(),now.getMonth(),now.getDate(),parseInt(parts[0],10),parseInt(parts[1],10),0);
+  if(target<=now){setTimeout(function(){if(data.lastCheckinDate!==todayStr())fireRemind();},1500);return;}
+  remindTimer=setTimeout(fireRemind,Math.min(target-now,2147483000));
+}
+
+/* ============ 导入导出 ============ */
+function exportData(){
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(isEn()?"r0-hello-world-backup_":"R0从零开始的编程之路_备份_")+todayStr()+".json";
+  a.click();
+  data.lastExport=todayStr();saveData();renderBackupHint();
+  toast(isEn()?"Backup exported":"已导出备份文件","xp");
+}
+function importData(file){
+  var fr=new FileReader();
+  fr.onload=function(){
+    try{
+      var obj=JSON.parse(fr.result);
+      if(!obj||typeof obj!=="object")throw new Error("格式错误");
+      var def=defaultData();
+      data=Object.assign(def,obj,{settings:Object.assign({},def.settings,obj.settings||{})});
+      if(!data.track)data.track=data.lang||"python";
+      LOCALE=data.locale==="en"?"en":"zh";
+      saveData();applyLang(data.lang||"python");applyTheme();renderLocaleBtn();renderAll();bindSettings();applyStaticI18n();
+      toast(isEn()?"✅ Imported, progress restored":"✅ 导入成功，进度已恢复","xp");
+    }catch(e){toast(isEn()?"Import failed: invalid backup file":"导入失败：文件不是有效的备份","warn");}
+  };
+  fr.readAsText(file);
+}
+function resetData(){
+  if(!confirm(isEn()?"Clear ALL study data? This cannot be undone — export a backup first.":"确定清空所有学习记录吗？此操作不可恢复，建议先导出备份。"))return;
+  data=defaultData();saveData();
+  LOCALE="zh";data.track="";data.onboarded=0;
+  applyLang("python");applyTheme();renderLocaleBtn();renderAll();bindSettings();applyStaticI18n();
+  toast(isEn()?"Reset done — starting fresh":"已清空重置，重新开始吧");
+  showOnboarding();
+}
+
+/* ============ 设置绑定 ============ */
+function bindSettings(){
+  var n=$("nameInput"),g=$("goalInput"),r=$("remindInput"),c=$("capInput"),l=$("lockInput");
+  if(n){n.value=data.name||"";n.oninput=function(){data.name=n.value;saveData();renderHeader();};}
+  if(g){g.value=data.goal||2;g.onchange=function(){data.goal=Math.max(1,Math.min(10,parseInt(g.value,10)||2));g.value=data.goal;saveData();renderAll();};}
+  if(r){r.value=data.settings.remind||"20:00";r.onchange=function(){data.settings.remind=r.value;saveData();scheduleRemind();renderCheckin();};}
+  if(c){c.value=data.dailyNewCap||4;c.onchange=function(){data.dailyNewCap=Math.max(1,Math.min(10,parseInt(c.value,10)||4));c.value=data.dailyNewCap;saveData();renderAll();};}
+  if(l){l.value=data.reviewLock||8;l.onchange=function(){data.reviewLock=Math.max(3,Math.min(20,parseInt(l.value,10)||8));l.value=data.reviewLock;saveData();renderAll();};}
+  var nb=$("notifyBtn");
+  if(nb){
+    if(!("Notification"in window)){nb.disabled=true;$("notifyStat").textContent=isEn()?"Your browser doesn't support notifications":"当前浏览器不支持桌面通知";}
+    else if(Notification.permission==="granted"){nb.textContent="🔔 "+(isEn()?"Notifications on":"已开启通知");$("notifyStat").textContent=isEn()?"Desktop notifications will pop up on time":"到点会弹出桌面通知";}
+  }
+  var ts=$("trackStat");
+  if(ts){
+    var t=data.track||curLang,tm=langMeta(t);
+    var locked=LANGS.filter(function(L){return L.id!==t&&!trackUnlocked(L.id);});
+    var tail=locked.length
+      ? (" · 🔒 "+(isEn()?(locked.length+" track(s) locked"):(locked.length+" 条路线待解锁")))
+      : (" · "+(isEn()?"all tracks open":"全部路线已开放"));
+    ts.textContent=tm.icon+" "+tm.name+"（"+T("track_lang")+"）· "+
+      (isEn()?("main progress "+mainDone()+" lessons"):("主修进度 "+mainDone()+" 节"))+tail;
+  }
+  var ls=$("localeStat");
+  if(ls)ls.textContent=(LOCALE==="en")?"English（界面 / 目录英文，课程正文逐步适配中）":"中文（界面 / 目录中文，可切 EN 体验英文）";
+}
+
+/* ============ 首次引导 + 分班测试 ============ */
+var obState={lang:"python",level:"zero"};
+var ptState=null;
+var LANG_BLURB={
+  python:(isEn()?"Readable and concise — a great first language":"易读易写，语法最接近自然语言，适合作为第一门语言"),
+  c:(isEn()?"Close to the hardware, nothing hidden — best way to understand memory":"贴近硬件、没有隐藏成本，理解内存与计算机原理的最佳入口"),
+  cpp:(isEn()?"C's performance plus modern abstractions":"在 C 的性能之上叠加现代抽象，适合追求控制力与性能"),
+  java:(isEn()?"Mature ecosystem, the enterprise and Android workhorse":"工程化程度高、生态成熟，企业级开发与 Android 的主力")
+};
+function showOnboarding(){
+  if(data.onboarded)return false;
+  obState={lang:"python",level:"zero"};
+  renderOnboard();
+  return true;
+}
+function renderOnboard(){
+  var html='<h3>👋 '+escapeHtml(T("onboard_title"))+'</h3>'+
+    '<div class="meta">'+escapeHtml(T("onboard_sub"))+'</div>'+
+    '<h4>'+escapeHtml(T("onboard_lang"))+'</h4>'+
+    '<div class="ob-grid">'+LANGS.map(function(L){
+      return '<div class="ob-card'+(obState.lang===L.id?" sel":"")+'" data-act="ob-lang" data-id="'+L.id+'">'+
+        '<div class="ob-ic">'+L.icon+'</div><div class="ob-nm">'+escapeHtml(L.name)+'</div>'+
+        '<div class="ob-ds">'+escapeHtml(LANG_BLURB[L.id]||"")+'</div></div>';
+    }).join("")+'</div>'+
+    '<div class="lock-tip">📌 '+escapeHtml(T("onboard_lang_note"))+'</div>'+
+    '<h4 style="margin-top:16px">'+escapeHtml(T("onboard_level"))+'</h4>'+
+    '<div class="ob-lv'+(obState.level==="zero"?" sel":"")+'" data-act="ob-level" data-id="zero"><b>🌱 '+escapeHtml(T("lv_zero"))+'</b><span>'+escapeHtml(T("lv_zero_d"))+'</span></div>'+
+    '<div class="ob-lv'+(obState.level==="some"?" sel":"")+'" data-act="ob-level" data-id="some"><b>🚀 '+escapeHtml(T("lv_some"))+'</b><span>'+escapeHtml(T("lv_some_d"))+'</span></div>'+
+    '<div class="modal-actions"><button class="btn green" data-act="ob-next">'+
+      escapeHtml(obState.level==="some"?T("start_test"):T("start_zero"))+'</button></div>';
+  showModal(html);
+}
+function obNext(){
+  if(obState.level==="some"){startPlacement(obState.lang);return;}
+  closeModal();                       // 零基础：选完即刻关闭引导弹窗
+  finishOnboard(obState.lang,1,null);
+}
+function startPlacement(langId){
+  var bank=(PLACEMENT[langMeta(langId).dk]||{qs:[]}).qs;
+  if(!bank.length){finishOnboard(langId,1,null);return;}
+  ptState={lang:langId,qs:bank,idx:0,ans:[]};
+  showPt();
+}
+function showPt(){
+  var st=ptState;if(!st)return;
+  if(st.idx>=st.qs.length){finishPt();return;}
+  var q=st.qs[st.idx];
+  var html='<h3>📝 '+escapeHtml(T("pt_title"))+' · '+langMeta(st.lang).icon+" "+langMeta(st.lang).name+'</h3>'+
+    '<div class="pt-meta"><span>'+escapeHtml(T("quiz_progress",{a:st.idx+1,b:st.qs.length}))+'</span>'+
+      '<span>'+escapeHtml(isEn()?("answered "+st.ans.length):("已答 "+st.ans.length+" 题"))+'</span></div>'+
+    '<div class="pt-bar"><i style="width:'+Math.round(st.idx/st.qs.length*100)+'%"></i></div>'+
+    '<div style="font-size:16px;font-weight:600;margin:10px 0">'+escapeHtml(q.q)+'</div>'+
+    q.o.map(function(o,i){return '<div class="q-opt" data-act="pt-opt" data-i="'+i+'"><div class="abc">'+["A","B","C","D"][i]+'</div><div>'+escapeHtml(o)+'</div></div>';}).join("")+
+    '<div class="lock-tip" style="text-align:left;margin-top:12px">'+escapeHtml(T("pt_note",{n:st.qs.length}))+'</div>'+
+    '<div class="modal-actions"><button class="btn ghost" data-act="pt-submit">'+escapeHtml(T("pt_submit"))+'</button>'+
+      '<button class="btn ghost" data-act="close-modal">'+escapeHtml(T("close"))+'</button></div>';
+  showModal(html);
+}
+function answerPt(i){
+  var st=ptState;if(!st)return;
+  st.ans.push(i);st.idx++;
+  if(st.idx>=st.qs.length){finishPt();return;}
+  showPt();
+}
+function ptSubmitEarly(){
+  var st=ptState;if(!st)return;
+  var left=st.qs.length-st.ans.length;
+  if(left>0&&!confirm(T("pt_confirm_submit",{n:left})))return;
+  finishPt();
+}
+function levelNameOf(rate){
+  if(rate>=0.85)return T("lv_name_5");
+  if(rate>=0.70)return T("lv_name_4");
+  if(rate>=0.50)return T("lv_name_3");
+  if(rate>=0.30)return T("lv_name_2");
+  return T("lv_name_1");
+}
+function finishPt(){
+  var st=ptState;if(!st)return;ptState=null;
+  var byStage={},correct=0;
+  st.ans.forEach(function(a,i){
+    var q=st.qs[i],ok=(a===q.a);
+    if(ok)correct++;
+    byStage[q.st]=byStage[q.st]||{t:0,c:0};
+    byStage[q.st].t++;if(ok)byStage[q.st].c++;
+  });
+  var total=st.qs.length,rate=total?correct/total:0;
+  var weak=[],strong=[];
+  Object.keys(byStage).forEach(function(k){
+    var r=byStage[k],pct=r.c/r.t,n=parseInt(k,10);
+    if(pct<0.5)weak.push(n);else if(pct>=0.8)strong.push(n);
+  });
+  weak.sort(function(a,b){return a-b;});strong.sort(function(a,b){return a-b;});
+  var start=1;
+  if(rate>=0.85)start=9;else if(rate>=0.70)start=7;else if(rate>=0.50)start=5;else if(rate>=0.30)start=3;else start=1;
+  if(weak.length&&weak[0]<start)start=Math.max(1,weak[0]);
+  var res={lang:st.lang,score:Math.round(rate*100),correct:correct,total:total,startStage:start,weak:weak,strong:strong,ts:Date.now()};
+  showPtResult(res);
+}
+function stageNameById(langId,stageNo){
+  var st=langStages(langId);
+  return st[stageNo-1]?stName(st[stageNo-1]):(isEn()?("Stage "+stageNo):("第 "+stageNo+" 阶段"));
+}
+function creditTip(r){
+  var sn=stageNameById(r.lang,r.startStage);
+  if(isEn())return "Lessons before "+sn+" will be credited as already known. You can revisit or unmark them anytime.";
+  return "建议起点（"+sn+"）之前的课程记为已掌握（免修），你可以随时回看或取消标记。";
+}
+function showPtResult(r){
+  var L=langMeta(r.lang);
+  var html='<h3>📊 '+escapeHtml(T("pt_result"))+'</h3>'+
+    '<div class="meta">'+L.icon+" "+escapeHtml(L.name)+' · '+escapeHtml(T("pt_title"))+'</div>'+
+    '<div class="pt-res">'+
+      '<div class="row"><span>'+escapeHtml(T("pt_score"))+'</span><b>'+r.score+'%（'+r.correct+' / '+r.total+'）</b></div>'+
+      '<div class="row"><span>'+escapeHtml(T("pt_level"))+'</span><b>'+escapeHtml(levelNameOf(r.correct/(r.total||1)))+'</b></div>'+
+      '<div class="row"><span>'+escapeHtml(T("pt_start"))+'</span><b>'+escapeHtml(stageNameById(r.lang,r.startStage))+'</b></div>'+
+    '</div>'+
+    (r.weak.length?'<div style="font-size:13px;font-weight:600;margin-top:10px">🔻 '+escapeHtml(T("pt_weak"))+'</div><div class="weak-list">'+
+      r.weak.map(function(n){return '<span class="weak-tag">'+escapeHtml(stageNameById(r.lang,n))+'</span>';}).join("")+'</div>':'')+
+    (r.strong.length?'<div style="font-size:13px;font-weight:600;margin-top:10px">🔺 '+escapeHtml(T("pt_strong"))+'</div><div class="weak-list">'+
+      r.strong.map(function(n){return '<span class="strong-tag">'+escapeHtml(stageNameById(r.lang,n))+'</span>';}).join("")+'</div>':'')+
+    '<div class="lock-tip" style="text-align:left;margin-top:12px">'+escapeHtml(creditTip(r))+'</div>'+
+    '<div class="modal-actions">'+
+      '<button class="btn green" data-act="pt-accept" data-id="'+r.startStage+'">'+escapeHtml(T("pt_goto"))+'</button>'+
+      '<button class="btn ghost" data-act="pt-accept" data-id="1">'+escapeHtml(T("pt_restart"))+'</button>'+
+    '</div>';
+  showModal(html);
+  data.placement=r;saveData();
+}
+function creditLessons(langId,startStage){
+  var st=langStages(langId),n=0;
+  for(var i=0;i<startStage-1&&i<st.length;i++){
+    st[i].lessons.forEach(function(l){
+      if(!data.completed[l.id]){data.completed[l.id]={ts:Date.now(),stage:6,credited:1};n++;}
+    });
+  }
+  return n;
+}
+function finishOnboard(langId,startStage,placement){
+  closeModal();                       // 兜底：任何进入正式学习的路径都关闭弹窗
+  data.track=langId;data.lang=langId;data.onboarded=1;
+  if(placement)data.placement=placement;
+  var credited=creditLessons(langId,startStage||1);
+  data.flags=data.flags||{};
+  data.flags.startStage=startStage||1;
+  saveData();applyLang(langId);renderAll();bindSettings();applyStaticI18n();
+  toast((isEn()?"Main track set: ":"已设定主修路线：")+langMeta(langId).icon+" "+langMeta(langId).name,"ach");
+  if(credited)toast(T("pt_skip",{n:credited}),"xp");
+}
+function showIntro(){
+  if(data.introSeen)return;
+  var html='<h3>👋 '+(isEn()?"Welcome to R0:hello world":"欢迎来到 R0：从零开始的编程之路")+'</h3>'+
+    '<div class="meta">'+(isEn()?"4 languages · 10 stages / 40 lessons each · zero to depth":"四门语言 · 各 10 阶段 40 节 · 从零到深入")+'</div>'+
+    '<div class="intro-step"><div class="n">1</div><div>'+(isEn()?"Switch between Python / C / C++ / Java at the top. Each is a complete track from zero to depth.":"顶部可切换 Python / C / C++ / Java 四门语言，每门都是完整的从 0 到深入的编排，不做任何路线适配。")+'</div></div>'+
+    '<div class="intro-step"><div class="n">2</div><div>'+(isEn()?"Every lesson: key points + runnable example + sample output + in-depth notes + pitfall + recap.":"每节课含：讲解要点 + 可运行示例 + 示例输出 + 深入讲解 + 易错点 + 速记。")+'</div></div>'+
+    '<div class="intro-step"><div class="n">3</div><div>'+(isEn()?"Each stage has a 3-question quiz and a coding lab (with one-click AI review prompt).":"每个阶段配一套 3 题测评与一道编程实战（可一键生成 AI 批改提示词）。")+'</div></div>'+
+    '<div class="intro-step"><div class="n">4</div><div>'+(isEn()?"Studying, reviewing and checking in earn XP / coins / achievements; reviews are scheduled automatically.":"学习、复习、打卡都会累积 XP / 星币 / 成就，并按间隔复习自动安排巩固。")+'</div></div>'+
+    '<div class="intro-step"><div class="n">5</div><div>'+(isEn()?"Data stays in your browser — export a backup regularly.":"数据只存在你本机浏览器，记得定期在「设置与数据」导出备份。")+'</div></div>'+
+    '<div class="modal-actions"><button class="btn green" data-act="close-intro">'+(isEn()?"Start learning 🚀":"开始学习 🚀")+'</button></div>';
+  showModal(html);
+}
+
+/* ============ 事件 ============ */
+document.addEventListener("click",function(e){
+  var btn=e.target.closest(".btn");
+  if(btn&&!btn.disabled){
+    var r=document.createElement("span");r.className="ripple";
+    var rect=btn.getBoundingClientRect(),size=Math.max(rect.width,rect.height);
+    r.style.width=r.style.height=size+"px";
+    r.style.left=(e.clientX-rect.left-size/2)+"px";
+    r.style.top=(e.clientY-rect.top-size/2)+"px";
+    btn.appendChild(r);setTimeout(function(){r.remove();},620);
+  }
+  var cell=e.target.closest(".cell[data-date]");
+  if(cell){openDayDetail(cell.dataset.date);return;}
+  var t=e.target.closest("[data-act]");
+  if(!t)return;
+  var act=t.dataset.act,id=t.dataset.id;
+  switch(act){
+    case "theme":{
+      var order=["auto","light","dark"],cur=data.settings.theme||"auto";
+      data.settings.theme=order[(order.indexOf(cur)+1)%3];
+      saveData();applyTheme();break;}
+    case "set-lang":setLang(id);break;
+    case "locale":setLocale(id);break;
+    case "goto-lesson":gotoLesson(t.dataset.lang,id);break;
+    case "ob-lang":{obState.lang=id;renderOnboard();break;}
+    case "ob-level":{obState.level=id;renderOnboard();break;}
+    case "ob-next":obNext();break;
+    case "pt-opt":answerPt(parseInt(t.dataset.i,10));break;
+    case "pt-submit":ptSubmitEarly();break;
+    case "pt-accept":{
+      var start=parseInt(id,10)||1;
+      var lang=(data.placement&&data.placement.lang)||obState.lang||curLang;
+      closeModal();finishOnboard(lang,start,data.placement);
+      break;}
+    case "retake-placement":{
+      if(!confirm(isEn()?"Retake the placement test? Credited lessons stay.":"重新做一次摸底测试？已免修的课程标记会保留。"))break;
+      startPlacement((data.placement&&data.placement.lang)||data.track||curLang);
+      break;}
+    case "checkin":checkIn();break;
+    case "lesson":openLesson(id);break;
+    case "complete":completeLesson(id);closeModal();break;
+    case "undo":undoLesson(id);closeModal();break;
+    case "review":doReview(id);closeModal();break;
+    case "stage":{
+      var el=t.closest(".stage");
+      el.classList.toggle("open");
+      openStage=el.classList.contains("open")?id:null;break;}
+    case "phase":{
+      var target=$("stage-"+id);
+      if(target){openStage=id;target.classList.add("open");scrollToEl(target);}
+      break;}
+    case "sb":{
+      var t2=$("stage-"+id);
+      if(t2){openStage=id;t2.classList.add("open");scrollToEl(t2);}
+      closeSidebar();break;}
+    case "sb-nav":{
+      var el2=$(t.dataset.target);
+      if(el2)scrollToEl(el2);
+      closeSidebar();break;}
+    case "sb-toggle-chapters":{
+      data.flags=data.flags||{};data.flags.sbChaptersCollapsed=!data.flags.sbChaptersCollapsed;
+      saveData();renderSidebar();break;}
+    case "sb-toggle-nav":{
+      data.flags=data.flags||{};data.flags.sbNavCollapsed=!data.flags.sbNavCollapsed;
+      saveData();renderSidebar();break;}
+    case "sb-collapse":{
+      document.body.classList.toggle("sbCollapsed");
+      data.flags=data.flags||{};data.flags.sbCollapsed=document.body.classList.contains("sbCollapsed");
+      saveData();break;}
+    case "quiz":startQuiz(id);break;
+    case "opt":answerQuiz(parseInt(t.dataset.i,10));break;
+    case "next-q":if(quizState){quizState.idx++;showQuiz();}break;
+    case "lab":openLab(id);break;
+    case "ai-prompt":generateAiPrompt();break;
+    case "copy-ai":{
+      var pre=$("aiPre");
+      if(pre)copyText(pre.textContent,(isEn()?"Prompt copied — paste it into your LLM":"提示词已复制，去问大模型吧！"));
+      break;}
+    case "finish-lab":completeLab();break;
+    case "copy-code":{
+      var wrap=t.closest(".copy-code");
+      if(wrap){var codeEl=wrap.querySelector("pre");if(codeEl)copyText(codeEl.textContent,T("copied"));}
+      break;}
+    case "reveal":{
+      var box=t.closest(".ex-box"),a=box.querySelector(".ex-a");
+      a.hidden=!a.hidden;t.textContent=a.hidden?T("reveal"):T("hide_ans");break;}
+    case "stage-filter":{
+      Array.prototype.forEach.call(document.querySelectorAll("[data-act=stage-filter]"),function(c){c.classList.toggle("active",c===t);});
+      $("stages").dataset.filter=t.dataset.filter;applyStageFilter();break;}
+    case "note-tag":{$("noteSearch").value=id;renderNotes();break;}
+    case "del-mistake":{delete data.mistakes[id];saveData();renderMistakes();break;}
+    case "clear-mistake":{
+      if(confirm(isEn()?"Clear the mistake book?":"确定清空错题本？")){data.mistakes={};saveData();renderMistakes();}
+      break;}
+    case "copy-report":copyText($("dailyReport").textContent,(isEn()?"Daily report copied":"今日报告已复制"));break;
+    case "refresh-report":renderReport();toast(isEn()?"Report refreshed":"报告已刷新");break;
+    case "week-report":periodReport(7,isEn()?"This week":"本周");break;
+    case "month-report":periodReport(30,isEn()?"This month":"本月");break;
+    case "copy-period":{
+      var txt=$("periodReport").textContent;
+      if(!txt.trim()){toast(isEn()?"Generate a weekly or monthly report first":"先点「本周报告」或「本月报告」生成内容","warn");break;}
+      copyText(txt,(isEn()?"Period report copied":"周期报告已复制"));break;}
+    case "dl-period":{
+      var txt2=$("periodReport").textContent;
+      if(!txt2.trim()){toast(isEn()?"Generate a report before downloading":"先生成周期报告再下载","warn");break;}
+      var blob=new Blob([txt2],{type:"text/markdown;charset=utf-8"});
+      var a2=document.createElement("a");a2.href=URL.createObjectURL(blob);
+      a2.download=(isEn()?"study-report_":"学习周期报告_")+todayStr()+".md";a2.click();
+      break;}
+    case "buy-style":buyStyle(id);break;
+    case "use-style":setStyle(id);break;
+    case "notify":{
+      if(!("Notification"in window))break;
+      Notification.requestPermission().then(function(p){
+        data.settings.notify=(p==="granted");
+        saveData();bindSettings();
+        toast(p==="granted"?(isEn()?"Notifications enabled":"已开启桌面通知"):(isEn()?"Permission not granted":"未授权通知权限"),"ach");
+      });
+      break;}
+    case "export":exportData();break;
+    case "import":$("importFile").click();break;
+    case "reset":resetData();break;
+    case "timer-start":timerStart();break;
+    case "timer-pause":timerPause();break;
+    case "timer-stop":timerStop();break;
+    case "close-modal":{
+      if(ptState){
+        if(confirm(isEn()?"Quit the placement test? Answers won't count.":"退出摸底测试？本次作答将不计入结果。")){
+          ptState=null;closeModal();renderOnboard();
+        }
+        break;
+      }
+      closeModal();break;}
+    case "close-intro":data.introSeen=1;saveData();closeModal();break;
+  }
+});
+$("modalMask").addEventListener("click",function(e){if(e.target===$("modalMask"))closeModal();});
+$("sbToggle").addEventListener("click",openSidebar);
+$("sbOverlay").addEventListener("click",closeSidebar);
+$("toTop").addEventListener("click",function(){try{window.scrollTo({top:0,behavior:"smooth"});}catch(e){window.scrollTo(0,0);}});
+$("searchInput").addEventListener("input",function(e){searchQ=e.target.value.trim().toLowerCase();renderStages();});
+$("noteSearch").addEventListener("input",renderNotes);
+$("importFile").addEventListener("change",function(e){if(e.target.files[0])importData(e.target.files[0]);e.target.value="";});
+window.addEventListener("scroll",function(){
+  updateSbSpy();
+  var tt=$("toTop");
+  if(window.scrollY>400)tt.classList.add("show");else tt.classList.remove("show");
+},{passive:true});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeModal();});
+
+/* ============ 调试桥（便于控制台查看 / 自动化测试） ============ */
+window.LANGS=LANGS;window.STYLES=STYLES;window.ACHIEVEMENTS=ACHIEVEMENTS;
+Object.defineProperty(window,"data",{configurable:true,get:function(){return data;},set:function(v){data=v;}});
+
+/* ============ 初始化 ============ */
+(function init(){
+  loadData();
+  applyLang(data.lang||"python");
+  applyTheme();
+  if(data.flags&&data.flags.sbCollapsed)document.body.classList.add("sbCollapsed");
+  bindSettings();
+  renderLocaleBtn();
+  renderAll();
+  applyStaticI18n();
+  scheduleRemind();
+  if(!showOnboarding())showIntro();
+  var sb=$("sidebar");
+  ensureResizer();
+  if(data.flags&&data.flags.sbWidth)sb.style.width=data.flags.sbWidth+"px";
+  document.addEventListener("mousemove",function(e){
+    if(!sbResizer||sbResizer.dataset.drag!=="1")return;
+    var nw=Math.max(200,Math.min(420,e.clientX));
+    sb.style.width=nw+"px";
+    document.body.style.paddingLeft=(nw+20)+"px";
+  });
+  document.addEventListener("mouseup",function(){
+    if(!sbResizer||sbResizer.dataset.drag!=="1")return;
+    sbResizer.dataset.drag="0";
+    data.flags=data.flags||{};data.flags.sbWidth=parseInt(sb.style.width,10);saveData();
+  });
+  if("serviceWorker" in window){
+    window.addEventListener("load",function(){
+      navigator.serviceWorker.register("lang-sw.js").catch(function(){});
+    });
+  }
+})();
+</script>
+</body>
+</html>
