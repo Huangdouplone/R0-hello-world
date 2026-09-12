@@ -152,7 +152,7 @@ ui:{
  onboard_title:{zh:"开始之前，先认识一下你",en:"Before We Start"},
  onboard_sub:{zh:"选择你想学的语言，以及你目前的基础",en:"Pick your language and current level"},
  onboard_lang:{zh:"选择学习语言",en:"Choose a language"},
- onboard_lang_note:{zh:"这条路线将作为你的主修课程，其他语言会随进度逐步开放",en:"This becomes your main track; other languages unlock as you progress"},
+ onboard_lang_note:{zh:"📌 这条路线将作为你的主修课程，完成一定进度后其他语言才会逐步开放；主修线决定你能拿满全部星币，短期内不建议频繁切换",en:"📌 This becomes your main track; other languages unlock as you progress. Your main track earns full coins — avoid switching frequently."},
  onboard_level:{zh:"你目前的基础",en:"Your current level"},
  lv_zero:{zh:"零基础，从第一行代码开始",en:"Absolute beginner — start from line one"},
  lv_zero_d:{zh:"直接按课程顺序从阶段 1 学起",en:"Follow the curriculum from stage 1"},

@@ -365,8 +365,10 @@ body.sbCollapsed .sb-toggle{display:flex;}
 .locale-btn:hover{border-color:var(--accent);}
 .locale-btn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
 
-.lock-tip{font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;text-align:center;line-height:1.7;}
-.lock-tip span{color:rgba(255,255,255,.7);}
+.lock-tip{font-size:12px;color:var(--sub);margin-top:10px;text-align:center;line-height:1.7;}
+.lock-tip span{color:var(--sub);}
+.header .lock-tip,.lang-switch .lock-tip{color:rgba(255,255,255,.85);}
+.header .lock-tip span,.lang-switch .lock-tip span{color:rgba(255,255,255,.7);}
 </style>
 </head>
 <body data-page-node-id="D6gEWavI8cfEfpzAoXeqDj">
@@ -2074,7 +2076,10 @@ var LANG_BLURB={
   python:(isEn()?"Readable and concise — a great first language":"易读易写，语法最接近自然语言，适合作为第一门语言"),
   c:(isEn()?"Close to the hardware, nothing hidden — best way to understand memory":"贴近硬件、没有隐藏成本，理解内存与计算机原理的最佳入口"),
   cpp:(isEn()?"C's performance plus modern abstractions":"在 C 的性能之上叠加现代抽象，适合追求控制力与性能"),
-  java:(isEn()?"Mature ecosystem, the enterprise and Android workhorse":"工程化程度高、生态成熟，企业级开发与 Android 的主力")
+  java:(isEn()?"Mature ecosystem, the enterprise and Android workhorse":"工程化程度高、生态成熟，企业级开发与 Android 的主力"),
+  js:(isEn()?"The language of the web — runs in browsers and servers":"Web 前端唯一选择，浏览器和 Node.js 后端都能跑"),
+  csharp:(isEn()?"Type-safe and powerful — Unity games and enterprise apps":"类型安全、功能强大，Unity 游戏与企业级开发的主力"),
+  go:(isEn()?"Simple, fast, built for concurrency — Docker and Kubernetes":"简洁高效、原生并发，云原生与微服务时代的新宠")
 };
 function showOnboarding(){
   if(data.onboarded)return false;
