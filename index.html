@@ -4,7 +4,7 @@
 <meta charset="utf-8" data-page-node-id="RmANOEya6sCvawg8M7ooKU">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="uRTOCGmkcByKdXbFnif06o">
 <title>R0：从零开始的编程之路 · R0:hello world</title>
-<meta name="description" content="R0：从零开始的编程之路（R0:hello world）—— 覆盖 Python / C / C++ / Java 四门通用语言的自学课程，每门 10 阶段 40 节课，从第一行代码讲到语言纵深与运行时机制。">
+<meta name="description" content="R0：从零开始的编程之路（R0:hello world）—— 覆盖 Python / C / C++ / Java / JavaScript / C# / Go 七门通用语言的自学课程，从第一行代码讲到语言纵深与运行时机制。">
 <meta name="author" content="bilibili 黄豆666 / huangdouplone">
 <meta name="keywords" content="R0,hello world,从零开始的编程之路,Python,C,C++,Java,编程自学,EDU系列,拾色造梦">
 <style>
@@ -81,10 +81,12 @@ body.sbCollapsed .sidebar{transform:translateX(-100%);}
 .xp-bar{height:7px;background:rgba(255,255,255,.25);border-radius:6px;overflow:hidden;}
 .xp-fill{height:100%;background:#fff;border-radius:6px;transition:width .4s;}
 .theme-btn{width:38px;height:38px;border-radius:11px;border:none;background:rgba(255,255,255,.18);color:#fff;font-size:16px;cursor:pointer;}
-.lang-switch{display:flex;gap:2px;background:rgba(0,0,0,.14);border-radius:12px;padding:4px;flex-wrap:wrap;}
-.lang-pill{appearance:none;border:none;background:transparent;color:#fff;opacity:.82;cursor:pointer;font-size:13px;font-weight:600;padding:7px 12px;border-radius:9px;transition:background .15s,opacity .15s;white-space:nowrap;}
-.lang-pill:hover{opacity:1;}
-.lang-pill.active{background:#fff;color:var(--accent);opacity:1;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+.lang-switch{display:flex;gap:6px;border-radius:12px;padding:4px;flex-wrap:wrap;align-items:center;}
+.lang-pill{appearance:none;border:none;background:rgba(255,255,255,.15);color:#fff;cursor:pointer;font-size:13px;font-weight:600;padding:7px 14px;border-radius:9px;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;}
+.lang-pill:hover{background:rgba(255,255,255,.28);}
+.lang-pill.active{background:#fff;color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.18);}
+.lang-pill.locked{opacity:.5;cursor:not-allowed;}
+.lang-pill.locked:hover{background:rgba(255,255,255,.15);}
 .lang-bar{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap;}
 .lb-hint{font-size:12px;opacity:.9;}
 .mini-prog{display:flex;gap:6px;flex-wrap:wrap;}
@@ -363,7 +365,8 @@ body.sbCollapsed .sb-toggle{display:flex;}
 .locale-btn:hover{border-color:var(--accent);}
 .locale-btn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
 
-.lock-tip{font-size:12px;color:var(--sub);margin-top:10px;text-align:center;line-height:1.6;}
+.lock-tip{font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;text-align:center;line-height:1.7;}
+.lock-tip span{color:rgba(255,255,255,.7);}
 </style>
 </head>
 <body data-page-node-id="D6gEWavI8cfEfpzAoXeqDj">
@@ -388,7 +391,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
       <div data-page-node-id="uKw96rPg1ijXiisMYho9v3">
         <h1 data-i18n="app_title" data-page-node-id="KGBTbqpXr5isFFb50BUlL2">🚀 R0：从零开始的编程之路</h1>
         <div class="app-alt" id="appAlt">R0:hello world</div>
-        <div class="app-tagline" id="appTagline" data-i18n="app_tagline">四门通用语言各 10 阶段 40 节课，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。</div>
+        <div class="app-tagline" id="appTagline" data-i18n="app_tagline">七门通用语言，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。</div>
         <div class="sub" id="learnerLine" data-page-node-id="SrUxhGfZZ3SySjVfbcPd9t"></div>
       </div>
       <div class="right" data-page-node-id="I41BQw9FlfqLqdBgrS7ATq">
@@ -547,6 +550,9 @@ body.sbCollapsed .sb-toggle{display:flex;}
 <script src="lang-data-c.js"></script>
 <script src="lang-data-cpp.js"></script>
 <script src="lang-data-java.js"></script>
+<script src="lang-data-js.js"></script>
+<script src="lang-data-csharp.js?v=2"></script>
+<script src="lang-data-go.js"></script>
 <script src="lang-enhance-python.js"></script>
 <script src="lang-enhance-c.js"></script>
 <script src="lang-enhance-cpp.js"></script>
@@ -570,7 +576,10 @@ const LANGS=[
  {id:"python",dk:"py",  name:"Python",icon:"🐍",c1:"#3776ab",c2:"#ffd43b"},
  {id:"c",     dk:"c",   name:"C",     icon:"🔧",c1:"#5c6bc0",c2:"#283593"},
  {id:"cpp",   dk:"cpp", name:"C++",   icon:"⚙️",c1:"#00599c",c2:"#f34b7d"},
- {id:"java",  dk:"java",name:"Java",  icon:"☕",c1:"#e2553b",c2:"#f0a020"}
+ {id:"java",  dk:"java",name:"Java",  icon:"☕",c1:"#e2553b",c2:"#f0a020"},
+ {id:"js",    dk:"js",  name:"JavaScript",icon:"🟨",c1:"#f7df1e",c2:"#323330"},
+ {id:"csharp",dk:"cs",  name:"C#",    icon:"🎯",c1:"#68217a",c2:"#9b4f96"},
+ {id:"go",    dk:"go",  name:"Go",    icon:"🐹",c1:"#00add8",c2:"#007d9c"}
 ];
 function langMeta(id){return LANGS.filter(function(x){return x.id===id;})[0]||LANGS[0];}
 function langStages(id){var m=langMeta(id);return ((window.LANG_DATA||{})[m.dk]||{stages:[]}).stages;}
@@ -594,7 +603,7 @@ function T(key,vars){
 function stName(s){var m=I18N.stages&&I18N.stages[s.id];return (LOCALE==="en"&&m&&m.n)?m.n:s.name;}
 function stDesc(s){var m=I18N.stages&&I18N.stages[s.id];return (LOCALE==="en"&&m&&m.d)?m.d:s.desc;}
 function lsTitle(l){var m=I18N.lessons&&I18N.lessons[l.id];return (LOCALE==="en"&&m)?m:l.title;}
-var DK2LANG={python:"py",c:"c",cpp:"cpp",java:"java"};
+var DK2LANG={python:"py",c:"c",cpp:"cpp",java:"java",js:"js",csharp:"cs",go:"go"};
 function phName(p){var arr=(I18N.phases_en||{})[DK2LANG[curLang]];if(isEn()&&arr&&arr[p._i]!==undefined)return arr[p._i].n;return p.name;}
 function phDesc(p){var arr=(I18N.phases_en||{})[DK2LANG[curLang]];if(isEn()&&arr&&arr[p._i]!==undefined)return arr[p._i].d;return p.desc;}
 function leContent(id){var e=(I18N.lesson_en||{})[id];return (isEn()&&e)?e:null;}
@@ -635,23 +644,32 @@ function extraOf(id){
 
 /* ---- 跨语言对照 ---- */
 function groupsOfLesson(id){return XLS.filter(function(g){return g.m.some(function(e){return e[1]===id;});});}
-function mainTrack(){return (data&&data.track)||"python";}
+function mainTrack(){
+  // Dynamically find the deepest language (most completed lessons)
+  if(!data) return "python";
+  var best="python", bestN=countDone("python");
+  LANGS.forEach(function(L){
+    var n=countDone(L.id);
+    if(n>bestN||(n===bestN&&L.id<best)){best=L.id;bestN=n;}
+  });
+  return best;
+}
 function countDone(langId){
   var st=langStages(langId),n=0;
   st.forEach(function(s){s.lessons.forEach(function(l){if(data.completed[l.id])n++;});});
   return n;
 }
 function mainDone(){return countDone(mainTrack());}
-var UNLOCK_STEPS=[10,20,30];
+var UNLOCK_STEPS=[10,20,30,40,50,60];
 function unlockNeed(langId){
-  if(!data.track||langId===mainTrack())return 0;
+  if(langId===mainTrack())return 0;
   var others=LANGS.filter(function(l){return l.id!==mainTrack();}).map(function(l){return l.id;});
   var i=others.indexOf(langId);
   if(i<0)return UNLOCK_STEPS[UNLOCK_STEPS.length-1];
   return UNLOCK_STEPS[Math.min(i,UNLOCK_STEPS.length-1)];
 }
 function trackUnlocked(langId){
-  if(!data||!data.track)return true;
+  if(!data)return true;
   if(langId===mainTrack())return true;
   return mainDone()>=unlockNeed(langId);
 }
@@ -805,6 +823,14 @@ function copyText(txt,okMsg){
 }
 function gainXp(n){data.xp=(data.xp||0)+n;}
 function gainCoins(n){data.coins=(data.coins||0)+n;renderCoins();}
+function gainTrackCoins(n){
+  // Only main track (deepest language) gives full coin rewards
+  // Secondary tracks give 30% to encourage specialization
+  var isMain=(curLang===mainTrack());
+  var reward=isMain?n:Math.max(1,Math.floor(n*0.3));
+  gainCoins(reward);
+  return reward;
+}
 function updateStreak(){
   var t=todayStr();
   if(data.lastStudyDate===t)return;
@@ -1022,7 +1048,7 @@ function renderDash(){
   var cards=[
     {n:Math.round(cnt/tot*100)+"%",l:(isEn()?langMeta(curLang).name+" progress":langMeta(curLang).name+" 进度"),c:""},
     {n:cnt+"/"+tot,l:(isEn()?"done in this language":"当前语言已学"),c:"g"},
-    {n:completedTotal(),l:(isEn()?"total across languages":"四语言累计（节）"),c:"p"},
+    {n:completedTotal(),l:(isEn()?"total across languages":"全语言累计（节）"),c:"p"},
     {n:Math.round(totalMin/60*10)/10+"h",l:(isEn()?"total focus":"累计学时"),c:"a"},
     {n:achN+"/"+ACHIEVEMENTS.length,l:(isEn()?"achievements":"成就徽章"),c:""},
     {n:(data.streak||0)+(isEn()?"d":""),l:(isEn()?"current streak":"连续天数"),c:"g"}
@@ -1275,7 +1301,7 @@ function renderReport(){
     (isEn()?"XP today":"今日 XP")+"："+(d.xp||0)+"\n"+
     (isEn()?"Total XP / Coins":"累计 XP / 星币")+"："+(data.xp||0)+" / "+(data.coins||0)+"\n"+
     (isEn()?"Streak":"连续天数")+"："+(data.streak||0)+" "+(isEn()?"days":"天")+"（"+(isEn()?"best ":"最长 ")+(data.longestStreak||0)+"）\n"+
-    (isEn()?"Progress":"进度")+"："+completedCount()+" / "+totalLessons()+"（"+langMeta(curLang).name+"）· "+(isEn()?"all langs ":"四语言累计 ")+completedTotal()+"\n"+
+    (isEn()?"Progress":"进度")+"："+completedCount()+" / "+totalLessons()+"（"+langMeta(curLang).name+"）· "+(isEn()?"all langs ":"全语言累计 ")+completedTotal()+"\n"+
     (isEn()?"Due for review":"待复习")+"："+dueLessons().length+" "+(isEn()?"":"节")+"\n"+
     "────────────────\n💬 "+q;
   $("dailyReport").textContent=txt;
@@ -1411,7 +1437,7 @@ function completeLesson(id){
   updateStreak();recordDaily(10,0);
   var d=data.daily[todayStr()];d.lessons=(d.lessons||0)+1;
   data.flags=data.flags||{};data.flags.lastLesson=id;data.flags.lastStage=f.stage.id;
-  saveData();gainXp(10);gainCoins(6);
+  saveData();gainXp(10);var coinR=gainTrackCoins(6);
   checkPhaseDone(f.stage.id);checkAchievements();renderAll();
   toast((isEn()?"✅ Completed: ":"✅ 完成《")+lsTitle(f.lesson)+(isEn()?"":"》"),"xp");
 }
@@ -1657,7 +1683,7 @@ function finishQuiz(){
   var prev=data.quiz[st.id];
   if(!prev||score>prev.score){
     data.quiz[st.id]={score:score,total:st.qs.length,ts:Date.now()};
-    gainXp(10);gainCoins(15);
+    gainXp(10);gainTrackCoins(15);
   }
   saveData();checkAchievements();renderAll();
   var tip=score===st.qs.length?(isEn()?"Perfect! Solid grasp of this stage 🏆":"满分！这一阶段掌握得很扎实 🏆")
@@ -1694,7 +1720,7 @@ function completeLab(){
   if(!code.trim()){toast(isEn()?"Paste your code first":"先粘贴你的代码再提交","warn");return;}
   data.labs[id]={code:code,out:out,ts:Date.now()};
   updateStreak();recordDaily(s.lab.xp||20,0);
-  saveData();gainXp(s.lab.xp||20);gainCoins(18);
+  saveData();gainXp(s.lab.xp||20);gainTrackCoins(18);
   checkAchievements();renderAll();
   toast("🎉 "+(isEn()?"Lab complete! +":"实战完成！+")+(s.lab.xp||20)+" XP","ach");
   closeModal();
@@ -1746,17 +1772,18 @@ function applyLang(id){
   document.documentElement.style.setProperty("--accent2",m.c2);
   var sw=$("langSwitch");
   if(sw){
-    sw.innerHTML=LANGS.filter(function(L){return L.id===id||trackUnlocked(L.id)||!data.track;}).map(function(L){
-      return '<button class="lang-pill'+(L.id===id?" active":"")+'" data-act="set-lang" data-id="'+L.id+'" title="'+(isEn()?"switch to ":"切换到 ")+L.name+'">'+L.icon+" "+L.name+'</button>';
+    sw.innerHTML=LANGS.map(function(L){
+      var unlocked=trackUnlocked(L.id);
+      var isCur=L.id===id;
+      if(isCur){
+        return '<button class="lang-pill active" data-act="set-lang" data-id="'+L.id+'" title="'+(isEn()?"current":"当前")+'">'+L.icon+" "+L.name+'</button>';
+      }
+      if(unlocked){
+        return '<button class="lang-pill" data-act="set-lang" data-id="'+L.id+'" title="'+(isEn()?"switch to ":"切换到 ")+L.name+'">'+L.icon+" "+L.name+'</button>';
+      }
+      // Locked
+      return '<button class="lang-pill locked" disabled title="🔒 '+(isEn()?"Finish ":"完成 ")+unlockNeed(L.id)+(isEn()?" lessons to unlock":" 节后解锁")+'">'+L.icon+" "+L.name+'</button>';
     }).join("");
-    var locked=LANGS.filter(function(L){return L.id!==id&&data.track&&!trackUnlocked(L.id);});
-    if(locked.length){
-      var tip=document.createElement("div");
-      tip.className="lock-tip";
-      tip.innerHTML="🔒 "+locked.map(function(L){return L.icon+" "+L.name+"（"+escapeHtml(T("track_unlock_at",{n:unlockNeed(L.id)}))+"）";}).join("　")+
-        '<br><span style="opacity:.8">'+escapeHtml(T("track_switch_note"))+'</span>';
-      sw.appendChild(tip);
-    }
   }
 }
 function setLang(id){

@@ -12,8 +12,8 @@ ui:{
  app_title:{zh:"R0：从零开始的编程之路",en:"R0:hello world"},
  app_alt:{zh:"R0:hello world",en:"R0:hello world"},
  app_sub:{zh:"Python · C · C++ · Java 四门通用语言 · 从零到深入",en:"Python · C · C++ · Java — from zero to depth"},
- app_tagline:{zh:"四门通用语言各 10 阶段 40 节课，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",
-              en:"Four general-purpose languages, 10 stages / 40 lessons each — from your very first line of code to runtime mechanics. No career-track adaptation: just follow the course."},
+ app_tagline:{zh:"七门通用语言，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",
+              en:"Seven general-purpose languages — from your very first line of code to runtime mechanics. No career-track adaptation: just follow the course."},
 
  nav_dash:{zh:"今日概览",en:"Today"},
  nav_curriculum:{zh:"学习路线",en:"Curriculum"},
@@ -294,7 +294,7 @@ ui:{
 
  /* ---- 首页标题 ---- */
  app_title:{zh:"🚀 R0：从零开始的编程之路",en:"🚀 R0: A Programming Roadmap from Zero"},
- app_tagline:{zh:"四门通用语言各 10 阶段 40 节课，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",en:"Four general-purpose languages, 10 stages / 40 lessons each — from your very first line of code to runtime mechanics. No career-track adaptation: just follow the course."}
+ app_tagline:{zh:"七门通用语言，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",en:"Seven general-purpose languages — from your very first line of code to runtime mechanics. No career-track adaptation: just follow the course."}
 },
 
 /* ---------------- 阶段目录 ---------------- */

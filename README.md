@@ -198,6 +198,7 @@ This repository — including all curriculum text, UI, and code — was **genera
 | `lang-placement.js` | Placement test bank (176 questions) |
 | `lang-crosslinks.js` | Cross-language concept map (63 groups) |
 | `lang-i18n.js` | Bilingual dictionary (UI + course catalogue) |
+| `lang-i18n-content.js` | English translations of all lesson bodies (`window.I18N.lesson_en`) |
 | `lang-sw.js` | Service Worker for offline caching |
 | `README.md` | This document |
 | `LICENSE.md` | MIT License |
