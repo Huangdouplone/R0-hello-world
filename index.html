@@ -26,6 +26,32 @@ body{background:var(--bg);color:var(--fg);line-height:1.65;padding:18px;padding-
 .sb-toggle{display:none;position:fixed;left:12px;top:12px;z-index:46;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:18px;align-items:center;justify-content:center;cursor:pointer;}
 .sb-overlay{position:fixed;inset:0;background:rgba(10,18,32,.45);z-index:44;opacity:0;visibility:hidden;transition:opacity .2s;}
 .sb-overlay.show{opacity:1;visibility:visible;}
+/* Theme Shop Drawer */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s;}
+.drawer-overlay.open{opacity:1;pointer-events:auto;}
+.theme-drawer{position:fixed;top:0;right:-420px;width:400px;max-width:92vw;height:100vh;background:var(--card);z-index:201;box-shadow:-8px 0 32px rgba(0,0,0,.18);transition:right .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:20px;box-sizing:border-box;}
+.theme-drawer.open{right:0;}
+.td-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+.td-title{font-size:18px;font-weight:700;color:var(--fg);}
+.td-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--sub);padding:4px 8px;border-radius:8px;transition:.15s;}
+.td-close:hover{background:var(--bg2);color:var(--fg);}
+.td-coins{display:flex;align-items:center;gap:8px;background:var(--bg2);padding:8px 14px;border-radius:12px;font-weight:700;color:var(--amber);margin-bottom:16px;font-size:15px;}
+.td-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.td-card{border:2px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s;background:var(--bg);position:relative;}
+.td-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.1);}
+.td-card.active{border-color:var(--accent);background:var(--bg2);}
+.td-preview{width:100%;height:56px;border-radius:10px;margin-bottom:8px;position:relative;overflow:hidden;}
+.td-preview .pv-top{position:absolute;top:0;left:0;right:0;height:16px;}
+.td-preview .pv-body{position:absolute;top:20px;left:8px;right:8px;bottom:8px;border-radius:6px;background:#fff;border:1px solid #e5e7eb;}
+.td-name{font-size:13px;font-weight:700;color:var(--fg);}
+.td-desc{font-size:11px;color:var(--sub);margin-top:2px;}
+.td-badge{position:absolute;top:8px;right:8px;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:700;}
+.td-badge.owned{background:#10b981;color:#fff;}
+.td-badge.locked{background:var(--bg2);color:var(--amber);}
+.td-badge.using{background:var(--accent);color:#fff;}
+.td-price{margin-top:8px;display:inline-block;padding:4px 12px;border-radius:999px;background:var(--amber);color:#fff;font-size:12px;font-weight:700;}
+.coin-chip{cursor:pointer;transition:transform .15s;}
+.coin-chip:hover{transform:scale(1.08);}
 .sb-resizer{position:absolute;right:0;top:0;bottom:0;width:5px;cursor:col-resize;}
 .sb-resizer:hover{background:var(--accent);opacity:.5;}
 .sb-hd{font-size:14px;font-weight:800;margin-bottom:10px;color:var(--accent);display:flex;justify-content:space-between;align-items:center;}
@@ -344,6 +370,16 @@ body.sbCollapsed .sb-toggle{display:flex;}
 <button class="sb-toggle" id="sbToggle" aria-label="打开导航" data-page-node-id="F8llzNhECI8rlUBmHPDAQh">☰</button>
 <aside class="sidebar" id="sidebar" aria-label="导航" data-page-node-id="DYX2PKfn8cd3yiCHQVaqWE"></aside>
 <div class="sb-overlay" id="sbOverlay" data-page-node-id="zssyIxzEkTXFJIn3ce7Ehx"></div>
+<div id="drawerOverlay" class="drawer-overlay" onclick="closeThemeDrawer()"></div>
+<aside id="themeDrawer" class="theme-drawer">
+  <div class="td-header">
+    <div class="td-title">🎨 <span id="tdTitleTxt">Theme Shop</span></div>
+    <button class="td-close" onclick="closeThemeDrawer()">✕</button>
+  </div>
+  <div class="td-coins">🪙 <span id="drawerCoins">0</span></div>
+  <div class="td-grid" id="drawerGrid"></div>
+  <div class="set-hint" id="tdHint" style="margin-top:16px"></div>
+</aside>
 <button class="to-top" id="toTop" aria-label="返回顶部" title="返回顶部" data-page-node-id="sU7ANvRuIxYWr4bCyPVhPN">↑</button>
 
 <div class="container" data-page-node-id="BdOK2daRgKGw1wivwNMr6o">
@@ -357,7 +393,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
       </div>
       <div class="right" data-page-node-id="I41BQw9FlfqLqdBgrS7ATq">
         <div class="streak-chip" id="streakChip" data-page-node-id="5nNHfLTT2gDeh8uCOUU70X">🔥 连续 0 天</div>
-        <div class="coin-chip" id="coinChip" title="星币：学习/复习赚取，可在「设置与数据 → 主页风格商店」解锁主页风格（纯外观）" data-page-node-id="yo67UGXLUKDag0OKlYC3do">🪙 0</div>
+        <div class="coin-chip" id="coinChip" data-act="shop" title="Open theme shop" data-page-node-id="yo67UGXLUKDag0OKlYC3do">🪙 0</div>
         <div class="level-badge" data-page-node-id="aFN1RrUe0BckOY0iK2d3iX"><div class="lv" data-page-node-id="nM5gSaL7SMmzGXhxgFx8TD">等级</div><div class="tt" id="lvTitle" data-page-node-id="LToiZVpldCg1izjFGDdH4e">萌新学徒</div></div>
         <div class="xp-wrap" data-page-node-id="4BGnKXRbdctU5iYc5zEI2I">
           <div class="xp-top" data-page-node-id="5Hdzvte0GhRAiVn2hepKuB"><span id="xpText" data-page-node-id="jr3CWDdAOwpukkXsCPVrL5">0 XP</span><span id="lvText" data-page-node-id="DI58omJw6LtvDqYdgP4Ktw">Lv.1</span></div>
@@ -517,7 +553,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
 <script src="lang-enhance-java.js"></script>
 <script src="lang-placement.js"></script>
 <script src="lang-crosslinks.js"></script>
-<script src="lang-i18n.js"></script>
+<script src="lang-i18n.js?v=22"></script>
 <script src="lang-i18n-content.js"></script>
 <script>
 /* ================================================================
@@ -670,7 +706,12 @@ const STYLES=[
  {id:"neon",nameKey:"skin_neon",cost:60,vars:{"--bg":"#0e1020","--card":"#171a2e","--line":"#2a2f4a","--fg":"#e8ecff","--sub":"#9aa3c7","--accent":"#7c5cff","--amber":"#ffb454","--bg2":"#1d2138","--shadow":"0 6px 20px rgba(0,0,0,.45)","--red":"#ff6b8a"}},
  {id:"sakura",nameKey:"skin_sakura",cost:80,vars:{"--bg":"#fff5f8","--card":"#ffffff","--line":"#ffd9e6","--fg":"#5a2a3a","--sub":"#b07d92","--accent":"#ff7eb3","--amber":"#ffb35c","--bg2":"#ffe9f1","--shadow":"0 6px 18px rgba(255,126,179,.18)","--red":"#ff5c8a"}},
  {id:"paper",nameKey:"skin_paper",cost:100,vars:{"--bg":"#f6f3ec","--card":"#fffdf8","--line":"#e3dccb","--fg":"#2e2a22","--sub":"#8a8170","--accent":"#3a7d6e","--amber":"#c08a2d","--bg2":"#efeadd","--shadow":"0 4px 14px rgba(60,50,30,.12)","--red":"#c0492f"}},
- {id:"cyber",nameKey:"skin_cyber",cost:140,vars:{"--bg":"#06140f","--card":"#0c2018","--line":"#1d3a2c","--fg":"#d8fff0","--sub":"#79b89c","--accent":"#22e0b0","--amber":"#ffd866","--bg2":"#102a20","--shadow":"0 6px 20px rgba(0,0,0,.5)","--red":"#ff7a8a"}}
+ {id:"cyber",nameKey:"skin_cyber",cost:140,vars:{"--bg":"#06140f","--card":"#0c2018","--line":"#1d3a2c","--fg":"#d8fff0","--sub":"#79b89c","--accent":"#22e0b0","--amber":"#ffd866","--bg2":"#102a20","--shadow":"0 6px 20px rgba(0,0,0,.5)","--red":"#ff7a8a"}},
+ {id:"midnight",nameKey:"skin_midnight",cost:120,vars:{"--bg":"#0a0f1e","--card":"#121a2e","--line":"#1e2a45","--fg":"#dce8ff","--sub":"#7a8db5","--accent":"#4a9eff","--amber":"#ffc857","--bg2":"#162038","--shadow":"0 6px 24px rgba(0,0,0,.5)","--red":"#ff5c7a"}},
+ {id:"mono",nameKey:"skin_mono",cost:100,vars:{"--bg":"#fafafa","--card":"#ffffff","--line":"#e0e0e0","--fg":"#1a1a1a","--sub":"#888888","--accent":"#333333","--amber":"#666666","--bg2":"#f0f0f0","--shadow":"0 2px 10px rgba(0,0,0,.08)","--red":"#cc0000"}},
+ {id:"mint",nameKey:"skin_mint",cost:80,vars:{"--bg":"#f0fdf6","--card":"#ffffff","--line":"#c8eed9","--fg":"#1a3a2a","--sub":"#5a8a70","--accent":"#10b981","--amber":"#f59e0b","--bg2":"#e0f9ec","--shadow":"0 6px 18px rgba(16,185,129,.14)","--red":"#ef4444"}},
+ {id:"cafe",nameKey:"skin_cafe",cost:110,vars:{"--bg":"#faf6f0","--card":"#fffdf8","--line":"#e8dcc8","--fg":"#3d2b1f","--sub":"#8a7560","--accent":"#8b5e3c","--amber":"#c8963e","--bg2":"#f0e6d6","--shadow":"0 4px 14px rgba(139,94,60,.12)","--red":"#b84a2a"}},
+ {id:"dusk_dark",nameKey:"skin_dusk_dark",cost:140,vars:{"--bg":"#1a1025","--card":"#251835","--line":"#3d2a52","--fg":"#f0e0ff","--sub":"#9e85b8","--accent":"#c084fc","--amber":"#fb923c","--bg2":"#2d1f40","--shadow":"0 6px 24px rgba(0,0,0,.5)","--red":"#f87171"}}
 ];
 /* 皮肤可覆盖的变量（含 --accent/--accent2：切换主题时统一复位，避免残留） */
 const SKIN_VARS=["--bg","--card","--line","--fg","--sub","--accent","--accent2","--amber","--bg2","--shadow","--red"];
@@ -893,7 +934,48 @@ function buyStyle(id){
   toast(T("shop_unlocked",{name:skinName(s)}),"ach");
 }
 function setStyle(id){
-  data.activeStyle=id;saveData();applyStyle();renderStyleShop();
+  data.activeStyle=id;saveData();applyStyle();renderStyleShop();renderDrawer();
+}
+/* ---- Theme Shop Drawer ---- */
+function openThemeDrawer(){
+  renderDrawer();
+  document.getElementById('themeDrawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+}
+function closeThemeDrawer(){
+  document.getElementById('themeDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+}
+function renderDrawer(){
+  var g=document.getElementById('drawerGrid');if(!g)return;
+  var coins=data.coins||0;
+  document.getElementById('drawerCoins').textContent=coins;
+  document.getElementById('tdTitleTxt').textContent=isEn()?"Theme Shop":"主页风格商店";
+  document.getElementById('tdHint').textContent=isEn()?"Earn 🪙 by learning/reviewing/checking-in/quizzes; coins only unlock themes, never pay-to-win.":"通过学习/复习/打卡/测验赚取 🪙；星币仅用于解锁主题外观，不含任何付费墙。";
+  g.innerHTML=STYLES.map(function(s){
+    var owned=(data.unlockedStyles||[]).indexOf(s.id)>=0;
+    var active=(data.activeStyle||"default")===s.id;
+    var topC=s.vars?(s.vars["--accent"]||"#3b82f6"):(s.c1||"#3b82f6");
+    var bodyC=s.vars?(s.vars["--card"]||"#fff"):"#fff";
+    var badge=active?'<div class="td-badge using">'+(isEn()?"Using":"使用中")+'</div>'
+      :owned?'<div class="td-badge owned">✓ '+(isEn()?"Owned":"已拥有")+'</div>'
+      :'<div class="td-badge locked">🪙 '+s.cost+'</div>';
+    var priceBtn=active?'':(owned?'':('<div class="td-price">🪙 '+s.cost+'</div>'));
+    return '<div class="td-card'+(active?' active':'')+'" onclick="drawerPick(\''+s.id+'\')">'+
+      badge+
+      '<div class="td-preview"><div class="pv-top" style="background:'+topC+'"></div><div class="pv-body"></div></div>'+
+      '<div class="td-name">'+escapeHtml(skinName(s))+'</div>'+
+      priceBtn+'</div>';
+  }).join("");
+}
+function drawerPick(id){
+  var s=STYLES.filter(function(x){return x.id===id;})[0];if(!s)return;
+  var owned=(data.unlockedStyles||[]).indexOf(id)>=0;
+  var active=(data.activeStyle||"default")===id;
+  if(active)return;
+  if(owned){setStyle(id);return;}
+  if((data.coins||0)<s.cost){toast(T("coins_short",{n:s.cost-(data.coins||0)}),"warn");return;}
+  buyStyle(id);
 }
 function applyStyle(){
   var s=STYLES.filter(function(x){return x.id===(data.activeStyle||"default");})[0]||STYLES[0];
@@ -1254,15 +1336,12 @@ function renderAll(){
 
 /* ============ 侧边栏 ============ */
 var SERIES_URL="https://huangdouplone.github.io/R0-hello-agi/";
-var ICON_MAP={dashSec:"📊",timerSec:"⏱️",todaySec:"🎯",phasesSec:"🗺️",stagesSec:"📚",labSec:"💻",
- reviewSec:"🔁",mistakeSec:"📕",heatSec:"🔥",noteSec:"📝",achSec:"🏆",reportSec:"📈",settingSec:"⚙️"};
+var ICON_MAP={dashSec:"📊",todaySec:"🎯",timerSec:"⏱️",phasesSec:"🗺️",stagesSec:"📚",labSec:"💻",
+ reviewSec:"🔁",mistakeSec:"📕",heatSec:"🔥",achSec:"🏆",noteSec:"📝",reportSec:"📈",settingSec:"⚙️"};
 /* 取真实 DOM 顺序（页面里 .section 出现的先后），保证侧栏与正文一一对应 */
 function realSectionOrder(){
-  var out=[];
-  Array.prototype.forEach.call(document.querySelectorAll(".container > .section"),function(sec){
-    if(sec.id)out.push(sec.id);
-  });
-  return out;
+  // Match AGI project sidebar order
+  return ["dashSec","todaySec","timerSec","phasesSec","stagesSec","labSec","reviewSec","mistakeSec","heatSec","achSec","noteSec","reportSec","settingSec"];
 }
 /* 只取 h2 的第一个文本节点，避免把 <span class="tag"> 的文案也拼进来 */
 function sectionLabel(sec){
@@ -1332,7 +1411,7 @@ function completeLesson(id){
   updateStreak();recordDaily(10,0);
   var d=data.daily[todayStr()];d.lessons=(d.lessons||0)+1;
   data.flags=data.flags||{};data.flags.lastLesson=id;data.flags.lastStage=f.stage.id;
-  saveData();gainXp(10);gainCoins(5);
+  saveData();gainXp(10);gainCoins(6);
   checkPhaseDone(f.stage.id);checkAchievements();renderAll();
   toast((isEn()?"✅ Completed: ":"✅ 完成《")+lsTitle(f.lesson)+(isEn()?"":"》"),"xp");
 }
@@ -1346,7 +1425,7 @@ function checkIn(){
   if(data.lastCheckinDate===t){toast(isEn()?"Already checked in today":"今天已经打过卡啦");return;}
   data.lastCheckinDate=t;updateStreak();
   var bonus=(data.streak>=3)?10:5;
-  recordDaily(bonus,0);saveData();gainXp(bonus);gainCoins(3);
+  recordDaily(bonus,0);saveData();gainXp(bonus);gainCoins(4);
   renderAll();toast((isEn()?"🎯 Checked in! ":"🎯 打卡成功！连续 ")+(data.streak||0)+(isEn()?" day streak":" 天"),"ach");
 }
 function reviewDue(id){
@@ -1363,7 +1442,7 @@ function doReview(id){
   updateStreak();recordDaily(3,0);
   var d=data.daily[todayStr()];d.reviews=(d.reviews||0)+1;
   data.reviewCount=(data.reviewCount||0)+1;
-  saveData();gainXp(3);gainCoins(2);
+  saveData();gainXp(3);gainCoins(3);
   checkAchievements();renderAll();
   toast(isEn()?"🔁 Reviewed, memory +1":"🔁 复习完成，记忆 +1","xp");
 }
@@ -1578,7 +1657,7 @@ function finishQuiz(){
   var prev=data.quiz[st.id];
   if(!prev||score>prev.score){
     data.quiz[st.id]={score:score,total:st.qs.length,ts:Date.now()};
-    gainXp(10);gainCoins(10);
+    gainXp(10);gainCoins(15);
   }
   saveData();checkAchievements();renderAll();
   var tip=score===st.qs.length?(isEn()?"Perfect! Solid grasp of this stage 🏆":"满分！这一阶段掌握得很扎实 🏆")
@@ -1615,7 +1694,7 @@ function completeLab(){
   if(!code.trim()){toast(isEn()?"Paste your code first":"先粘贴你的代码再提交","warn");return;}
   data.labs[id]={code:code,out:out,ts:Date.now()};
   updateStreak();recordDaily(s.lab.xp||20,0);
-  saveData();gainXp(s.lab.xp||20);gainCoins(12);
+  saveData();gainXp(s.lab.xp||20);gainCoins(18);
   checkAchievements();renderAll();
   toast("🎉 "+(isEn()?"Lab complete! +":"实战完成！+")+(s.lab.xp||20)+" XP","ach");
   closeModal();
@@ -2234,6 +2313,7 @@ document.addEventListener("click",function(e){
       break;}
     case "buy-style":buyStyle(id);break;
     case "use-style":setStyle(id);break;
+    case "shop":openThemeDrawer();break;
     case "notify":{
       if(!("Notification"in window))break;
       Notification.requestPermission().then(function(p){
