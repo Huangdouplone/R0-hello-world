@@ -10,7 +10,7 @@ window.I18N = {
 /* ---------------- 界面框架 ---------------- */
 ui:{
  app_title:{zh:"R0：从零开始的编程之路",en:"R0:hello world"},
- app_alt:{zh:"R0:hello world",en:"R0：从零开始的编程之路"},
+ app_alt:{zh:"R0:hello world",en:"R0:hello world"},
  app_sub:{zh:"Python · C · C++ · Java 四门通用语言 · 从零到深入",en:"Python · C · C++ · Java — from zero to depth"},
  app_tagline:{zh:"四门通用语言各 10 阶段 40 节课，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",
               en:"Four general-purpose languages, 10 stages / 40 lessons each — from your very first line of code to runtime mechanics. No career-track adaptation: just follow the course."},
@@ -200,7 +200,96 @@ ui:{
 
  copyright:{zh:"版权",en:"Copyright"},
  lang_zh:{zh:"中文",en:"Chinese"},
- lang_en:{zh:"英文",en:"English"}
+ lang_en:{zh:"英文",en:"English"},
+
+ /* 界面层收尾补充 */
+ doc_title:{zh:"R0：从零开始的编程之路 · R0:hello world",en:"R0:hello world · R0：从零开始的编程之路"},
+ aria_open_nav:{zh:"打开导航",en:"Open navigation"},
+ aria_nav:{zh:"导航",en:"Navigation"},
+ to_top:{zh:"返回顶部",en:"Back to top"},
+ coin_tip:{zh:"星币：学习/复习赚取，可在「设置与数据 → 主页风格商店」解锁主页风格（纯外观）",en:"Coins: earned by learning & reviewing; spend them in Settings → Theme Shop to unlock homepage themes (cosmetic only)"},
+ theme_tip:{zh:"当前：{cur}，点击切换",en:"Now: {cur} · click to switch"},
+ theme_auto:{zh:"跟随系统",en:"System"},
+ theme_dark:{zh:"深色",en:"Dark"},
+ theme_light:{zh:"浅色",en:"Light"},
+ lang_switch_aria:{zh:"语言切换",en:"Course language switch"},
+ search_notes_ph:{zh:"搜索笔记内容或 #标签…",en:"Search notes or #tags…"},
+ name_ph:{zh:"例如：小明",en:"e.g. Xiaoming"},
+ tag_lab:{zh:"每阶段一道",en:"one per stage"},
+ tag_review:{zh:"间隔重复",en:"spaced repetition"},
+ tag_mistake:{zh:"从错误里长记性",en:"learn from your mistakes"},
+ tag_heat:{zh:"近 18 周",en:"last 18 weeks"},
+ tag_notes:{zh:"支持 #标签",en:"#tags supported"},
+ heat_less:{zh:"少",en:"Less"},
+ heat_more:{zh:"多",en:"More"},
+ btn_awesome:{zh:"太棒了，继续！",en:"Awesome, keep going!"},
+ coins_short:{zh:"星币不足，还差 {n} 🪙",en:"Not enough coins — {n} 🪙 short"},
+ import_bad:{zh:"文件格式错误",en:"Invalid file format"},
+ ai_prompt_title:{zh:"🤖 AI 批改提示词",en:"🤖 AI Grading Prompt"},
+ default_name:{zh:"学习者",en:"Learner"},
+
+ /* ---- 计时器 ---- */
+ timer_start:{zh:"开始",en:"Start"},
+ timer_pause:{zh:"暂停",en:"Pause"},
+ timer_resume:{zh:"继续",en:"Resume"},
+ timer_stop:{zh:"结束并记录",en:"Stop & Log"},
+ timer_tip_init:{zh:"点「开始」计时，专注学完一节后点「结束并记录」，时长会累计进今日学时。",en:"Press Start, study a lesson, then press Stop & Log — time counts toward today's study hours."},
+ timer_tip_running:{zh:"专注中……离开页面也会继续计时，记得回来点「结束并记录」。",en:"Focusing… the timer keeps running if you leave. Remember to come back and stop."},
+ timer_tip_paused:{zh:"已暂停，点「继续」接着计时。",en:"Paused. Resume when ready."},
+ timer_tip_logged:{zh:"已记录 {n} 分钟专注时长，累计 {t} 分钟。",en:"Logged {n} min, total {t} min."},
+ timer_tip_short:{zh:"本次时长不足 1 分钟，未记录。",en:"Less than a minute — not logged."},
+ timer_logged_toast:{zh:"专注 {n} 分钟已记录",en:"Focus {n} min logged"},
+
+ /* ---- 等级徽章 ---- */
+ level_label:{zh:"等级",en:"Level"},
+
+ /* ---- 报告区按钮 ---- */
+ btn_copy_report:{zh:"复制今日报告",en:"Copy Today's Report"},
+ btn_refresh_report:{zh:"刷新",en:"Refresh"},
+ btn_week_report:{zh:"本周报告",en:"This Week"},
+ btn_month_report:{zh:"本月报告",en:"This Month"},
+ btn_copy_period:{zh:"复制周期报告",en:"Copy Period Report"},
+ btn_dl_period:{zh:"下载 .md",en:"Download .md"},
+
+ /* ---- 错题本 ---- */
+ btn_clear_mistakes:{zh:"清空错题本",en:"Clear Mistake Book"},
+
+ /* ---- 设置区提示 ---- */
+ hint_name:{zh:"会出现在打卡和日报里",en:"Shown in check-in and daily reports"},
+ hint_goal:{zh:"建议 1~3 节，贵在坚持",en:"1–3 lessons is ideal; consistency beats cramming"},
+ hint_remind:{zh:"到点未打卡时页面会高亮提醒",en:"Page highlights when it's time to check in"},
+ hint_cap:{zh:"认知科学建议每天新学不超过 3~5 节，避免贪多嚼不烂",en:"Cognitive science suggests 3–5 new lessons a day max"},
+ hint_lock:{zh:"待复习超过此数时，当天锁定新学、只能复习",en:"When reviews exceed this, new lessons are locked"},
+ btn_notify:{zh:"🔔 开启桌面通知",en:"🔔 Enable Desktop Notifications"},
+ notify_off:{zh:"未开启（页面保持打开时，到点也会弹窗提醒）",en:"Off (the page will still remind you if left open)"},
+ notify_on:{zh:"已开启通知",en:"Notifications on"},
+ notify_on_stat:{zh:"到点会弹出桌面通知",en:"Desktop notifications will pop up on time"},
+ notify_unsupported:{zh:"当前浏览器不支持桌面通知",en:"Your browser doesn't support notifications"},
+
+ /* ---- 风格商店 ---- */
+ shop_desc:{zh:"学习/复习/打卡/测评均赚取 🪙 星币；星币仅用于解锁主页配色风格，绝不 pay-to-win 跳过学习。",en:"Earn 🪙 coins by learning, reviewing, checking in and quizzes; coins only unlock cosmetic themes — never pay-to-win."},
+
+ /* ---- 数据按钮 ---- */
+ btn_export:{zh:"导出备份",en:"Export Backup"},
+ btn_import:{zh:"导入恢复",en:"Import Restore"},
+ btn_reset:{zh:"清空重置",en:"Reset All Data"},
+
+ /* ---- 备份提醒 ---- */
+ backup_hint:{zh:"💾 你已有学习记录但超过 14 天没导出备份了，建议点上方「导出备份」保存一份，防止浏览器清理缓存丢失进度。",en:"💾 You have study records but haven't exported a backup in 14+ days. Export one now to avoid losing progress to cache cleanup."},
+
+ /* ---- 版权 ---- */
+ copyright_line:{zh:"bilibili 黄豆666 / huangdouplone · (c) 2026 · 学习用途免费，转载请注明出处",en:"bilibili Huangdou666 / huangdouplone · (c) 2026 · Free for learning, attribution required"},
+
+ /* ---- 主题按钮 ---- */
+ theme_title:{zh:"切换浅色 / 深色 / 跟随系统",en:"Toggle light / dark / system"},
+
+ /* ---- 篇章通关 ---- */
+ phase_done_toast:{zh:" 通关！",en:" complete!"},
+ phase_done_body:{zh:"你学完了这一篇章，+50 XP / +30 🪙",en:"You finished this part. +50 XP / +30 coins"},
+
+ /* ---- 首页标题 ---- */
+ app_title:{zh:"🚀 R0：从零开始的编程之路",en:"🚀 R0: A Programming Roadmap from Zero"},
+ app_tagline:{zh:"四门通用语言各 10 阶段 40 节课，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",en:"Four general-purpose languages, 10 stages / 40 lessons each — from your very first line of code to runtime mechanics. No career-track adaptation: just follow the course."}
 },
 
 /* ---------------- 阶段目录 ---------------- */
@@ -415,5 +504,87 @@ lessons:{
 "java-10-2":"The Stream API",
 "java-10-3":"Date/Time, Annotations & Reflection",
 "java-10-4":"JVM Memory, GC & Class Loading"
-}
+},
+
+/* ---------------- 篇章（按语言代码） ---------------- */
+phases_en:{
+ py:[
+  {n:"Part 1 · Foundations",d:"Environment, types & operators, control flow — get the language running"},
+  {n:"Part 2 · Core Data Structures",d:"Five essentials, functions & scope — write real scripts"},
+  {n:"Part 3 · Engineering",d:"Modules & packages, file I/O & exceptions — deliver small tools"},
+  {n:"Part 4 · Depth & Practice",d:"OOP, iterators & concurrency, testing & runtime mechanics"}
+ ],
+ c:[
+  {n:"Part 1 · Foundations",d:"Environment, types & operators, I/O, control flow"},
+  {n:"Part 2 · Functions & Arrays",d:"Functions & scope, arrays & strings, pointers"},
+  {n:"Part 3 · Memory & Structures",d:"Heap management, structs, unions & preprocessor"},
+  {n:"Part 4 · Systems Depth",d:"File I/O, stdlib, function pointers & undefined behavior"}
+ ],
+ cpp:[
+  {n:"Part 1 · Modern Syntax",d:"Environment, type system, control flow, functions & lambdas"},
+  {n:"Part 2 · Object-Oriented",d:"Classes, inheritance & polymorphism, templates & generics"},
+  {n:"Part 3 · Stdlib & Memory",d:"STL containers & algorithms, RAII & smart pointers, move semantics"},
+  {n:"Part 4 · Modern Features & Depth",d:"Exceptions, filesystem, concurrency & the object model"}
+ ],
+ java:[
+  {n:"Part 1 · Foundations",d:"Environment, types & operators, control flow, arrays & strings"},
+  {n:"Part 2 · Object-Oriented",d:"Classes & encapsulation, inheritance, interfaces, exceptions & generics"},
+  {n:"Part 3 · Systems & Concurrency",d:"IO/NIO, serialization, threads & concurrency utilities"},
+  {n:"Part 4 · Modern Features & JVM",d:"Lambda/Stream, date & reflection, JVM memory & GC"}
+ ]
+},
+
+/* ---------------- 称号（15 级，按 TITLES 索引） ---------------- */
+titles_en:[
+"Novice Apprentice","Code Rookie","Syntax Walker","Function Traveler","Polyglot",
+"OOP Apprentice","Algorithm Rising Star","Data Craftsman","Modern Walker","Project Craftsman",
+"Advanced Engineer","Systems Adept","Language Polyglot","Engineering Craftsman","Full-Stack Walker"
+],
+
+/* ---------------- 成就（29 枚，按 ACHIEVEMENTS id） ---------------- */
+ach_en:{
+ first:{t:"First Step",d:"Complete lesson 1"},
+ l10:{t:"Ten In",d:"Complete 10 lessons in total"},
+ l50:{t:"Halfway Hundred",d:"Complete 50 lessons in total"},
+ l100:{t:"Century Foundation",d:"Complete 100 lessons in total"},
+ stage1:{t:"First Stage Cleared",d:"Clear any one stage"},
+ stage5:{t:"Five Stages Cleared",d:"Clear 5 stages"},
+ poly2:{t:"Bilingual Scholar",d:"Complete 10 lessons in each of two languages"},
+ poly3:{t:"Trilingual Scholar",d:"Complete 10 lessons in each of three languages"},
+ poly4:{t:"Language Polyglot",d:"Complete 10 lessons in all four languages"},
+ langdone:{t:"Single-Language Grad",d:"Finish all lessons of any one language"},
+ week:{t:"One-Week Streak",d:"Study 7 days in a row"},
+ month:{t:"Monthly Streak",d:"Study 30 days in a row"},
+ hundred:{t:"Hundred-Day Streak",d:"Study 100 days in a row"},
+ review:{t:"Review & Renew",d:"Finish your first review"},
+ review20:{t:"Memory Master",d:"Complete 20 reviews in total"},
+ night:{t:"Night Scholar",d:"Study between 0:00–5:00"},
+ early:{t:"Early Bird",d:"Study between 5:00–8:00"},
+ xp1000:{t:"Well-Tempered",d:"Reach 1000 XP in total"},
+ xp5000:{t:"Well-Educated",d:"Reach 5000 XP in total"},
+ scribe:{t:"Diligent Notetaker",d:"Write your first note"},
+ notes10:{t:"Note Buff",d:"Write 10 notes in total"},
+ quizFirst:{t:"First Victory",d:"Pass your first stage quiz"},
+ quizPerfect:{t:"Perfect Scorer",d:"Get a full score on any quiz"},
+ quiz5:{t:"Stage Scholar",d:"Pass 5 stage quizzes"},
+ labFirst:{t:"First Strike",d:"Finish your first coding lab"},
+ lab5:{t:"Well-Forged",d:"Finish 5 coding labs"},
+ aiFirst:{t:"AI Companion",d:"Generate an AI grading prompt for the first time"},
+ mistake1:{t:"Mistake Collector",d:"First wrong answer saved to the mistake book"},
+ focus:{t:"Focus Master",d:"Accumulate 600 minutes of focused study"}
+},
+
+/* ---------------- 每日语录（按 QUOTES 索引） ---------------- */
+quotes_en:[
+"The best time to plant a tree was ten years ago; the second-best time is now.",
+"Improve 1% a day and you'll be 37x stronger in a year.",
+"Code is written for people to read — it just happens to run on machines.",
+"Slow is smooth, smooth is fast: solid basics beat rushed progress.",
+"You don't lack talent — you just haven't learned it yet.",
+"An error is not failure; it's the compiler teaching you.",
+"First make it work, then make it elegant.",
+"Done is better than perfect.",
+"Pointers aren't scary — what's scary is never truly understanding them.",
+"A hundred-day foundation begins with today's lesson."
+]
 };
