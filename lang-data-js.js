@@ -1,6 +1,11 @@
 /* JavaScript curriculum for R0:hello world */
 window.LANG_DATA = window.LANG_DATA || {};
 window.LANG_DATA.js = {
+phases:[
+  {icon:"🌱",name:"第一篇 · 入门基础",range:[0,1],desc:"环境、变量、控制流与函数——跑通 JS 语法",wk:3},
+  {icon:"🧱",name:"第二篇 · 核心数据结构",range:[2,3],desc:"数组对象、DOM 与事件——写出交互式页面",wk:4},
+  {icon:"⚡",name:"第三篇 · 异步与工程",range:[4,7],desc:"Promise、OOP、Web API、现代工程化",wk:5}
+],
 stages:[
 {id:"js-s1",icon:"🚀",name:"启航与环境",desc:"认识 JavaScript、浏览器与 Node.js",lv:"basic",
 goal:"跑通第一行 JS，理解浏览器控制台与 Node.js 两种运行环境。",

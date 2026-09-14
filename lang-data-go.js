@@ -1,6 +1,11 @@
 /* Go curriculum for R0:hello world */
 window.LANG_DATA = window.LANG_DATA || {};
 window.LANG_DATA.go = {
+phases:[
+  {icon:"🌱",name:"第一篇 · 入门基础",range:[0,1],desc:"Go 环境、变量、控制流与函数——跑通 Go",wk:3},
+  {icon:"🧱",name:"第二篇 · 类型系统",range:[2,3],desc:"slice/map、struct、接口与错误处理",wk:4},
+  {icon:"⚡",name:"第三篇 · 并发与工程",range:[4,6],desc:"goroutine/channel、Web、测试与工程化",wk:5}
+],
 stages:[
 {id:"go-s1",icon:"🚀",name:"启航与环境",desc:"认识 Go、安装、第一个程序",lv:"basic",
 goal:"装好 Go，跑通 Hello World，理解 go run/build。",

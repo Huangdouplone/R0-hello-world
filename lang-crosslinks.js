@@ -383,5 +383,40 @@ window.CROSSLINKS = [
 {id:"x73",n:"对象与类",t:"三种 OOP 模型。",w:"JS 原型链 + class 语法糖；C# 完整的类型安全 OOP；Go 没有类，用 struct + 接口。",m:[
  ["js","js-6-1","class 是原型链的语法糖，this 有坑。"],
  ["cs","cs-4-1","完整 OOP：类、继承、接口、多态。"],
- ["go","go-3-3","没有类和继承，struct + 方法 + 隐式接口。"]]}
+ ["go","go-3-3","没有类和继承，struct + 方法 + 隐式接口。"]]},
+
+{id:"x74",n:"字符串与文本处理",t:"三种语言的字符串模型。",w:"JS 字符串不可变，模板字符串内插；C# 字符串不可变但有 StringBuilder；Go string 是只读字节切片。",m:[
+ ["js","js-1-4","模板字符串反引号 + ${}；模板字面量可多行。"],
+ ["cs","cs-1-4","$\"\" 内插；StringBuilder 拼接大量字符串。"],
+ ["go","go-1-4","双引号字符串；fmt.Sprintf 格式化；string 底层是 byte 切片。"]]},
+
+{id:"x75",n:"集合与数据结构",t:"动态数组、键值对、去重。",w:"JS 用 Array/Map/Set；C# 用 List<T>/Dictionary<K,V>/HashSet<T>；Go 用 slice/map，没有 Set 用 map[K]struct{}。",m:[
+ ["js","js-3-1","Array.map/filter/reduce；Map 键可以是任意类型。"],
+ ["cs","cs-3-1","List<T> 泛型集合；Dictionary 哈希表查找 O(1)。"],
+ ["go","go-3-1","slice 是动态数组；map 必须 make；没有 Set。"]]},
+
+{id:"x76",n:"错误处理",t:"三种错误哲学。",w:"JS 用 throw/catch；C# 用异常类层次；Go 显式返回 error 值，不抛异常。",m:[
+ ["js","js-5-4","throw 任意值；try/catch/finally；Promise catch。"],
+ ["cs","cs-5-1","异常是类：Exception 层级；catch 按类型。"],
+ ["go","go-4-2","error 接口，nil 表示成功；if err != nil 是惯例。"]]},
+
+{id:"x77",n:"异步与并发",t:"从回调到 goroutine。",w:"JS 单线程事件循环，异步靠回调/Promise；C# async/await + 线程池；Go goroutine + channel。",m:[
+ ["js","js-5-1","单线程 + 事件循环；Promise 链式调用；async/await。"],
+ ["cs","cs-5-2","async/await 非阻塞；Task 表示异步操作。"],
+ ["go","go-5-1","goroutine 初始 2KB 栈；channel 通信；select 多路复用。"]]},
+
+{id:"x78",n:"模块与包管理",t:"代码怎么组织、依赖怎么装。",w:"JS npm + ESM import/export；C# NuGet + using；Go go mod + import。",m:[
+ ["js","js-6-3","ES Module 静态 import/export；npm 管理依赖。"],
+ ["cs","cs-3-3","using 导入命名空间；NuGet 装包；.csproj 管理。"],
+ ["go","go-7-1","go mod init；import 路径即包路径；go mod tidy。"]]},
+
+{id:"x79",n:"接口与抽象",t:"接口定义契约。",w:"JS 没有正式接口（鸭子类型）；C# 显式 implements；Go 隐式实现——不需要关键字。",m:[
+ ["js","js-6-1","鸭子类型：只要有对应方法就算实现。"],
+ ["cs","cs-4-4","interface 显式声明；一个类可实现多接口。"],
+ ["go","go-4-1","隐式实现：方法集匹配即实现接口。"]]},
+
+{id:"x80",n:"测试与工程实践",t:"怎么保证代码正确。",w:"JS 用 Jest/Mocha；C# 用 xUnit/NUnit；Go 原生 testing 包，表驱动测试。",m:[
+ ["js","js-8-3","console.table 调试；Jest 写测试；npm test 运行。"],
+ ["cs","cs-7-1","xUnit [Fact]/[Theory]；AAA 模式；DI 便于测试。"],
+ ["go","go-7-2","_test.go 文件；go test；表驱动测试是惯例。"]]}
 ];

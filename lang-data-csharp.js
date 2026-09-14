@@ -1,6 +1,11 @@
 /* C# curriculum for R0:hello world */
 window.LANG_DATA = window.LANG_DATA || {};
 window.LANG_DATA.cs = {
+phases:[
+  {icon:"🌱",name:"第一篇 · 入门基础",range:[0,1],desc:".NET 环境、变量、控制流与方法——跑通 C#",wk:3},
+  {icon:"🧱",name:"第二篇 · 集合与 OOP",range:[2,4],desc:"泛型集合、面向对象、异步编程",wk:4},
+  {icon:"⚡",name:"第三篇 · 数据与高级",range:[5,6],desc:"文件 JSON、record、模式匹配、DI",wk:4}
+],
 stages:[
 {id:"cs-s1",icon:"🚀",name:"启航与环境",desc:"认识 C# 与 .NET、装好 IDE",lv:"basic",
 goal:"装好 .NET SDK，跑通第一个 C# 控制台程序。",

@@ -1,10 +1,15 @@
 /* ============================================================
  * lang-placement.js —— 分班（摸底）测试题库
- * 每门语言 44 题，按 10 个阶段分布，用于：
+ * 每门语言一套独立题库（≥40 题），用于：
  *   1) 评估使用者当前水平
- *   2) 定位薄弱阶段（st 字段标记该题所属阶段 1..10）
- *   3) 据此推荐起始阶段与免修范围
- * 字段：q 题干 / o 四个选项 / a 正确下标 / why 解析 / st 关联阶段
+ *   2) 定位薄弱阶段（st 字段标记该题所属阶段）
+ *   3) 据此推荐起始阶段与免修范围（unlock / start point）
+ * 字段：
+ *   q   题干 / o 四个选项 / a 正确下标 / why 解析
+ *   st  关联阶段序号（用于薄弱阶段分析）
+ *   d   难度档位 1..5（运行时按 d 升序出题，保证「难度逐渐加深」）
+ * 内部量化指标（对用户隐藏）：难度加权正确率 weighted，
+ * 由它 + 最薄弱阶段共同决定起始阶段；原始分不展示给用户。
  * 版权：bilibili 黄豆666 / huangdouplone
  * ============================================================ */
 window.PLACEMENT = window.PLACEMENT || {};
@@ -194,5 +199,161 @@ window.PLACEMENT.java = { name: "Java", icon: "☕", qs: [
 {q:"JVM 内存中存放对象实例的是？",o:["堆（Heap）"," 虚拟机栈"," 方法区"," 程序计数器"],a:0,why:"栈存局部变量与栈帧；方法区/元空间存类元数据。",st:10},
 {q:"GC 判断对象可回收的常用算法是？",o:["可达性分析（GC Roots）"," 引用计数"," 随机回收"," 时间戳"],a:0,why:"引用计数难处理循环引用，Java 主用可达性分析。",st:10},
 {q:"== 与 equals 的默认关系是？",o:["Object.equals 默认等价于 ==，需重写才能比较内容"," equals 永远比地址"," == 比内容"," 二者都是内容比较"],a:0,why:"重写 equals 必须同时重写 hashCode。",st:6}
+]};
+
+/* ---------------- JavaScript ---------------- */
+window.PLACEMENT.js = { name: "JavaScript", icon: "🟨", qs: [
+/* 阶段1 入门基础（d1） */
+{q:"console.log(\"hi\") 的内容会出现在哪里？",o:["浏览器控制台或 Node.js 终端"," 只会变成浏览器弹窗"," 自动写入文件"," 存入数据库"],a:0,why:"JS 的打印输出到运行环境的控制台；浏览器按 F12 打开，Node 在终端显示。",st:1,d:1},
+{q:"用 Node.js 运行一个名为 app.js 的文件，正确命令是？",o:["node app.js"," node run app.js"," js app.js"," run app.js"],a:0,why:"node 后接文件路径即可执行脚本。",st:1,d:1},
+{q:"JavaScript 最早被设计运行在哪种环境？",o:["浏览器"," 操作系统内核"," 数据库引擎"," 显卡驱动"],a:0,why:"JS 为网页交互而生，后来 Node.js 才让它跑在服务器端。",st:1,d:1},
+{q:"浏览器里按 F12 打开的「开发者工具」包含？",o:["控制台、元素审查、网络等面板"," 仅下载管理器"," 仅浏览历史"," 仅系统设置"],a:0,why:"DevTools 是调试 JS 的核心工具。",st:1,d:1},
+{q:"alert(\"hi\") 会做什么？",o:["弹出一个浏览器对话框"," 在控制台打印"," 抛出一个异常"," 跳转到新页面"],a:0,why:"alert 是阻塞式的原生对话框，调试时可临时用，正式代码少用。",st:1,d:1},
+/* 阶段2 控制流与函数（d1-d2） */
+{q:"声明一个不应再重新赋值的变量，应该用？",o:["var"," let"," const"," function"],a:2,why:"const 绑定不可重赋值，默认优先用 const。",st:2,d:1},
+{q:"严格相等（值和类型都比较）的运算符是？",o:["="," =="," ==="," !==="],a:2,why:"=== 同时比较值与类型，避免隐式转换陷阱；!= 用 !==。",st:2,d:1},
+{q:"模板字符串用哪种符号包裹？",o:["单引号 '"," 双引号 \""," 反引号 `"," 圆括号 ()"],a:2,why:"反引号支持 ${} 插值和多行字符串。",st:2,d:1},
+{q:"「2~3 个区间判断」与「固定值的多分支」分别适合？",o:["都用 if"," 都用 switch"," 区间用 if，固定多值用 switch"," 随便选"],a:2,why:"switch 适合离散值匹配（记得 break），区间判断用 if 更自然。",st:2,d:2},
+{q:"for...of 遍历数组时拿到的是？",o:["字符串索引 \"0\""," 元素的值"," 对象的键"," 数组长度"],a:1,why:"for...of 直接取元素；for...in 取到的才是字符串索引，且会遍历原型链。",st:2,d:2},
+/* 阶段3 数组与对象（d2-d3） */
+{q:"数组的 map(fn) 会？",o:["原地修改原数组"," 返回一个由 fn 映射出的新数组"," 返回 undefined"," 返回原数组引用"],a:1,why:"map 是纯函数式转换，不改动原数组。",st:3,d:2},
+{q:"const [a,b]=arr 这种写法称为？",o:["展开"," 解构赋值，取出前两个元素"," 深拷贝"," 闭包"],a:1,why:"解构可按位置/键名提取，常配合剩余运算符 ...rest。",st:3,d:2},
+{q:"JSON.stringify(obj) 的作用是？",o:["把对象转成 JSON 字符串"," 把字符串解析成对象"," 克隆对象"," 压缩对象"],a:0,why:"与 JSON.parse 互逆，用于本地存储与网络传输。",st:3,d:2},
+{q:"给对象新增一个属性 obj.x=1，结果是？",o:["语法错误"," 直接为对象添加该属性"," 必须用 Object.add"," 需先冻结对象"],a:1,why:"JS 普通对象可动态增删属性；用 Object.freeze 才能禁止。",st:3,d:3},
+{q:"arr.filter(x=>x>0) 返回？",o:["原数组中大于 0 的元素个数"," 由满足条件的元素组成的新数组"," 布尔值"," 修改原数组"],a:1,why:"filter 返回新数组，不改变原数组。",st:3,d:3},
+/* 阶段4 DOM 与事件（d3） */
+{q:"document.getElementById(\"box\") 返回？",o:["id 为 box 的那个元素"," 所有元素组成的数组"," 第一个 div"," null 永远"],a:0,why:"按 id 精确定位唯一元素；找不到时返回 null。",st:4,d:3},
+{q:"给按钮绑定点击事件，推荐写法是？",o:["btn.onclick=fn（只能绑一个）"," btn.addEventListener('click', fn)"," btn.click=fn"," btn.bind('click', fn)"],a:1,why:"addEventListener 可绑多个监听且更易解绑。",st:4,d:3},
+{q:"要修改元素的可见文本，应使用？",o:["el.text"," el.textContent 或 el.innerHTML"," el.value"," el.innerText 只读"],a:1,why:"textContent 设纯文本（不被解析为 HTML），innerHTML 会解析标签。",st:4,d:3},
+{q:"document.querySelector('.cls') 选中？",o:["所有 .cls 元素"," 第一个匹配 .cls 的元素"," 最后一个匹配元素"," 父元素"],a:1,why:"querySelector 返回首个；querySelectorAll 返回全部（NodeList）。",st:4,d:3},
+{q:"在事件处理里想阻止链接跳转等默认行为，应调用？",o:["e.stop()"," e.preventDefault()"," e.block()"," return false 必须"],a:1,why:"preventDefault 取消浏览器默认动作；stopPropagation 才是阻止冒泡。",st:4,d:3},
+/* 阶段5 异步编程（d3-d4） */
+{q:"「回调层层嵌套」的痛点通常用什么解决？",o:["更多回调"," Promise / async-await"," goto"," 全局变量"],a:1,why:"Promise 与 async/await 把异步流程写成近似同步的形态。",st:5,d:3},
+{q:"Promise 的三种状态不包括？",o:["pending（进行中）"," fulfilled（已成功）"," rejected（已失败）"," running（运行中）"],a:3,why:"Promise 只有 pending/fulfilled/rejected；resolved 是统称。",st:5,d:4},
+{q:"async function foo() 调用后返回？",o:["函数的直接返回值"," 一个 Promise 对象"," 一个线程"," undefined"],a:1,why:"async 函数体返回值会被包进 Promise 自动 resolve。",st:5,d:4},
+{q:"await 表达式只能写在？",o:["任意普通函数"," async 函数内部"," 全局作用域"," 构造函数里"],a:1,why:"await 必须处于 async 函数中，否则语法报错。",st:5,d:4},
+{q:"fetch('/api') 返回的是？",o:["响应体字符串"," 一个 Promise<Response>"," 一个对象（已解析）"," 状态码数字"],a:1,why:"fetch 返回 Promise，需 await 后再 .json()/text() 解析。",st:5,d:4},
+/* 阶段6 面向对象与模块（d4） */
+{q:"ES6 中定义类用？",o:["function C(){} 是唯一方式"," class C {}"," struct C {}"," def C"],a:1,why:"class 是原型继承的语法糖，仍有原型机制。",st:6,d:4},
+{q:"子类继承父类用关键字？",o:["implements"," extends"," inherit"," derive"],a:1,why:"extends 建立原型链；方法重写时 super 调用父类版本。",st:6,d:4},
+{q:"类里的 constructor 负责？",o:["销毁对象"," 创建对象后初始化实例属性"," 声明静态方法"," 定义接口"],a:1,why:"new 时自动调用 constructor 完成初始化。",st:6,d:4},
+{q:"在 ES Module 中导出成员用？",o:["export 与 export default"," require"," module.exports 仅"," pub"],a:0,why:"export 命名导出，export default 默认导出；import 对应引入。",st:6,d:4},
+{q:"static method() 属于？",o:["每个实例各自一份"," 类本身，无需实例化即可调用"," 原型链末端"," window 对象"],a:1,why:"静态方法挂在类上，常用于工具函数，不能访问 this 实例。",st:6,d:4},
+/* 阶段7 Web API 与浏览器（d4-d5） */
+{q:"localStorage 用来？",o:["存同源下的字符串键值对，关闭页面仍在"," 存服务端数据库"," 存 cookie 并自动随请求发送"," 存临时变量于内存"],a:0,why:"localStorage 持久、仅同源可访问、容量约 5MB；只能存字符串。",st:7,d:4},
+{q:"setTimeout(fn, 1000) 的效果是？",o:["立即执行 fn"," 约 1 秒后执行一次 fn"," 每 1 秒循环执行"," 阻塞 1 秒"],a:1,why:"setTimeout 延时一次；setInterval 才反复执行。",st:7,d:4},
+{q:"浏览器的「同源策略」主要限制？",o:["同页面内脚本运行"," 跨源（不同域/协议/端口）读写资源"," 本地文件读取"," CSS 加载"],a:1,why:"同源策略是安全基石；跨域需 CORS / 代理等机制。",st:7,d:5},
+{q:"防抖（debounce）与节流（throttle）常用于？",o:["控制搜索框、滚动等高频事件的触发频率"," 加快循环"," 压缩图片"," 加密数据"],a:0,why:"防抖合并末次触发，节流限制单位时间次数，提升性能。",st:7,d:5},
+{q:"用 fetch 发送 JSON 的 POST 请求，必须？",o:["只写 URL"," 设置 method:'POST'、headers 的 Content-Type 与 body 字符串"," 用 GET 也能发 body"," 不需要 body"],a:1,why:"POST 要显式 method、声明 application/json、把对象 JSON.stringify 进 body。",st:7,d:5},
+/* 阶段8 现代工程与实战（d5） */
+{q:"现代前端常用的打包/构建工具是？",o:["webpack / Vite"," 仅记事本"," gcc"," npm 本身"],a:0,why:"Vite/webpack 处理模块打包、热更新与优化。",st:8,d:5},
+{q:"TypeScript 相比 JS 的主要优势是？",o:["运行更快"," 静态类型，编译期发现错误"," 不需要浏览器"," 语法完全不同"],a:1,why:"TS 是 JS 的超集，类型在编译期检查，提升大型项目可维护性。",st:8,d:5},
+{q:"单页应用（SPA）的特点是？",o:["每次跳转都整页刷新"," 前端路由、局部更新视图，不整页刷新"," 不能用 JS"," 必须是服务端渲染"],a:1,why:"SPA 靠前端路由切换视图，体验更流畅，首屏需加载更多 JS。",st:8,d:5},
+{q:"给 JS 代码写单元测试，常用框架是？",o:["Jest / Vitest"," 只有 console.log"," Excel"," Photoshop"],a:0,why:"Jest/Vitest 提供断言、mock 与覆盖率。",st:8,d:5},
+{q:"ES Module 与 CommonJS 的根本区别是？",o:["没区别"," import/export（静态、编译期） vs require/module.exports（动态、运行期）"," 后者更快"," 前者只用于浏览器"],a:1,why:"ESM 是语言标准、支持静态分析与 tree-shaking；CJS 是 Node 传统方案。",st:8,d:5}
+]};
+
+/* ---------------- C#（dk=cs） ---------------- */
+window.PLACEMENT.cs = { name: "C#", icon: "🟣", qs: [
+/* 阶段1 启航与环境（d1） */
+{q:"C# 控制台程序的标准入口方法是？",o:["static void Main(string[] args)"," void main()"," public run()"," static Start()"],a:0,why:"Main 是 CLR 调用的入口，签名需为 static 且返回 void/int。",st:1,d:1},
+{q:"把 C# 源代码编译运行的官方工具链是？",o:["gcc"," csc / dotnet"," javac"," node"],a:1,why:"传统用 csc，现代用 dotnet CLI（build/run）。",st:1,d:1},
+{q:"在控制台打印一行文本用？",o:["print()"," Console.WriteLine"," echo"," System.out.println"],a:1,why:"Console 是 System 命名空间下的标准输出类。",st:1,d:1},
+{q:"C# 中的字符串关键字是？",o:["String（仅）"," string（C# 关键字，等价于 System.String）"," str"," text"],a:1,why:"小写 string 是关键字 alias，编译后就是 System.String。",st:1,d:1},
+{q:"C# 的注释写法正确的是？",o:["// 单行，/* */ 多行"," # 单行"," -- 单行"," <!-- --> 多行"],a:0,why:"// 单行注释，/* */ 块注释；文档注释用 ///。",st:1,d:1},
+/* 阶段2 控制流与方法（d1-d2） */
+{q:"声明一个 32 位整数应写？",o:["int x = 5;"," integer x = 5;"," var x:int;"," let x = 5;"],a:0,why:"int 是 32 位有符号整数关键字。",st:2,d:1},
+{q:"var x = 3.14; 中的 var 表示？",o:["动态类型，运行时可变"," 编译期根据右值推断类型"," 任意类型（弱类型）"," 必须后续再指定类型"],a:1,why:"var 仍是强静态类型，只是省去显式书写，类型在编译期确定。",st:2,d:2},
+{q:"C# 的 for 循环标准写法是？",o:["for (int i = 0; i < n; i++)"," for i in range(n)"," repeat n"," loop (i<n)"],a:0,why:"三段式：初始化、条件、迭代。",st:2,d:2},
+{q:"遍历 List<T> 用？",o:["for-each 用 foreach (var x in list)"," 只能下标遍历"," 用 each do"," 用 iterate"],a:0,why:"foreach 配合 IEnumerable 遍历，语义清晰。",st:2,d:2},
+{q:"方法的返回类型写在？",o:["方法名之后"," 方法名之前"," 参数列表里"," 任意位置都行"],a:1,why:"C# 是「返回类型 方法名(参数)」的声明顺序。",st:2,d:2},
+/* 阶段3 集合与泛型（d2-d3） */
+{q:"List<int> 本质是？",o:["泛型动态数组"," 单向链表"," 固定长度数组"," 键值字典"],a:0,why:"List<T> 是泛型、可增长、按索引访问的序列。",st:3,d:2},
+{q:"键值对集合用？",o:["Dictionary<K,V>"," HashSet<T>"," Queue<T>"," ArrayList"],a:0,why:"Dictionary 以哈希表实现 O(1) 查找。",st:3,d:2},
+{q:"LINQ 主要用来？",o:["查询与转换集合"," 发起网络请求"," 读写文件"," 捕获异常"],a:0,why:"LINQ 用统一语法（方法链或查询表达式）处理集合。",st:3,d:3},
+{q:"数组的长度属性是？",o:["arr.Length"," arr.length()"," arr.size"," arr.len"],a:0,why:"C# 数组与大多数集合用 Length（属性），不是方法。",st:3,d:3},
+{q:"统计集合中元素个数用？",o:["Count"," Size"," length"," Len"],a:0,why:"LINQ 的 Count() 或集合的 Count 属性（List 等）给出元素数。",st:3,d:3},
+/* 阶段4 面向对象编程（d3-d4） */
+{q:"定义类用？",o:["class C { }"," struct 只"," interface C"," def C"],a:0,why:"class 是引用类型；struct 是值类型，用途不同。",st:4,d:3},
+{q:"public / private / protected 控制的是？",o:["变量名长度"," 成员的可访问范围"," 性能"," 垃圾回收"],a:1,why:"访问修饰符决定类内外谁能访问该成员。",st:4,d:3},
+{q:"用属性 property 的主要目的是？",o:["给字段加 get/set 封装与校验"," 替代所有方法"," 提高运行速度"," 声明常量"],a:0,why:"属性在字段外包裹访问逻辑，保持 API 稳定。",st:4,d:4},
+{q:"C# 的类继承写法用？",o:["extends Base"," : Base"," inherits Base"," implements Base"],a:1,why:"C# 用冒号表示继承（类单继承）与实现接口。",st:4,d:4},
+{q:"重写父类的虚方法用关键字？",o:["override"," overload"," virtual 仅"," new 强制"],a:0,why:"基类用 virtual，子类用 override 形成多态。",st:4,d:4},
+/* 阶段5 异步与异常（d4） */
+{q:"捕获异常的标准结构是？",o:["try / catch / finally"," guard / else"," onError"," catch-all 自动"],a:0,why:"finally 无论是否异常都会执行（释放资源）。",st:5,d:4},
+{q:"主动抛出一个异常用？",o:["raise new Exception()"," throw new Exception()"," error(\"...\")"," emit"],a:1,why:"throw 后跟异常实例。",st:5,d:4},
+{q:"用 async 标记的方法，其返回类型通常是？",o:["void"," Task 或 Task<T>"," int"," object"],a:1,why:"async 方法返回 Task（无值）或 Task<T>（有值），由 await 解包。",st:5,d:4},
+{q:"await someTask 的作用是？",o:["阻塞整个线程"," 异步等待完成且不阻塞调用线程"," 创建新线程"," 取消任务"],a:1,why:"await 挂起当前方法直到任务完成，期间线程可去干别的。",st:5,d:4},
+{q:"using 语句的主要用途是？",o:["引入命名空间"," 自动释放实现 IDisposable 的资源"," 定义别名"," 异常处理"],a:1,why:"using 块结束自动调用 Dispose，避免资源泄漏。",st:5,d:4},
+/* 阶段6 文件与数据（d4-d5） */
+{q:"一次性读取文本文件内容用？",o:["File.ReadAllText(path)"," fopen(path)"," readFile.sync"," cat path"],a:0,why:"System.IO.File 提供便捷静态方法。",st:6,d:4},
+{q:"写入整个文本文件用？",o:["File.WriteAllText(path, text)"," echo > "," fwrite"," save(text)"],a:0,why:"WriteAllText 覆盖写入；追加用 AppendAllText。",st:6,d:4},
+{q:"跨平台拼接路径应使用？",o:["\"dir\" + \"\\\\\" + \"file\""," Path.Combine(a, b)"," a + \"/\" + b 永远"," string.Format"],a:1,why:"Path.Combine 按当前系统使用正确的分隔符。",st:6,d:5},
+{q:"把对象序列化为 JSON，官方方案是？",o:["System.Text.Json 或 Newtonsoft.Json"," toString()"," eval"," JSON.stringify 是 JS 的"],a:0,why:".NET 用 System.Text.Json（内置）或 Newtonsoft.Json 库。",st:6,d:5},
+{q:"字符串插值（嵌入变量）用？",o:["\"Hello \" + name"," $\"Hello {name}\""," \"Hello %s\" % name"," format(name)"],a:1,why:"$ 前缀字符串支持 {表达式} 插值。",st:6,d:5},
+/* 阶段7 高级特性（d5） */
+{q:"声明接口用关键字？",o:["interface"," abstract"," protocol"," trait"],a:0,why:"interface 定义能力契约，类可多实现。",st:7,d:5},
+{q:"不能实例化的、用作基类的类型是？",o:["sealed 类"," abstract 抽象类"," static 类"," record"],a:1,why:"abstract 类含抽象成员，必须由子类实现后才能实例化。",st:7,d:5},
+{q:"事件（event）通常建立在什么之上？",o:["委托 delegate"," 接口"," 结构体"," 枚举"],a:0,why:"event 是受限的委托，对外只暴露 +=/-= 订阅。",st:7,d:5},
+{q:"为泛型参数加约束（如必须是引用类型）用？",o:["where T : class"," constraint T"," T extends class"," require T"],a:0,why:"where 子句约束 T 的基类、接口或 new() 等。",st:7,d:5},
+{q:"可空的值类型（如可能无成绩的 int）写作？",o:["int?"," NullableInt"," int!"," optional<int>"],a:0,why:"int? 是 Nullable<int> 的语法糖，HasValue/Value 或 ?? 取值。",st:7,d:5},
+{q:"C# 9 引入的 record 主要解决？",o:["不可变数据模型与基于值的相等"," 更快循环"," 替代 class 全部场景"," 多线程锁"],a:0,why:"record 默认不可变且按值比较相等，适合 DTO/模型。",st:7,d:5},
+{q:"模式匹配 is/switch 常用于？",o:["替代繁琐的 type 判断与解构"," 加快编译"," 字符串加密"," 网络请求"],a:0,why:"is 模式与 switch 表达式让类型判断更简洁安全。",st:7,d:5},
+{q:"sealed 修饰类的含义是？",o:["可被继承"," 禁止被继承"," 线程安全"," 自动释放"],a:1,why:"sealed 防止进一步派生，常用于封闭实现或性能优化。",st:7,d:5},
+{q:"用 + 拼接多个字符串时，正确的理解是？",o:["string 不可变，每次 + 都会生成新字符串"," 原地修改原字符串"," 自动改用 StringBuilder"," 编译报错"],a:0,why:"循环内大量拼接应显式用 StringBuilder 避免频繁分配。",st:2,d:2},
+{q:"struct 与 class 的根本区别是？",o:["struct 是值类型（赋值拷贝），class 是引用类型"," struct 一定在堆上"," class 不能含方法"," 二者完全相同"],a:0,why:"值类型赋值时复制整个值；引用类型复制的是引用。",st:4,d:3},
+{q:"as 运算符（如 obj as T）用于？",o:["安全类型转换，失败返回 null 而非抛异常"," 强制转换且必然成功"," 声明类型别名"," 比较两对象相等"],a:0,why:"as 只用于引用/可空类型；无法转换时给 null，比强转更安全。",st:4,d:4},
+{q:"空合并运算符 x ?? y 的含义是？",o:["x 非 null 取 x，否则取 y"," x 与 y 相加"," x 为 null 时抛异常"," 判断 x 是否等于 y"],a:0,why:"?? 提供默认值，配合 ?. 能写出更安全的链式访问。",st:3,d:3}
+]};
+
+/* ---------------- Go ---------------- */
+window.PLACEMENT.go = { name: "Go", icon: "🐹", qs: [
+/* 阶段1 启航与环境（d1） */
+{q:"Go 程序执行的入口函数是？",o:["func main() 位于 main 包"," func start()"," init() 即可"," run()"],a:0,why:"main 包里的 main 函数是可执行程序的起点。",st:1,d:1},
+{q:"短变量声明并赋值的写法是？",o:["x := 10"," var x = 10 之外不支持"," x = 10（未声明）"," let x = 10"],a:0,why:":= 在函数内声明并初始化，类型自动推断。",st:1,d:1},
+{q:"Go 用哪个命令运行单个源码文件？",o:["go run main.go"," go start main.go"," run main.go"," gcc main.go"],a:0,why:"go run 编译并运行；go build 生成可执行文件。",st:1,d:1},
+{q:"打印到标准输出常用？",o:["fmt.Println"," print()"," echo"," console.log"],a:0,why:"fmt 包提供格式化输入输出；Println 自动加换行。",st:1,d:1},
+{q:"Go 的注释写法是？",o:["// 单行，/* */ 多行"," # 单行"," -- 单行"," <!-- -->"],a:0,why:"与 C 系一致，// 单行、/* */ 块注释。",st:1,d:1},
+/* 阶段2 控制流与函数（d1-d2） */
+{q:"Go 没有 while 关键字，如何用循环？",o:["用 for 充当（for 条件 {}）"," 用 loop"," 用 repeat"," 无法循环"],a:0,why:"Go 只有 for：可写条件循环、for-range、无限循环。",st:2,d:1},
+{q:"声明有符号 32 位整数用？",o:["int32"," int（大小随平台）"," Integer"," number"],a:0,why:"int32 固定 32 位；int 长度取决于平台（通常 64）。",st:2,d:2},
+{q:"函数返回多个值的标准写法？",o:["return a, b"," 用数组返回"," 用全局变量"," 只能返回一个"],a:0,why:"Go 原生支持多返回值，常用来返回 (结果, error)。",st:2,d:2},
+{q:"defer 语句的作用是？",o:["提前返回"," 延迟到函数返回前执行（常用于关闭资源）"," 定义常量"," 启动协程"],a:1,why:"defer 按后进先出顺序在函数退出时执行，适合释放资源。",st:2,d:2},
+{q:"for i, v := range arr 中的 i 和 v 分别是？",o:["键与值"," 索引与元素值"," 两个值拷贝"," 类型与值"],a:1,why:"range 对切片/数组给出索引与元素；对 map 给出键与值。",st:2,d:2},
+/* 阶段3 slice 与 map（d2-d3） */
+{q:"Go 中动态的、可增长的序列类型是？",o:["array（固定长度）"," slice（切片）"," list"," vector"],a:1,why:"slice 基于底层数组、可动态扩容，是日常最常用的序列。",st:3,d:2},
+{q:"用 make 创建切片可指定？",o:["长度与容量"," 仅类型"," 仅容量"," 线程数"],a:0,why:"make([]T, len, cap) 分配底层数组；append 超出容量会重新分配。",st:3,d:3},
+{q:"Go 中的键值集合类型是？",o:["map[K]V"," dict"," hash"," set"],a:0,why:"map 是哈希表，零值为 nil，使用前需 make 或字面量初始化。",st:3,d:3},
+{q:"从 map 取值并判断是否存在的惯用法是？",o:["v = m[k] 然后猜"," v, ok := m[k]（ok 表示是否存在）"," m.get(k)"," m.has(k)"],a:1,why:"逗号 ok  idiom 区分「不存在」与「值为零值」。",st:3,d:3},
+{q:"append(s, x) 的结果是？",o:["原地修改 s"," 返回新的切片（s 本身不一定被改动）"," 报错"," 返回长度"],a:1,why:"append 可能触发扩容返回新底层数组，务必接收返回值。",st:3,d:3},
+/* 阶段4 接口与错误（d3-d4） */
+{q:"Go 的接口满足方式是？",o:["显式 implements 声明"," 隐式：只要实现了接口的方法集即自动满足"," 继承接口"," 注册实现"],a:1,why:"Go 用结构化（鸭子）类型，无需声明实现了哪个接口。",st:4,d:3},
+{q:"Go 处理错误的惯用模式是？",o:["抛异常并在别处捕获"," 返回 (value, error)，调用方显式判断 err != nil"," 用 try/catch"," 忽略错误"],a:1,why:"Go 鼓励把 error 作为普通返回值显式处理。",st:4,d:4},
+{q:"errors.New(\"msg\") 用来？",o:["创建一条错误"," 抛出异常"," 打印日志"," 终止程序"],a:0,why:"errors.New 构造简单错误；复杂错误用 fmt.Errorf。",st:4,d:4},
+{q:"空接口 interface{} 可以？",o:["只能存整数"," 存放任意类型的值（类似泛型出现前的 any）"," 不能赋值"," 仅用于错误"],a:1,why:"空接口没有任何方法约束，可承载任意类型，但取出需类型断言。",st:4,d:4},
+{q:"类型断言 v, ok := x.(T) 中 ok 表示？",o:["x 是否为 nil"," x 的动态类型是否能转为 T"," 转换是否成功自动"," 是否报错"],a:1,why:"类型断言失败时 ok 为 false，不会 panic（若不用 ok 形式则会）。",st:4,d:4},
+/* 阶段5 并发编程（d4-d5） */
+{q:"Go 中启动一个并发执行体用？",o:["go func()"," thread()"," async()"," spawn()"],a:0,why:"go 关键字启动 goroutine，由运行时调度在少量线程上多路复用。",st:5,d:4},
+{q:"goroutine 之间通信与同步的推荐方式是？",o:["全局变量"," channel（通道）"," 直接共享内存随意读写"," 文件锁"],a:1,why:"Go 哲学「不要通过共享内存来通信，要通过通信来共享内存」。",st:5,d:5},
+{q:"带缓冲与不带缓冲的 channel 的区别是？",o:["无区别"," 无缓冲需收发双方同时就绪；有缓冲可暂存若干元素"," 有缓冲更快总是更好"," 无缓冲会丢数据"],a:1,why:"无缓冲是同步交接；带缓冲在未满/未空时可异步。",st:5,d:5},
+{q:"select 语句用于？",o:["选择函数重载"," 在多个 channel 操作间等待第一个就绪的"," 数据库查询"," 条件分支替代 if"],a:1,why:"select 像多路 switch，处理多个 channel 的收发与 default。",st:5,d:5},
+{q:"sync.WaitGroup 通常用来？",o:["让主 goroutine 等待一组 goroutine 完成"," 加锁"," 计时"," 创建 channel"],a:0,why:"Add/Done/Wait 协同等待并发任务结束。",st:5,d:4},
+/* 阶段6 Web 与标准库（d5） */
+{q:"启动一个最简单的 HTTP 服务用？",o:["net/http 的 http.ListenAndServe"," 仅 fmt"," 外部框架强制"," socket 手写"],a:0,why:"标准库 net/http 自带路由与服务器，无需框架即可起步。",st:6,d:5},
+{q:"Go 的模块化依赖管理用？",o:["GOPATH 唯一"," go.mod / go mod 命令"," package.json"," pom.xml"],a:1,why:"go modules（go.mod）是现代依赖版本管理方案。",st:6,d:5},
+{q:"从标准库读取 JSON 用？",o:["json.Marshal / json.Unmarshal"," toJSON"," eval"," serde"],a:0,why:"encoding/json 提供结构体与 JSON 的互转（字段加 json tag）。",st:6,d:5},
+{q:"time.Now() 返回的是？",o:["时间戳字符串"," time.Time 类型（可格式化、计算差值）"," int 秒"," 毫秒数"],a:1,why:"time.Time 提供格式化（如 2006-01-02 布局）与加减。",st:6,d:5},
+{q:"处理命令行参数用？",o:["os.Args / flag 包"," argv 全局"," sys.args"," args()"],a:0,why:"flag 包解析 -name=value 形式的参数，os.Args 是原始切片。",st:6,d:5},
+/* 阶段7 工程化与测试（d5） */
+{q:"Go 的单元测试文件与函数命名约定是？",o:["test_*.go 与 def test_*"," xxx_test.go 与 func TestXxx(t *testing.T)"," *.spec.go"," check*.go"],a:1,why:"测试文件以 _test.go 结尾，测试函数以 Test 开头、接收 *testing.T。",st:7,d:5},
+{q:"运行当前包全部测试的命令是？",o:["go test ./..."," go run test"," npm test"," pytest"],a:0,why:"go test 编译并运行测试；./... 表示递归所有包。",st:7,d:5},
+{q:"Go 的格式化工具（统一代码风格）是？",o:["gofmt / gofmt -w"," prettier"," black"," eslint"],a:0,why:"gofmt 强制统一缩进与排版，是 Go 社区约定。",st:7,d:5},
+{q:"为函数打基准测试（性能）用？",o:["func BenchmarkXxx(b *testing.B)"," func PerfXxx"," func TestPerf"," func SpeedXxx"],a:0,why:"Benchmark 函数接收 *testing.B，go test -bench 运行。",st:7,d:5},
+{q:"context.Context 常用于？",o:["传递截止时间、取消信号与请求范围值（尤其跨 goroutine/网络）"," 替代变量"," 字符串拼接"," 日志着色"],a:0,why:"context 是控制超时与取消的标准手段，避免 goroutine 泄漏。",st:7,d:5},
+{q:"引入其他包用关键字？",o:["import \"path/to/pkg\""," using"," require(\"pkg\")"," include <pkg>"],a:0,why:"Go 用 import 引入包，未使用的导入会导致编译失败。",st:1,d:1},
+{q:"Go 中声明常量用？",o:["const Pi = 3.14"," 不支持常量，只用 var"," 用 #define"," let 代替"],a:0,why:"const 声明编译期常量，常用于枚举式 iota。",st:1,d:1},
+{q:"slice 的内部结构包含？",o:["指向底层数组的指针、长度 len、容量 cap"," 纯链表节点"," 哈希桶"," 红黑树节点"],a:0,why:"理解指针/len/cap 才能搞懂 append 扩容与切片共享底层数组的陷阱。",st:3,d:3},
+{q:"Go 的接口设计哲学是？",o:["小接口组合优于大而全的继承"," 必须显式声明 implements"," 接口不能嵌套"," 只用于错误"],a:0,why:"如 io.Reader/io.Writer 这种小接口可被广泛组合复用。",st:4,d:4},
+{q:"sync.Mutex 用来？",o:["为共享资源加互斥锁，防止并发读写竞争"," 在 goroutine 间传值"," 计时器"," 创建新的 goroutine"],a:0,why:"多 goroutine 访问同一变量时需加锁，或改用 channel。",st:5,d:5}
 ]};
 
