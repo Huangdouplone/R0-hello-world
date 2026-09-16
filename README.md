@@ -6,9 +6,9 @@
 >
 > © **制作者 / Creator: Bilibili 黄豆666 (huangdouplone)** · 版权所有 / All rights reserved.
 
-**四门通用语言，一次学到纵深。** Python / C / C++ / Java 四门语言各 10 阶段 40 节的自学课程：中英双语界面、打开即用、离线可用。
+**七门通用语言，一次学到纵深。** Python / C / C++ / Java 各 10 阶段 40 节，JavaScript 8 阶段 32 节，C# / Go 各 7 阶段 28 节的自学课程：中英双语界面、打开即用、离线可用。
 
-*Four general-purpose languages in one deep pass. A 10-stage / 40-lesson self-study course for Python, C, C++, and Java — bilingual UI, opens instantly, works offline.*
+*Seven general-purpose languages in one deep pass. A self-study course spanning Python, C, C++, Java (10 stages / 40 lessons each), JavaScript (8 / 32), and C# / Go (7 / 28) — bilingual UI, opens instantly, works offline.*
 
 ---
 
@@ -16,21 +16,21 @@
 
 ### 这是什么
 
-`R0:hello world`（中文名 **R0：从零开始的编程之路**）是一门**纯静态、可离线**的通用语言自学课程，覆盖 **Python / C / C++ / Java** 四门语言。
+`R0:hello world`（中文名 **R0：从零开始的编程之路**）是一门**纯静态、可离线**的通用语言自学课程，覆盖 **Python / C / C++ / Java / JavaScript / C# / Go** 七门语言。
 
-它不做任何职业路线适配：不预设你是要做算法、后端还是嵌入式，只把这四门语言各自讲透——每门都是完整的 **10 阶段 40 节**，从装好环境、跑通第一行代码，一直讲到语言纵深与运行时机制。
+它不做任何职业路线适配：不预设你是要做算法、后端还是嵌入式，只把这些语言各自讲透——**Python / C / C++ / Java 各 10 阶段 40 节**，JavaScript 8 阶段 32 节，C# 与 Go 各 7 阶段 28 节；从装好环境、跑通第一行代码，一直讲到语言纵深与运行时机制。
 
 每节课自带讲解要点、可运行示例、示例输出、深入讲解、易错点、随堂思考与速记，跟着课程走就不需要再翻其他资料。学习数据只保存在你自己的浏览器里。
 
 ### 内容规模
 
-- **4 门语言 · 40 个阶段 · 160 节课 · 120 道阶段测评题 · 40 道编程实战**
+- **7 门语言 · 62 个阶段 · 248 节课 · 310 道阶段测评题**（每阶段 5 题，随机抽 4 题作答）
 - 每节含：讲解要点 + 可运行示例 + 示例输出 + 深入讲解 + 易错点 + 随堂思考（带答案）+ 速记 + 「学完你能做到」目标
-- 每个阶段含：阶段测评（3 题）+ 编程实战（附起始代码与提示，可一键生成 AI 批改提示词）
-- **176 道摸底测试题**（每门 41–45 题，覆盖全部 10 个阶段）
+- 每个阶段含：阶段测评（5 题库随机抽 4 题，选项顺序打乱）+ **3 道编程实战**（附起始代码与提示，可一键生成 AI 批改提示词）—— 实战题共 **186 道**（62 阶段 × 3），全部中英双语
+- **360 道摸底测试题**（每门 50–54 题，覆盖全部阶段与 5 个难度档，每档 ≥10 题）
 - **63 组跨语言概念对照**（覆盖各语言 95% 以上的课程）
 
-### 四门语言的编排
+### 七门语言的编排
 
 | 语言 | 从 | 到 |
 | --- | --- | --- |
@@ -38,13 +38,16 @@
 | 🅲 **C** | 编译流程、数据类型、标准输入输出、控制流 | 指针核心、堆内存管理、结构体与预处理器、文件 IO、函数指针与未定义行为 |
 | ⚙️ **C++** | 现代语法、类型系统、引用、lambda | 类与对象、继承多态、模板与 concepts、STL、RAII 与移动语义、并发与对象模型 |
 | ☕ **Java** | JDK 与 JVM、基本类型、控制流、数组与字符串 | 面向对象、异常与集合泛型、IO/NIO、并发与 JUC、Lambda 与 Stream、JVM 内存与 GC |
+| 🟨 **JavaScript** | 运行环境、let/const、数据类型、模板字符串 | 数组与对象、DOM 与事件、异步与 fetch、class 与模块、Web API 与现代工程 |
+| 🟦 **C#** | .NET SDK、变量与可空类型、控制流与方法 | 集合与 LINQ、面向对象与接口、async/await、文件与 JSON、record 与依赖注入 |
+| 🐹 **Go** | 安装与 GOPATH、变量与类型、控制流与 defer | slice 与 map、接口与错误、goroutine 与 channel、net/http、工程化与测试 |
 
-每门语言按 **4 大篇章**组织：入门奠基 → 核心能力 → 工程 / 系统 → 深入与纵深，篇章内标注建议周数。
+四门主线语言按 **4 大篇章**组织：入门奠基 → 核心能力 → 工程 / 系统 → 深入与纵深，篇章内标注建议周数；JavaScript / C# / Go 作为进阶补充语言，覆盖各自的核心工作流。
 
 ### 四条路线如何各走各的
 
-- **摸底分班**：首次打开选择语言与基础程度。选「零基础」直接从第 1 节开始；选「有一定基础」需完成一套 **40+ 题**的摸底测试（可提前交卷），按正确率与薄弱阶段安排起点，起点之前的课程自动记为已掌握
-- **主修路线隔离**：选定主修语言后，其余三门默认隐藏并锁定，避免四门都看一点、每门都不扎实；主修语言完成 **10 / 20 / 30** 节时依次解锁
+- **摸底分班**：首次打开选择语言与基础程度。选「零基础」直接从第 1 节开始；选「有一定基础」进入一套 **35 题**的摸底测试（**固定标准，不低于 35 题**）——题目从 50+ 题题库中**按 5 个难度档分层随机抽取**（每档各 7 题）、由易到难排序（可随时「上一题」回看修改或提前交卷），作答期间**不能点空白退出**，避免误触丢失进度；结果按难度加权正确率给出 **L1–L6 六档等级**，并以「答对过半的最高难度档」封顶，只做对简单题拿不到高等级，据此安排起点，起点之前的课程自动记为已掌握
+- **主修路线隔离**：选定主修语言后，其余各门默认隐藏并锁定，避免每门都看一点、每门都不扎实；主修语言完成 **10 / 20 / 30** 节时依次解锁
 - **跨语言对照**：主修完成 6 节后开放。标明同一概念在别的语言里对应哪一节、差在哪里、容易混在哪里，并列出跳学时该补的前置课程
 
 ### 激励与留存
@@ -61,11 +64,11 @@
 
 ### 中英双语界面
 
-页面右上角可一键切换 **中文 / English**。界面框架与课程目录（40 个阶段名、160 个课程标题）已全量双语，课程正文为中文，切换立即生效并本地持久化。
+页面右上角可一键切换 **中文 / English**。界面框架与课程目录（62 个阶段名、248 个课程标题）已全量双语，课程正文为中文，切换立即生效并本地持久化。
 
 ### 技术特点
 
-- **单文件 HTML 应用 + 11 个外部数据文件 + Service Worker**，无后端、无构建步骤、无第三方依赖
+- **单文件 HTML 应用 + 21 个外部数据文件 + Service Worker**，无后端、无构建步骤、无第三方依赖
 - 打开即用，**可离线**（PWA）
 - 纯静态，可直接托管到 **GitHub Pages**
 
@@ -93,7 +96,7 @@
 
 ### ⚠️ AI 辅助搭建声明
 
-本仓库（包括全部课程文案、界面与代码）由 **AI 辅助生成 / 组装**。内容按「四门通用语言从 0 到深入」编排，但技术细节请以各语言官方文档、标准与权威教材为准，使用前请自行核对。仓库仅供学习交流，按现状提供，不作任何担保。
+本仓库（包括全部课程文案、界面与代码）由 **AI 辅助生成 / 组装**。内容按「七门通用语言从 0 到深入」编排，但技术细节请以各语言官方文档、标准与权威教材为准，使用前请自行核对。仓库仅供学习交流，按现状提供，不作任何担保。
 
 ---
 
@@ -109,13 +112,13 @@ Every lesson carries key points, a runnable example, sample output, in-depth not
 
 ### Scope
 
-- **4 languages · 40 stages · 160 lessons · 120 stage quizzes · 40 coding labs**
+- **7 languages · 62 stages · 248 lessons · 310 stage-quiz questions**
 - Each lesson: key points + runnable sample + sample output + in-depth notes + pitfall + self-check (with answer) + recap + a "what you can do after this" target
-- Each stage: a stage quiz (3 questions) + a coding lab (starter code, hints, one-click AI grading prompt)
-- **176 placement questions** (41–45 per language, covering all 10 stages)
+- Each stage: a stage quiz (4 questions randomly drawn from a 5-question bank, options shuffled) + **3 coding labs** (starter code, hints, one-click AI grading prompt) — **186 labs** in total (62 stages × 3), fully bilingual
+- **360 placement questions** (50–54 per language, each spanning all 5 difficulty bands, ≥10 per band)
 - **63 cross-language concept groups** (covering 95%+ of lessons in each language)
 
-### The four tracks
+### The seven tracks
 
 | Language | From | To |
 | --- | --- | --- |
@@ -123,13 +126,16 @@ Every lesson carries key points, a runnable example, sample output, in-depth not
 | 🅲 **C** | build pipeline, data types, standard I/O, control flow | pointers, heap management, structs & preprocessor, file I/O, function pointers & undefined behavior |
 | ⚙️ **C++** | modern syntax, type system, references, lambdas | classes & objects, inheritance & polymorphism, templates & concepts, STL, RAII & move semantics, concurrency |
 | ☕ **Java** | JDK & JVM, primitives, control flow, arrays & strings | OOP, exceptions & generic collections, IO/NIO, concurrency & JUC, Lambda & Stream, JVM memory & GC |
+| 🟨 **JavaScript** | runtime, let/const, data types, template literals | arrays & objects, DOM & events, async & fetch, class & modules, Web APIs, modern tooling |
+| 🟦 **C#** | .NET SDK, variables & nullable types, control flow & methods | collections & LINQ, OOP & interfaces, async/await, files & JSON, records & DI |
+| 🐹 **Go** | install & GOPATH, variables & types, control flow & defer | slices & maps, interfaces & errors, goroutines & channels, net/http, tooling & testing |
 
-Each language is organized into **4 chapters**: foundations → core skills → engineering / systems → depth, with suggested week counts.
+The four main languages are organized into **4 chapters**: foundations → core skills → engineering / systems → depth, with suggested week counts; JavaScript / C# / Go serve as supplementary tracks covering each language's core workflow.
 
-### How the four tracks stay independent
+### How the tracks stay independent
 
-- **Placement test**: on first open you choose a language and your level. Pick "absolute beginner" and you start at lesson one; pick "some experience" and a **40+ question test** is required (you may submit early) — your starting point is derived from accuracy plus your weakest stage, and earlier lessons are credited as already known
-- **Main-track isolation**: after choosing your main language, the other three are hidden and locked so you don't skim four languages and master none; they unlock at **10 / 20 / 30** completed lessons
+- **Placement test**: on first open you choose a language and your level. Pick "absolute beginner" and you start at lesson one; pick "some experience" and a **35-question test** follows (**a fixed floor, never below 35**) — questions are **stratified-randomly drawn across 5 difficulty bands** from a 50+ question bank (7 per band) and ordered easy→hard (you may go back to review/change answers or submit early), and the overlay **cannot be dismissed by clicking outside** so progress is never lost by mistake. Results map to **six levels (L1–L6)** based on difficulty-weighted accuracy, capped by the hardest band you got at least half right — so easy-only correctness can't yield a high level. Earlier lessons are credited as already known
+- **Main-track isolation**: after choosing your main language, the others are hidden and locked so you don't skim many languages and master none; they unlock at **10 / 20 / 30** completed lessons
 - **Cross-language notes**: unlocked after 6 lessons in your main track — which lesson covers the same concept elsewhere, how it differs, what's easy to confuse, and what to review first if you jumped ahead
 
 ### Motivation & retention
@@ -191,11 +197,20 @@ This repository — including all curriculum text, UI, and code — was **genera
 | `lang-data-c.js` | C curriculum (10 stages / 40 lessons) |
 | `lang-data-cpp.js` | C++ curriculum (10 stages / 40 lessons) |
 | `lang-data-java.js` | Java curriculum (10 stages / 40 lessons) |
+| `lang-data-js.js` | JavaScript curriculum (8 stages / 32 lessons) |
+| `lang-data-csharp.js` | C# curriculum (7 stages / 28 lessons) |
+| `lang-data-go.js` | Go curriculum (7 stages / 28 lessons) |
 | `lang-enhance-python.js` | Python lesson enhancements (sample output / in-depth notes / recap) |
 | `lang-enhance-c.js` | C lesson enhancements |
 | `lang-enhance-cpp.js` | C++ lesson enhancements |
 | `lang-enhance-java.js` | Java lesson enhancements |
-| `lang-placement.js` | Placement test bank (176 questions) |
+| `lang-enhance-js.js` | JavaScript lesson enhancements |
+| `lang-enhance-csharp.js` | C# lesson enhancements |
+| `lang-enhance-go.js` | Go lesson enhancements |
+| `lang-placement.js` | Placement test bank (360 questions; every language has ≥10 questions in each of the 5 difficulty bands) |
+| `lang-placement-extra.js` | Extra placement questions (`window.PLACEMENT_EXTRA`), merged at startup to lift every difficulty band to ≥10 questions per language — required by the fixed 35-question standard |
+| `lang-quiz-extra.js` | Extra stage-quiz questions (`window.QUIZ_EXTRA`), merged at startup to enlarge each stage bank to 5 |
+| `lang-lab-extra.js` | Extra hands-on labs (`window.LAB_EXTRA`), 2 per stage × 62 stages = **124 labs**, merged into `stage.labs` at startup (zh + en) |
 | `lang-crosslinks.js` | Cross-language concept map (63 groups) |
 | `lang-i18n.js` | Bilingual dictionary (UI + course catalogue) |
 | `lang-i18n-content.js` | English translations of all lesson bodies (`window.I18N.lesson_en`) |
@@ -205,4 +220,4 @@ This repository — including all curriculum text, UI, and code — was **genera
 
 ## 🏷️ Topics
 
-`python` · `c` · `cpp` · `java` · `programming-languages` · `learning-roadmap` · `self-study` · `placement-test` · `spaced-repetition` · `static-site` · `pwa` · `offline-first` · `no-build` · `i18n`
+`python` · `c` · `cpp` · `java` · `javascript` · `csharp` · `golang` · `programming-languages` · `learning-roadmap` · `self-study` · `placement-test` · `spaced-repetition` · `static-site` · `pwa` · `offline-first` · `no-build` · `i18n`

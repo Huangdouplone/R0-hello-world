@@ -1,12 +1,15 @@
 /* R0：从零开始的编程之路（R0:hello world）Service Worker —— 提供离线缓存
  * 通过 http(s) 托管本目录时自动生效；file:// 直接打开时浏览器会拒绝注册，属正常现象。
  */
-const CACHE = "r0-hello-world-v4";
+const CACHE = "r0-hello-world-v7";
 const ASSETS = [
   "./", "index.html", "README.md", "LICENSE.md",
   "lang-data-python.js", "lang-data-c.js", "lang-data-cpp.js", "lang-data-java.js",
+  "lang-data-js.js", "lang-data-csharp.js", "lang-data-go.js",
   "lang-enhance-python.js", "lang-enhance-c.js", "lang-enhance-cpp.js", "lang-enhance-java.js",
-  "lang-placement.js", "lang-crosslinks.js", "lang-i18n.js",
+  "lang-enhance-js.js", "lang-enhance-csharp.js", "lang-enhance-go.js",
+  "lang-placement.js", "lang-placement-extra.js", "lang-crosslinks.js", "lang-i18n.js", "lang-i18n-content.js",
+  "lang-quiz-extra.js", "lang-lab-extra.js",
   "lang-sw.js"
 ];
 self.addEventListener("install", function (e) {
