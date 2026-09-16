@@ -169,7 +169,7 @@ body.sbCollapsed .sidebar{transform:translateX(-100%);}
 .stage.open .stage-bd{display:block;}
 .stage-goal{font-size:12.5px;color:var(--sub);background:var(--card);border-radius:9px;padding:9px 12px;margin:10px 0;}
 .stage-links{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
-.stage-links a{font-size:11.5px;color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--accent);}
+.stage-links a{font-size:11.5px;color:var(--accent,#5aa9e6);text-decoration:none;border-bottom:1px dashed var(--accent,#5aa9e6);}
 .lesson{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;cursor:pointer;transition:background .15s;}
 .lesson:hover{background:var(--card);}
 .lesson.last{background:color-mix(in srgb,var(--amber) 12%,transparent);}
@@ -271,6 +271,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
 .copy-code{position:relative;background:#1e2733;border-radius:11px;overflow:hidden;}
 .copy-code pre{padding:13px 15px;overflow-x:auto;font-size:12.5px;line-height:1.7;color:#e6edf5;font-family:Consolas,"Courier New",monospace;}
 .copy-code .cp{position:absolute;right:8px;top:8px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:4px 10px;font-size:11.5px;cursor:pointer;z-index:2;}
+.cr-attr{display:none;}
 .kw{color:#79b8ff;}.st{color:#9ecbff;}.cm{color:#8b9cb0;font-style:italic;}
 .code-area{width:100%;min-height:110px;border:1px solid var(--line);border-radius:11px;padding:11px 13px;font-size:12.5px;background:var(--bg2);color:var(--fg);font-family:Consolas,"Courier New",monospace;resize:vertical;line-height:1.6;}
 .out-area{min-height:70px;}
@@ -535,8 +536,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
   </div>
 
   <div class="foot" style="text-align:center;margin-top:18px" data-page-node-id="YDTj7oi1Lwjl4LljAVALgN">
-    bilibili 黄豆666 / huangdouplone · (c) 2026 · 学习用途免费，转载请注明出处<br data-page-node-id="kUCLhLktGxrGrKPNLhnYcC">
-    Copyright (c) 2026 bilibili Huangdou666 / huangdouplone — free for learning, attribution required.
+    <span id="crLine" data-i18n="copyright_line" data-page-node-id="kUCLhLktGxrGrKPNLhnYcC">bilibili 黄豆666 / huangdouplone · (c) 2026 · 学习用途免费，转载请注明出处</span>
     <div style="margin-top:12px">
       🔗 <span id="seriesLabel">EDU系列其他项目：</span>
       <a class="series-link" id="agiLink" href="https://huangdouplone.github.io/R0-hello-agi/" target="_blank" rel="noopener">🤖 R0:hello agi · 从零开始的 AGI 之路</a>
@@ -1522,8 +1522,8 @@ function highlight(code,lang){
     return '<span class="kw">'+k+'</span>';
   });
 }
-/* 带双文版权注释的代码块（注释随代码一并复制） */
-function codeBlock(code,lang){return highlight(crComment(lang)+"\n"+code,lang);}
+/* 代码块：版权注释「不展示、仅随复制带走」——避免版权注释暴露在学习者面前 */
+function codeBlock(code,lang){return '<span class="cr-attr">'+escapeHtml(crComment(lang)+"\n")+'</span>'+highlight(code,lang);}
 
 /* ============ 跨语言对照面板 ============ */
 function findLessonGlobal(langId,lessonId){
@@ -1667,9 +1667,10 @@ function showQuiz(){
 function answerQuiz(i){
   var st=quizState;if(!st)return;
   var q=st.qs[st.idx];
+  /* s 必须在此处取（原先写在 if 块内，答对时不赋值 → qzWhy(undefined) 抛错，导致选对没反应） */
+  var s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
   st.ans.push(i);
   if(i!==q.a){
-    var s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
     data.mistakes[st.id+"-"+st.idx]={q:qzQ(s,st.idx),chosen:qzO(s,st.idx,i),correct:qzO(s,st.idx,q.a),why:qzWhy(s,st.idx),stageName:s?stName(s):"",ts:Date.now()};
     saveData();
   }
@@ -1928,19 +1929,8 @@ function applyStaticI18n(){
   /* ---- 备份提醒 ---- */
   var bh=$("backupHint");if(bh)bh.textContent=T("backup_hint");
 
-  /* ---- 版权 ---- */
-  var allFoots=document.querySelectorAll("#settingSec .foot");
-  allFoots.forEach(function(f){
-    if(f.style.textAlign==="center"||(f.style.marginTop==="18px")){
-      /* 版权 footer：替换第一个文本节点 */
-      var tn=f.firstChild;
-      while(tn&&tn.nodeType!==3)tn=tn.nextSibling;
-      if(tn){
-        if(!f.dataset.emo){f.dataset.emo="";}
-        tn.nodeValue=T("copyright_line")+"\n    ";
-      }
-    }
-  });
+  /* ---- 版权（页脚单行，随界面语言切换） ---- */
+  var cr=$("crLine");if(cr)cr.textContent=T("copyright_line");
 
   /* ---- 主题按钮 ---- */
   var tb=$("themeBtn");if(tb)tb.title=T("theme_title");
