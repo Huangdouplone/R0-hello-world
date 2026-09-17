@@ -1,21 +1,27 @@
 /* R0：从零开始的编程之路（R0:hello world）Service Worker —— 提供离线缓存
  * 通过 http(s) 托管本目录时自动生效；file:// 直接打开时浏览器会拒绝注册，属正常现象。
  */
-const CACHE = "r0-hello-world-v7";
+const CACHE = "r0-hello-world-v10";
+/* ASSETS 必须与 index.html 里 <script src> 的 URL 逐字符一致（含 ?v=N 查询串）：
+   缓存以「完整请求 URL」为键，裸文件名匹配不上带查询串的请求，会导致离线时取不到这些资源。 */
 const ASSETS = [
   "./", "index.html", "README.md", "LICENSE.md",
   "lang-data-python.js", "lang-data-c.js", "lang-data-cpp.js", "lang-data-java.js",
-  "lang-data-js.js", "lang-data-csharp.js", "lang-data-go.js",
+  "lang-data-js.js", "lang-data-csharp.js?v=2", "lang-data-go.js",
   "lang-enhance-python.js", "lang-enhance-c.js", "lang-enhance-cpp.js", "lang-enhance-java.js",
   "lang-enhance-js.js", "lang-enhance-csharp.js", "lang-enhance-go.js",
-  "lang-placement.js", "lang-placement-extra.js", "lang-crosslinks.js", "lang-i18n.js", "lang-i18n-content.js",
-  "lang-quiz-extra.js", "lang-lab-extra.js",
+  "lang-placement.js", "lang-placement-extra.js?v=1", "lang-crosslinks.js",
+  "lang-i18n.js?v=22", "lang-i18n-content.js", "lang-i18n-extra.js?v=1",
+  "lang-quiz-extra.js?v=1", "lang-lab-extra.js?v=2", "lang-extra2.js?v=1", "lang-lab-extra2.js?v=1",
   "lang-sw.js"
 ];
 self.addEventListener("install", function (e) {
   e.waitUntil(
     caches.open(CACHE).then(function (c) {
-      return c.addAll(ASSETS).catch(function () {});
+      // 逐个 add：任一资源缺失只跳过它自己，不会让整批预缓存失败
+      return Promise.all(ASSETS.map(function (u) {
+        return c.add(u).catch(function () {});
+      }));
     }).then(function () { return self.skipWaiting(); })
   );
 });

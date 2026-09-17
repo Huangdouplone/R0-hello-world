@@ -2,221 +2,272 @@
 
 **R0：从零开始的编程之路**
 
-> 🤖 **Built with AI assistance** · 本仓库由 AI 辅助搭建
->
 > © **制作者 / Creator: Bilibili 黄豆666 (huangdouplone)** · 版权所有 / All rights reserved.
+>
+> 内容与代码由 **AI 辅助生成 / 组装**，技术细节请以官方文档与权威教材为准。
 
-**七门通用语言，一次学到纵深。** Python / C / C++ / Java 各 10 阶段 40 节，JavaScript 8 阶段 32 节，C# / Go 各 7 阶段 28 节的自学课程：中英双语界面、打开即用、离线可用。
+七门通用语言（Python / C / C++ / Java / JavaScript / C# / Go）的**纯静态、零依赖、可离线**自学课程。单文件 HTML 应用 + 外部数据脚本，无后端、无构建步骤、无第三方运行时依赖，可直接托管到任意静态托管服务。
 
-*Seven general-purpose languages in one deep pass. A self-study course spanning Python, C, C++, Java (10 stages / 40 lessons each), JavaScript (8 / 32), and C# / Go (7 / 28) — bilingual UI, opens instantly, works offline.*
+*Seven general-purpose languages in one self-study course — a purely static, dependency-free, offline-capable single-page app with external data modules. No backend, no build step, no third-party runtime.*
 
 ---
 
-## 中文版
+## 中文
 
-### 这是什么
+### 1. 项目边界
 
-`R0:hello world`（中文名 **R0：从零开始的编程之路**）是一门**纯静态、可离线**的通用语言自学课程，覆盖 **Python / C / C++ / Java / JavaScript / C# / Go** 七门语言。
+| 维度 | 说明 |
+| --- | --- |
+| 形态 | 单文件 `index.html`（UI + 全部逻辑）+ 24 个外部数据脚本 + 1 个 Service Worker |
+| 运行 | 双击 `index.html` 即可运行；通过 http(s) 托管时自动启用离线缓存（PWA） |
+| 存储 | 全部学习数据存于浏览器 `localStorage`，无服务端、无账号体系 |
+| 依赖 | 零外部依赖。不引用任何 CDN、字体、图表库或前端框架，图表为手写内联 SVG |
+| 适配 | PC / 移动端响应式；移动端可「添加到主屏幕」当 App 使用 |
+| 定位 | 不做职业路线适配，不预设用途，目标是**把七门语言各自讲透** |
 
-它不做任何职业路线适配：不预设你是要做算法、后端还是嵌入式，只把这些语言各自讲透——**Python / C / C++ / Java 各 10 阶段 40 节**，JavaScript 8 阶段 32 节，C# 与 Go 各 7 阶段 28 节；从装好环境、跑通第一行代码，一直讲到语言纵深与运行时机制。
+### 2. 内容规模（实测）
 
-每节课自带讲解要点、可运行示例、示例输出、深入讲解、易错点、随堂思考与速记，跟着课程走就不需要再翻其他资料。学习数据只保存在你自己的浏览器里。
+| 指标 | 数值 |
+| --- | --- |
+| 语言 / 阶段 / 课节 | **7 / 62 / 248** |
+| 阶段测评题 | **558**（choice 310 · judge 124 · fill 124） |
+| 每阶段题库 / 抽题数 | 9 / 4（`QUIZ_COUNT = 4`） |
+| 摸底测试题 | **430**（每门 60–64 题），单次出题 **35**（`PT_COUNT = 35`） |
+| 编程实战 | **311**（每阶段 5 道） |
+| 跨语言概念对照 | **74 组**，覆盖 185 个课节 |
+| 成就 / 称号等级 | 29 / 15 |
 
-### 内容规模
+各语言明细：
 
-- **7 门语言 · 62 个阶段 · 248 节课 · 310 道阶段测评题**（每阶段 5 题，随机抽 4 题作答）
-- 每节含：讲解要点 + 可运行示例 + 示例输出 + 深入讲解 + 易错点 + 随堂思考（带答案）+ 速记 + 「学完你能做到」目标
-- 每个阶段含：阶段测评（5 题库随机抽 4 题，选项顺序打乱）+ **3 道编程实战**（附起始代码与提示，可一键生成 AI 批改提示词）—— 实战题共 **186 道**（62 阶段 × 3），全部中英双语
-- **360 道摸底测试题**（每门 50–54 题，覆盖全部阶段与 5 个难度档，每档 ≥10 题）
-- **63 组跨语言概念对照**（覆盖各语言 95% 以上的课程）
+| 语言 | 阶段 | 课节 | 阶段题 | 实战 | 摸底题 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 🐍 Python | 10 | 40 | 90 | 51 | 61 |
+| 🅲 C | 10 | 40 | 90 | 50 | 60 |
+| ⚙️ C++ | 10 | 40 | 90 | 50 | 60 |
+| ☕ Java | 10 | 40 | 90 | 50 | 62 |
+| 🟨 JavaScript | 8 | 32 | 72 | 40 | 61 |
+| 🟦 C# | 7 | 28 | 63 | 35 | 62 |
+| 🐹 Go | 7 | 28 | 63 | 35 | 64 |
 
-### 七门语言的编排
+课程编排（起 → 止）：
 
 | 语言 | 从 | 到 |
 | --- | --- | --- |
-| 🐍 **Python** | 环境与虚拟环境、变量与类型、控制流 | 面向对象、迭代器与生成器、线程与 asyncio、对象模型与内存管理、测试与打包 |
-| 🅲 **C** | 编译流程、数据类型、标准输入输出、控制流 | 指针核心、堆内存管理、结构体与预处理器、文件 IO、函数指针与未定义行为 |
-| ⚙️ **C++** | 现代语法、类型系统、引用、lambda | 类与对象、继承多态、模板与 concepts、STL、RAII 与移动语义、并发与对象模型 |
-| ☕ **Java** | JDK 与 JVM、基本类型、控制流、数组与字符串 | 面向对象、异常与集合泛型、IO/NIO、并发与 JUC、Lambda 与 Stream、JVM 内存与 GC |
-| 🟨 **JavaScript** | 运行环境、let/const、数据类型、模板字符串 | 数组与对象、DOM 与事件、异步与 fetch、class 与模块、Web API 与现代工程 |
-| 🟦 **C#** | .NET SDK、变量与可空类型、控制流与方法 | 集合与 LINQ、面向对象与接口、async/await、文件与 JSON、record 与依赖注入 |
-| 🐹 **Go** | 安装与 GOPATH、变量与类型、控制流与 defer | slice 与 map、接口与错误、goroutine 与 channel、net/http、工程化与测试 |
+| Python | 环境与虚拟环境、变量与类型、控制流 | 面向对象、迭代器与生成器、线程与 asyncio、对象模型、测试与打包 |
+| C | 编译流程、数据类型、标准 I/O、控制流 | 指针核心、堆内存、结构体与预处理器、文件 I/O、函数指针与 UB |
+| C++ | 现代语法、类型系统、引用、lambda | 类与对象、继承多态、模板与 concepts、STL、RAII 与移动语义、并发 |
+| Java | JDK 与 JVM、基本类型、控制流、数组与字符串 | 面向对象、异常与集合泛型、IO/NIO、并发与 JUC、Stream、JVM 内存与 GC |
+| JavaScript | 运行环境、let/const、数据类型、模板字符串 | 数组与对象、DOM 与事件、异步与 fetch、class 与模块、现代工程 |
+| C# | .NET SDK、可空类型、控制流与方法 | 集合与 LINQ、面向对象与接口、async/await、文件与 JSON、record |
+| Go | 安装与模块、变量与类型、控制流与 defer | slice 与 map、接口与错误、goroutine 与 channel、net/http、测试与工程化 |
 
-四门主线语言按 **4 大篇章**组织：入门奠基 → 核心能力 → 工程 / 系统 → 深入与纵深，篇章内标注建议周数；JavaScript / C# / Go 作为进阶补充语言，覆盖各自的核心工作流。
+四门主线语言按 **4 大篇章**组织（入门奠基 → 核心能力 → 工程/系统 → 深入纵深），篇章标注建议周数；JavaScript / C# / Go 作为进阶补充轨道，覆盖各自核心工作流。
 
-### 四条路线如何各走各的
+### 3. 技术架构
 
-- **摸底分班**：首次打开选择语言与基础程度。选「零基础」直接从第 1 节开始；选「有一定基础」进入一套 **35 题**的摸底测试（**固定标准，不低于 35 题**）——题目从 50+ 题题库中**按 5 个难度档分层随机抽取**（每档各 7 题）、由易到难排序（可随时「上一题」回看修改或提前交卷），作答期间**不能点空白退出**，避免误触丢失进度；结果按难度加权正确率给出 **L1–L6 六档等级**，并以「答对过半的最高难度档」封顶，只做对简单题拿不到高等级，据此安排起点，起点之前的课程自动记为已掌握
-- **主修路线隔离**：选定主修语言后，其余各门默认隐藏并锁定，避免每门都看一点、每门都不扎实；主修语言完成 **10 / 20 / 30** 节时依次解锁
-- **跨语言对照**：主修完成 6 节后开放。标明同一概念在别的语言里对应哪一节、差在哪里、容易混在哪里，并列出跳学时该补的前置课程
+#### 3.1 加载顺序与脚本职责
 
-### 激励与留存
+`index.html` 依赖 24 个外部脚本按固定顺序注入（见文末文件清单）。数据层与逻辑层严格分离：
 
-- GitHub 风格**学习日历热力图**（18 周）、累计学时、连续天数统计
-- **成就墙**（29 枚徽章，含「双语 / 三语 / 语言通才」跨语言成就）与 15 级称号
-- **间隔复习队列**（2 / 4 / 7 / 15 / 30 / 60 天）、个性化每日目标、**可复制的每日 / 周 / 月进度报告**（支持下载 `.md`）
-- **近 7 天 XP 趋势图**：报告区顶部按星期排列的柱状图，一眼看出这一周的投入起伏
-- **记忆续学**：自动记住「最后观看」的课程，在「今日任务」顶部高光「继续上次」、在「课程全景」打上 📍 标记，下次打开一键接着学
-- **智能侧边栏**：页面区块导航按正文实际顺序排列、课程章节可折叠、滚动联动高亮、宽度可拖拽调节、可收纳到屏幕左侧，均可本地持久化
-- **🪙 星币经济 · 主页风格商店**：学习 (+5)、复习 (+2)、打卡 (+3)、通关阶段测评 (+10)、完成实战 (+12) 均可赚取星币；星币**仅可用于解锁主页配色风格**（纯外观，6 套内置），绝不 pay-to-win
-- **🔒 每日学习上限保护**：每日新学节数默认上限 4（可在设置中调整 1–10）；待复习积压超过阈值（默认 8）时锁定新学、强制先巩固。被锁时首页展示醒目横幅、课程弹窗按钮禁用并说明原因；未超额时显示当日剩余额度
-- 数据本机 `localStorage` 保存，支持**导出 / 导入 / 重置**
+```
+数据脚本（window.LANG_DATA / PLACEMENT / CROSSLINKS / I18N / *_EXTRA）
+        ↓  启动期合并
+内存态：LANG_DATA[dk].stages[i].{lessons[], quiz[], lab + labs[]}
+        ↓  单向读取
+渲染层：renderAll() → renderDashboard / renderStages / renderLabs / renderPhases …
+```
 
-### 中英双语界面
+关键约定：**阶段与篇章容器由 JS 用 `innerHTML` 重建**，因此所有需要被脚本寻址的 `id` 一律挂在内层容器上，`<h2>` 等外壳留在静态 HTML 中；交互按钮统一走 `data-act` 全局事件委派。
 
-页面右上角可一键切换 **中文 / English**。界面框架与课程目录（62 个阶段名、248 个课程标题）已全量双语，课程正文为中文，切换立即生效并本地持久化。
+#### 3.2 数据模型
 
-### 技术特点
+```js
+stage = {
+  id, icon, name, desc, lv: "basic" | "adv" | "hard",
+  goal,                                  // 阶段目标
+  links: [[名称, URL], ...],             // 延伸资料
+  lessons: [{ id, title, min, summary[], code, pit, ex:{q,a}, target }],
+  quiz: [{ q, o:[4 选项], a: 正确下标, why, type: "choice"|"judge"|"fill", ans }],
+  lab:  { t, req[], starter, hint, xp }, // 原始实战（等价于 labs[0]）
+  labs: [ … ]                            // 运行期由 lab + 叠加层合并而成
+}
+```
 
-- **单文件 HTML 应用 + 21 个外部数据文件 + Service Worker**，无后端、无构建步骤、无第三方依赖
-- 打开即用，**可离线**（PWA）
-- 纯静态，可直接托管到 **GitHub Pages**
+#### 3.3 叠加层（overlay）扩展模式
 
-### 本地运行
+新增题库与实战**不改动原始数据文件**，而是以「叠加层 + 启动期合并」的方式注入：
 
-直接双击 `index.html` 即可在浏览器打开使用。
+```js
+window.QUIZ_EXTRA       // 阶段测评题（按 stageId 分组）
+window.PLACEMENT_EXTRA  // 摸底题（按 dk 分组）
+window.LAB_EXTRA        // 编程实战（按 stageId 分组）
+```
 
-> 若想启用**离线 / PWA（Service Worker）** 能力，需通过 http(s) 访问（而非 `file://`）。可用任意静态服务器，例如：
+启动时 `concat` 进对应字段。这样做的收益：原始数据文件保持稳定（便于 diff 与回滚），扩容只增新文件；同时**旧的学习进度键完全不受影响**。
+
+#### 3.4 题库与抽题算法
+
+- **题型**：`choice`（单选）/ `judge`（判断）/ `fill`（填空）。判断题为双选项、同样参与选项乱序；填空题为 `<input class="fill-input">`。
+- **答案归一化**：`normAns` 将全角字符转半角（U+FF01–FF5E）、去空白、去中英标点、转小写后再比对，避免因输入法差异误判。
+- **题型均衡抽题**：`drawQuiz` / `pickFromBand` 先为**每种已存在的题型各保底抽 1 题**，再用随机填满剩余名额。这样三种题型一定会出现，而不是靠概率。
+- **选项乱序保索引**：选项打乱时同步记录原题索引（`perm` / `ca`），确保正确答案跟随移动。
+
+#### 3.5 进度键与向后兼容
+
+阶段测评与通关状态按 `lessonId` / `stageId` 记录。实战题因为一个阶段有多道，使用**多键位方案**：
+
+```js
+labKey(sid, k) = k > 0 ? sid + "#" + k : sid
+```
+
+`k = 0` 沿用旧键（`sid`），`k ≥ 1` 使用 `sid#k`。因此新增实战题时**老用户的既有进度零迁移**，历史完成记录被自动识别。统计实战总数必须用 `totalLabs()`，不能用 `filter(s => s.lab).length`。
+
+#### 3.6 摸底测试设计
+
+| 环节 | 设计 |
+| --- | --- |
+| 题量 | 固定 **35 题**（`PT_COUNT`），不得下调 |
+| 抽样 | 5 个难度档分层抽样，每档 7 题 → 每门每档须 ≥10 题 |
+| 顺序 | 按 `diffOf(q) = min(5, max(1, ceil(st/2)))` 升序，由易到难 |
+| 节奏 | 选项点击只记录并重渲染，翻页由 `上一题 / 下一题` 控制；末题换为「交卷」按钮（未作答时禁用） |
+| 防误触 | 弹层锁定（`modalLocked`），作答期间点击空白不关闭 |
+| 结果 | 难度加权正确率 → L1–L6 六档，并以「答对过半的最高难度档」封顶 |
+
+#### 3.7 i18n 三层覆盖
+
+| 层 | 载体 | 覆盖 |
+| --- | --- | --- |
+| 界面框架 | `I18N.ui`（`{zh, en}` 词条） | 全量 |
+| 目录层 | `lang-i18n.js` + `lang-i18n-extra.js` | 阶段名 **62/62**、课节标题 **248/248**、实战标题 **311/311** |
+| 正文层 | `lang-i18n-content.js` | 课节正文 **160/248**（Python / C / C++ / Java 全量；JavaScript / C# / Go 暂为中文，见「已知限制」） |
+
+常见陷阱（本项目已规避）：模块级常量若在加载期直接求值会被烘焙成中文，须存 key、渲染时再 `t()`；字典缺 key 时 `T()` 原样返回 key（不报错，界面会露出裸 key，需断言校验）；动态 setter 漏挂 `applyLang` 会导致切语言不刷新。
+
+#### 3.8 离线与 PWA
+
+`lang-sw.js` 为 Service Worker：
+- **ASSETS 与 `<script src>` 的 URL 逐字符一致**（含 `?v=N`）。缓存以完整请求 URL 为键，裸文件名匹配不上带查询串的请求 —— 这是本项目的关键约束。
+- 预缓存逐个 `add().catch()`，任一资源缺失只跳过它自己，不会让整批失败。
+- 任何新增资源都必须同时 **加入 ASSETS** 并 **bump `CACHE` 版本**，否则老客户端会命中旧缓存。
+
+#### 3.9 自检套件
+
+`verify/` 为本地验证脚本（**不参与部署**），基于 playwright-core + 系统 Edge 无头运行：
+
+| 脚本 | 覆盖 |
+| --- | --- |
+| `_audit_static.js` | 内联/外部 JS 语法、脚本存在性、SW ASSETS 与页面请求 URL 一致性、DOM id 死引用、`data-act` 分派覆盖、硬编码数字扫描 |
+| `_audit_runtime.js` | 数据字段与下标合法性、选项下标越界、填空答案非空、判断答案域、选项重复、摸底分档 ≥10、i18n key 泄漏、空存档不崩 |
+| `_dup_runtime.js` | 真实合并题库的跨库查重（阶段题 vs 摸底题）、同语言实战标题查重 |
+| `_regression.js` | 端到端：三种题型真实出现率、逐题判分、摸底 35/35、多键位进度与旧键兼容、卡片数 == `totalLabs()`、0 运行时错误 |
+
+> 关键经验：**抽查前先断言题库长度大于抽题数**（曾有阶段题库仅 3 题而要求抽 4 题，经 `min` 后等于全部出题，随机性归零）；**题库键必须等于 `langMeta(id).dk`**（如 C 的 `dk` 是 `c`、C# 是 `cs`），写错会**静默**回退到「从第 1 节开始」而不报错。
+
+### 4. 学习机制
+
+- **摸底分班**：选「零基础」直接从第 1 节开始；选「有一定基础」进入 35 题摸底测试，按结果定起点，起点之前的课程自动记为已掌握。
+- **主修路线隔离**：选定主修语言后其余各门隐藏并锁定，主修完成 10 / 20 / 30 节时依次解锁。
+- **跨语言对照**：主修完成 6 节后开放，74 组对照标明同一概念在其他语言对应的课节与差异。
+- **间隔复习**：2 / 4 / 7 / 15 / 30 / 60 天队列 + 错题本。
+- **每日上限保护**：每日新学默认上限 4 节（可调 1–10）；待复习积压超过阈值（默认 8）时锁定新学，强制先巩固。
+- **激励**：学习日历热力图（18 周）、29 枚成就、15 级称号、近 7 天 XP 趋势、可复制的日/周/月进度报告（可下载 `.md`）。
+- **星币经济**：学习 / 复习 / 打卡 / 测评 / 实战均可赚取星币，**仅用于解锁主页配色风格**（15 套，含默认 1 套），不做 pay-to-win。
+- **记忆续学**：自动记录最后观看的课节，「今日任务」顶部高光「继续上次」。
+- **数据自管**：导出 / 导入 / 重置；首屏即提供导出与导入入口，清空需二次确认。
+
+### 5. 本地运行与部署
+
+直接双击 `index.html` 即可使用。
+
+> 需要**离线 / PWA** 能力时须通过 http(s) 访问（`file://` 下浏览器会拒绝注册 Service Worker，属正常现象，不影响其他功能）：
 >
 > ```bash
-> # Python 3
-> python -m http.server 8080
-> # 然后访问 http://localhost:8080
+> python -m http.server 8080     # 然后访问 http://localhost:8080
 > ```
->
-> 用 `file://` 直接打开时，浏览器会拒绝注册 Service Worker，属正常现象，不影响其他功能。
 
-### 部署到 GitHub Pages
+**部署到 GitHub Pages**：将本目录（`index.html` + 24 个数据脚本 + `lang-sw.js`）推送至仓库**根目录**（不要套子目录），然后在 *Settings → Pages → Build and deployment → Source* 选择 `Deploy from a branch`、分支 `main`、目录 `/ (root)`。
 
-1. 把本目录 **15 个文件**全部推送到 GitHub 仓库**根目录**（不要套一层子文件夹）
-2. 仓库 **Settings → Pages → Build and deployment → Source** 选 `Deploy from a branch`，分支选 `main`、目录选 `/ (root)`
-3. 等待发布完成后，访问 `https://<user>.github.io/<repo>/` 即可
+> 仓库名仅允许字母、数字与 `.` `-` `_`（不支持冒号与空格），建议 `R0-hello-world`，把「R0:hello world」写进仓库 About。
 
-> 提示：GitHub 仓库名只允许字母、数字和 `.` `-` `_`（**不支持冒号与空格**），建议用 `R0-hello-world`，把「R0:hello world」写进仓库 About 描述。
+### 6. 已知限制
 
-### ⚠️ AI 辅助搭建声明
+1. **课节正文英文覆盖不完整**：`lang-i18n-content.js` 覆盖 160/248 节，JavaScript / C# / Go 共 88 节的英文模式下正文仍显示中文（界面、阶段名、课节标题、实战标题均已双语）。
+2. **跨语言对照覆盖不均**：74 组对照对 Python（40/40）、C（38/40）、C++（38/40）、Java（39/40）接近全覆盖，JavaScript（10/32）、C#（10/28）、Go（10/28）仅覆盖核心概念。
+3. **数据存于本机**：清除浏览器数据会丢失进度，请定期导出备份。
 
-本仓库（包括全部课程文案、界面与代码）由 **AI 辅助生成 / 组装**。内容按「七门通用语言从 0 到深入」编排，但技术细节请以各语言官方文档、标准与权威教材为准，使用前请自行核对。仓库仅供学习交流，按现状提供，不作任何担保。
+### 7. 授权与声明
+
+本仓库（含全部课程文案、界面与代码）由 **AI 辅助生成 / 组装**。内容按「七门通用语言从 0 到深入」编排，但技术细节请以各语言官方文档、标准与权威教材为准，使用前请自行核对。仓库仅供学习交流，按现状提供，不作任何担保。授权条款见 `LICENSE.md`。
 
 ---
 
 ## English
 
-### What is this
+### Overview
 
-`R0:hello world` (Chinese name **R0：从零开始的编程之路**, "R0: the road to programming from zero") is a purely static, offline-capable self-study course covering four general-purpose languages: **Python, C, C++, and Java**.
+`R0:hello world` is a **purely static, dependency-free, offline-capable** self-study course covering **seven general-purpose languages**: Python, C, C++, Java, JavaScript, C#, and Go. It is a single-file HTML app plus 24 external data modules and a Service Worker — no backend, no build step, no third-party runtime dependency.
 
-It makes no career-track adaptation: it doesn't assume you're heading for algorithms, backend, or embedded systems. It simply explains each of the four languages properly — a full **10 stages / 40 lessons** per language, from setting up your environment and running your first line of code all the way to runtime mechanics and engineering practice.
+### Scope (measured)
 
-Every lesson carries key points, a runnable example, sample output, in-depth notes, a common pitfall, a self-check question, and a recap — so you don't need to reach for outside material. All learning data stays in your own browser.
+| Metric | Value |
+| --- | --- |
+| Languages / stages / lessons | **7 / 62 / 248** |
+| Stage-quiz questions | **558** (choice 310 · true-false 124 · fill-in 124) |
+| Bank per stage / drawn per attempt | 9 / 4 |
+| Placement bank / questions per attempt | **430** / **35** (fixed floor, never lower) |
+| Coding labs | **311** (5 per stage) |
+| Cross-language concept groups | **74**, spanning 185 lessons |
+| Achievements / title levels | 29 / 15 |
 
-### Scope
+Per language: Python 10/40 · C 10/40 · C++ 10/40 · Java 10/40 · JavaScript 8/32 · C# 7/28 · Go 7/28 (stages/lessons). The four main languages follow **4 chapters** (foundations → core skills → engineering/systems → depth); JavaScript, C#, and Go are supplementary tracks.
 
-- **7 languages · 62 stages · 248 lessons · 310 stage-quiz questions**
-- Each lesson: key points + runnable sample + sample output + in-depth notes + pitfall + self-check (with answer) + recap + a "what you can do after this" target
-- Each stage: a stage quiz (4 questions randomly drawn from a 5-question bank, options shuffled) + **3 coding labs** (starter code, hints, one-click AI grading prompt) — **186 labs** in total (62 stages × 3), fully bilingual
-- **360 placement questions** (50–54 per language, each spanning all 5 difficulty bands, ≥10 per band)
-- **63 cross-language concept groups** (covering 95%+ of lessons in each language)
+### Architecture
 
-### The seven tracks
+- **Data / logic separation.** `index.html` holds the UI and all logic; 24 external scripts supply curriculum, placement banks, cross-language map, i18n dictionaries, and overlay files.
+- **Overlay extension pattern.** New questions and labs ship as `window.QUIZ_EXTRA` / `window.PLACEMENT_EXTRA` / `window.LAB_EXTRA` and are merged into the in-memory model at startup via `concat`. Original data files are never edited, so history stays diffable and rollback-safe.
+- **Question types & scoring.** `choice` / `judge` / `fill`. Answers are normalised before comparison (full-width → half-width, whitespace and punctuation stripped, lower-cased) so IME differences never cause a false negative. Draws are **type-balanced**: each existing type is guaranteed at least one slot before random fill, and option shuffling preserves the original answer index.
+- **Progress keying.** Labs use `labKey(sid, k) = k > 0 ? sid + "#" + k : sid`, so `k = 0` keeps the legacy key and **existing user progress needs zero migration** when new labs are added.
+- **Placement test.** Fixed 35 questions, stratified across 5 difficulty bands (7 each, so every language needs ≥10 per band), ordered easy→hard, mapped to six levels (L1–L6) by difficulty-weighted accuracy and capped by the hardest band answered at least half correctly.
+- **i18n.** Three layers: UI dictionary (complete), catalogue (62 stage names / 248 lesson titles / 311 lab titles — complete), lesson bodies (160/248; Python, C, C++, Java complete).
+- **Offline / PWA.** The Service Worker's `ASSETS` list matches the page's `<script src>` URLs **character for character** (including `?v=N`) — the cache is keyed by full request URL, so bare filenames would miss. Precache is per-item with `catch()`, and every added asset requires a cache-version bump.
+- **Verification.** `verify/` (not deployed) runs headless static, runtime, duplicate, and end-to-end regression audits via playwright-core.
 
-| Language | From | To |
-| --- | --- | --- |
-| 🐍 **Python** | environment & venvs, types, control flow | OOP, iterators & generators, threads & asyncio, object model & memory, testing & packaging |
-| 🅲 **C** | build pipeline, data types, standard I/O, control flow | pointers, heap management, structs & preprocessor, file I/O, function pointers & undefined behavior |
-| ⚙️ **C++** | modern syntax, type system, references, lambdas | classes & objects, inheritance & polymorphism, templates & concepts, STL, RAII & move semantics, concurrency |
-| ☕ **Java** | JDK & JVM, primitives, control flow, arrays & strings | OOP, exceptions & generic collections, IO/NIO, concurrency & JUC, Lambda & Stream, JVM memory & GC |
-| 🟨 **JavaScript** | runtime, let/const, data types, template literals | arrays & objects, DOM & events, async & fetch, class & modules, Web APIs, modern tooling |
-| 🟦 **C#** | .NET SDK, variables & nullable types, control flow & methods | collections & LINQ, OOP & interfaces, async/await, files & JSON, records & DI |
-| 🐹 **Go** | install & GOPATH, variables & types, control flow & defer | slices & maps, interfaces & errors, goroutines & channels, net/http, tooling & testing |
+### Run & deploy
 
-The four main languages are organized into **4 chapters**: foundations → core skills → engineering / systems → depth, with suggested week counts; JavaScript / C# / Go serve as supplementary tracks covering each language's core workflow.
+Open `index.html` directly, or serve over http(s) to enable the Service Worker (`python -m http.server 8080`). For GitHub Pages, push everything to the repository **root** and deploy from the `main` branch, `/ (root)`.
 
-### How the tracks stay independent
+### Known limitations
 
-- **Placement test**: on first open you choose a language and your level. Pick "absolute beginner" and you start at lesson one; pick "some experience" and a **35-question test** follows (**a fixed floor, never below 35**) — questions are **stratified-randomly drawn across 5 difficulty bands** from a 50+ question bank (7 per band) and ordered easy→hard (you may go back to review/change answers or submit early), and the overlay **cannot be dismissed by clicking outside** so progress is never lost by mistake. Results map to **six levels (L1–L6)** based on difficulty-weighted accuracy, capped by the hardest band you got at least half right — so easy-only correctness can't yield a high level. Earlier lessons are credited as already known
-- **Main-track isolation**: after choosing your main language, the others are hidden and locked so you don't skim many languages and master none; they unlock at **10 / 20 / 30** completed lessons
-- **Cross-language notes**: unlocked after 6 lessons in your main track — which lesson covers the same concept elsewhere, how it differs, what's easy to confuse, and what to review first if you jumped ahead
+1. Lesson bodies are not fully translated: 160/248 lessons have English bodies (UI, stage names, lesson titles, and lab titles are fully bilingual).
+2. Cross-language coverage is uneven: near-complete for Python/C/C++/Java, core concepts only for JavaScript/C#/Go.
+3. Progress lives in `localStorage` — back up with the built-in export.
 
-### Motivation & retention
+### License & disclosure
 
-- GitHub-style **learning heatmap** (18 weeks), cumulative study time, and streak tracking
-- An **achievement wall** (29 badges, including cross-language *Bilingual / Trilingual / Polyglot*) and 15 title levels
-- A **spaced-repetition queue** (2 / 4 / 7 / 15 / 30 / 60 days), personalized daily goals, and **copyable daily / weekly / monthly progress reports** (downloadable as `.md`)
-- A **7-day XP trend chart** above the report, so a week's momentum is visible at a glance
-- **Resume-where-you-left-off**: the app remembers the last lesson you viewed, highlights a "Continue" card and marks it with a 📍 in the course panorama
-- **Smart sidebar**: sections listed in real page order, collapsible chapter list, scroll-synced highlighting, drag-resizable width, collapsible to the screen edge — all persisted locally
-- **🪙 Coin economy · homepage style shop**: earn coins by learning (+5), reviewing (+2), check-ins (+3), passing stage quizzes (+10), and finishing labs (+12); coins **only** unlock cosmetic homepage themes (6 built in) — never pay-to-win
-- **🔒 Daily-cap protection**: new lessons are capped at **4/day** by default (adjustable 1–10); when the review backlog exceeds the threshold (default 8), new lessons are locked until reviews are done — a banner explains why, and the remaining quota is shown otherwise
-- Progress is saved in the browser via `localStorage`, with **export / import / reset** support
-
-### Bilingual UI
-
-Switch **中文 / English** from the top-right corner. The interface shell and the course catalogue (40 stage names, 160 lesson titles) are fully bilingual; lesson bodies are in Chinese. Switching is instant and persisted locally.
-
-### Technical notes
-
-- A **single-file HTML app + 11 external data files + Service Worker** — no backend, no build step, no third-party dependencies
-- Opens instantly and works **offline** (PWA)
-- Purely static, deploys straight to **GitHub Pages**
-
-### Run locally
-
-Just open `index.html` in a browser.
-
-> To enable the **offline / PWA (Service Worker)** capability, serve it over http(s) rather than `file://`. Any static server works, e.g.:
->
-> ```bash
-> # Python 3
-> python -m http.server 8080
-> # then open http://localhost:8080
-> ```
->
-> When opened via `file://`, the browser refuses to register the Service Worker — this is expected and does not affect the rest of the app.
-
-### Deploy to GitHub Pages
-
-1. Push all **15 files** in this directory to the GitHub repository **root** (do not nest them in a subfolder)
-2. **Settings → Pages → Build and deployment → Source**: `Deploy from a branch`, branch `main`, directory `/ (root)`
-3. Once published, visit `https://<user>.github.io/<repo>/`
-
-> Note: GitHub repository names may only contain letters, digits, and `.` `-` `_` (**no colons or spaces**). Use `R0-hello-world` and put "R0:hello world" in the repository's About description.
-
-### ⚠️ AI-assisted build disclosure
-
-This repository — including all curriculum text, UI, and code — was **generated / assembled with AI assistance**. The material follows a "zero to depth" path across four general-purpose languages, but please verify technical details against official language documentation, standards, and authoritative references before relying on them. Provided as-is for learning purposes, without warranty of any kind.
+All curriculum text, UI, and code were **generated / assembled with AI assistance**. Verify technical details against official documentation and authoritative references before relying on them. Provided as-is for learning purposes, without warranty. See `LICENSE.md`.
 
 ---
 
-## 📦 Files
+## 📦 文件清单 / Files
 
-| File | Purpose |
+| 文件 | 作用 |
 | --- | --- |
-| `index.html` | The course app (entry point: UI + all logic) |
-| `lang-data-python.js` | Python curriculum (10 stages / 40 lessons) |
-| `lang-data-c.js` | C curriculum (10 stages / 40 lessons) |
-| `lang-data-cpp.js` | C++ curriculum (10 stages / 40 lessons) |
-| `lang-data-java.js` | Java curriculum (10 stages / 40 lessons) |
-| `lang-data-js.js` | JavaScript curriculum (8 stages / 32 lessons) |
-| `lang-data-csharp.js` | C# curriculum (7 stages / 28 lessons) |
-| `lang-data-go.js` | Go curriculum (7 stages / 28 lessons) |
-| `lang-enhance-python.js` | Python lesson enhancements (sample output / in-depth notes / recap) |
-| `lang-enhance-c.js` | C lesson enhancements |
-| `lang-enhance-cpp.js` | C++ lesson enhancements |
-| `lang-enhance-java.js` | Java lesson enhancements |
-| `lang-enhance-js.js` | JavaScript lesson enhancements |
-| `lang-enhance-csharp.js` | C# lesson enhancements |
-| `lang-enhance-go.js` | Go lesson enhancements |
-| `lang-placement.js` | Placement test bank (360 questions; every language has ≥10 questions in each of the 5 difficulty bands) |
-| `lang-placement-extra.js` | Extra placement questions (`window.PLACEMENT_EXTRA`), merged at startup to lift every difficulty band to ≥10 questions per language — required by the fixed 35-question standard |
-| `lang-quiz-extra.js` | Extra stage-quiz questions (`window.QUIZ_EXTRA`), merged at startup to enlarge each stage bank to 5 |
-| `lang-lab-extra.js` | Extra hands-on labs (`window.LAB_EXTRA`), 2 per stage × 62 stages = **124 labs**, merged into `stage.labs` at startup (zh + en) |
-| `lang-crosslinks.js` | Cross-language concept map (63 groups) |
-| `lang-i18n.js` | Bilingual dictionary (UI + course catalogue) |
-| `lang-i18n-content.js` | English translations of all lesson bodies (`window.I18N.lesson_en`) |
-| `lang-sw.js` | Service Worker for offline caching |
-| `README.md` | This document |
-| `LICENSE.md` | MIT License |
+| `index.html` | 应用入口：UI + 全部渲染与业务逻辑 |
+| `lang-data-{python,c,cpp,java,js,csharp,go}.js` | 七门语言的课程数据（阶段 / 课节 / 原始实战 / 题库） |
+| `lang-enhance-{python,c,cpp,java,js,csharp,go}.js` | 各语言课节的补充内容（示例输出 / 深入讲解 / 速记） |
+| `lang-placement.js` | 摸底题库（430 题） |
+| `lang-placement-extra.js` | 摸底题叠加层（`PLACEMENT_EXTRA`），把每门每难度档补齐到 ≥10 题 |
+| `lang-quiz-extra.js` | 阶段测评题叠加层（`QUIZ_EXTRA`），扩宽每阶段题库 |
+| `lang-extra2.js` | 阶段题 + 摸底题叠加层：每阶段 +2 判断 +2 填空（62×4 = 248），每门每档 +1 判断 +1 填空（70） |
+| `lang-lab-extra.js` | 实战叠加层（`LAB_EXTRA`），每阶段 +2 道，中英双语 |
+| `lang-lab-extra2.js` | 实战叠加层（`LAB_EXTRA`），每阶段 +2 道 → 每阶段 5 道 / 全站 311 道 |
+| `lang-crosslinks.js` | 跨语言概念对照表（74 组） |
+| `lang-i18n.js` | 界面与目录层双语字典 |
+| `lang-i18n-content.js` | 课节正文英文（`I18N.lesson_en`，160 节） |
+| `lang-i18n-extra.js` | 阶段层英文补充（`I18N.stage_en`，补齐 62/62 阶段） |
+| `lang-sw.js` | Service Worker（离线缓存） |
+| `README.md` / `LICENSE.md` | 本文档 / MIT 授权 |
+| `verify/` | 本地自检脚本，**不参与部署** |
 
 ## 🏷️ Topics
 

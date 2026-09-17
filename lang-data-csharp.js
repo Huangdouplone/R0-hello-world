@@ -67,7 +67,7 @@ int Sum(params int[] numbers) {
   return total;
 }
 Console.WriteLine(Add(1,2));
-Console.WriteLine(Sum(1,2,3,4));`,pit:"表达式-bodied 方法 => 适合单行方法；可选参数必须在参数列表末尾。",ex:{q:"params 关键字的作用？",a:"让方法接收任意数量的同类型参数，内部当作数组处理。"},target:"能定义有返回值和无返回值的方法。"},
+Console.WriteLine(Sum(1,2,3,4));`,pit:"表达式主体方法（=>）适合单行方法；可选参数必须在参数列表末尾。",ex:{q:"params 关键字的作用？",a:"让方法接收任意数量的同类型参数，内部当作数组处理。"},target:"能定义有返回值和无返回值的方法。"},
 {id:"cs-2-4",title:"ref/out 与值引用",min:10,summary:["值类型传参是拷贝；引用类型传引用。","ref 按引用传递（必须先赋值）。","out 输出参数（方法内必须赋值）。"],code:`void Swap(ref int a, ref int b) {
   int t = a; a = b; b = t;
 }
@@ -80,7 +80,7 @@ bool TryParse(string s, out int result) => int.TryParse(s, out result);`,pit:"in
 quiz:[
 {q:"遍历数组推荐用？",o:["for","foreach","while","do-while"],a:1,why:"foreach 简洁安全，只读遍历首选。"},
 {q:"ref 参数要求？",o:["必须为 null","传入前必须赋值","不能修改","必须是引用类型"],a:1,why:"ref 参数传入前必须明确赋值。"},
-{q:"表达式-bodied 方法用？",o:["->","=>","::","=>"],a:1,why:"=> 用于表达式-bodied 成员。"}
+{q:"表达式主体成员使用哪个符号定义？",o:["->","=>","::","??"],a:1,why:"=> 用于表达式主体成员（expression-bodied member）。"}
 ]},
 {id:"cs-s3",icon:"📦",name:"集合与泛型",desc:"List、Dictionary、数组",lv:"basic",
 goal:"能用 List<T> 和 Dictionary<K,V>。",

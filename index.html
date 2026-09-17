@@ -287,6 +287,14 @@ body.sbCollapsed .sb-toggle{display:flex;}
 .q-opt .abc{width:23px;height:23px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
 .q-opt.right{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,transparent);}
 .q-opt.wrong{border-color:var(--red);background:color-mix(in srgb,var(--red) 10%,transparent);}
+/* 题型标识：选择题 / 判断题 / 填空题 */
+.q-type{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);vertical-align:middle;}
+.q-fill{display:flex;gap:8px;align-items:stretch;margin:6px 0 2px;}
+.fill-input,.pt-fill{flex:1;min-width:0;font-size:16px;padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg2);color:var(--ink);font-family:inherit;}
+.fill-input:focus,.pt-fill:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent);}
+.fill-input:disabled,.pt-fill:disabled{opacity:.72;}
+.fill-hint{font-size:12px;color:var(--sub);margin-top:6px;line-height:1.6;}
+@media(max-width:520px){.q-fill{flex-direction:column;}.q-fill .btn{min-height:44px;}}
 .q-why{background:var(--bg2);border-radius:11px;padding:11px 13px;font-size:13px;margin-top:10px;line-height:1.7;}
 .intro-step{display:flex;gap:11px;align-items:flex-start;margin:11px 0;}
 .intro-step .n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
@@ -584,13 +592,16 @@ body.sbCollapsed .sb-toggle{display:flex;}
 <script src="lang-placement.js"></script>
 <script src="lang-placement-extra.js?v=1"></script>
 <script src="lang-crosslinks.js"></script>
-<script src="lang-i18n.js?v=22"></script>
-<script src="lang-i18n-content.js"></script>
+<script src="lang-i18n.js?v=23"></script>
+<script src="lang-i18n-content.js?v=43"></script>
 <script src="lang-quiz-extra.js?v=1"></script>
-<script src="lang-lab-extra.js?v=1"></script>
+<script src="lang-lab-extra.js?v=2"></script>
+<script src="lang-extra2.js?v=1"></script>
+<script src="lang-lab-extra2.js?v=1"></script>
+<script src="lang-i18n-extra.js?v=1"></script>
 <script>
-/* 合并扩容题库：为每个阶段在原 3 题后追加 2 题（共 5 题），
-   使章节测试的「随机抽 4 题」具备真实随机性。 */
+/* 合并扩容题库：lang-quiz-extra.js（+2 题）与 lang-extra2.js（+2 判断 +2 填空），每阶段共 9 题，
+   使「随机抽 4 题」既具备真实随机性，又能稳定抽到判断 / 填空等新题型。 */
 (function(){
   if(!window.QUIZ_EXTRA)return;
   var D=window.LANG_DATA||{};
@@ -638,8 +649,8 @@ var ENH=window.LESSON_EXTRA||{};
 var PLACEMENT=window.PLACEMENT||{};
 var XLS=window.CROSSLINKS||[];
 
-/* ---- 实战题叠加层：lang-lab-extra.js（每阶段 +2 道，不改动 lang-data-*.js） ----
-   合并后 stage.labs = [原 stage.lab, 新增1, 新增2]，labs[0] 即原 lab（旧进度不丢）。 */
+/* ---- 实战题叠加层：lang-lab-extra.js + lang-lab-extra2.js（各 +2 道，不改动 lang-data-*.js） ----
+   合并后 stage.labs = [原 stage.lab, …叠加层新增题]，labs[0] 恒为原 lab（旧进度不丢）。 */
 (function(){
   var LE=window.LAB_EXTRA||{}, LD=window.LANG_DATA||{};
   Object.keys(LD).forEach(function(dk){
@@ -670,7 +681,7 @@ function leContent(id){var e=(I18N.lesson_en||{})[id];return (isEn()&&e)?e:null;
 function stEn(s){var e=(I18N.stage_en||{})[s.id];return (isEn()&&e)?e:null;}
 function stGoal(s){var e=stEn(s);return e?e.goal:s.goal;}
 function stLinks(s){var e=stEn(s);return (e&&e.links)?e.links:s.links;}
-/* 多实战支持：每阶段 labs[]（labs[0] 为原 s.lab，其余来自 lang-lab-extra.js） */
+/* 多实战支持：每阶段 labs[]（labs[0] 为原 s.lab，其余来自 lang-lab-extra.js / lang-lab-extra2.js） */
 function labList(s){return (s.labs&&s.labs.length)?s.labs:(s.lab?[s.lab]:[]);}
 function labKey(sid,k){return k>0?(sid+"#"+k):sid;}          // k=0 沿用旧键，旧进度不丢
 function labOf(s,k){var l=labList(s)[k||0]||(s.lab||{});return l;}
@@ -1249,7 +1260,7 @@ function renderStages(){
         '<div class="stage-goal">🎯 '+escapeHtml(stGoal(s))+'</div>'+
         '<div class="stage-links">'+links+'</div>'+lessons+
         '<div class="nav-lesson">'+
-          '<button class="btn small" data-act="quiz" data-id="'+s.id+'">'+(qz?(isEn()?"📝 Retake quiz (best ":"📝 再做阶段测评（最高 ")+qz.score+"/"+qz.total+(isEn()?")":"）"):(isEn()?"📝 Stage quiz (3 Q)":"📝 阶段测评（3 题）"))+'</button>'+
+          '<button class="btn small" data-act="quiz" data-id="'+s.id+'">'+(qz?(isEn()?"📝 Retake quiz (best ":"📝 再做阶段测评（最高 ")+qz.score+"/"+qz.total+(isEn()?")":"）"):(isEn()?"📝 Stage quiz (4 Q)":"📝 阶段测评（4 题）"))+'</button>'+
           '<button class="btn small green" data-act="lab" data-id="'+s.id+'" data-k="0">💻 '+(data.labs[s.id]?(isEn()?"View lab":"查看实战题"):(isEn()?"Unlock lab":"解锁实战题"))+(labList(s).length>1?' ('+labList(s).length+')':'')+'</button>'+
         '</div>'+
       '</div></div>';
@@ -1718,24 +1729,71 @@ var QUIZ_COUNT=4;   // 阶段测评每次抽题数（题库不足则取全部）
    以保证 35 题能均衡覆盖各档、且每次抽题结果有变化（见 lang-placement-extra.js）。 */
 var PT_COUNT=35;
 
-/* 阶段测评：从题库随机抽 N 题 + 每题选项乱序。
-   rec.ai 保留 authored 下标 → qzQ/qzO/qzWhy 的英文覆盖仍然按原下标取，i18n 不受乱序影响。 */
+/* ===== 题型体系：choice（选择）/ judge（判断）/ fill（填空）=====
+   · judge 复用选项渲染（正确/错误 两选项，同样参与乱序），题库里可省略 o，只要 a:0|1（0=正确/True）
+   · fill 无选项，改为文本输入；判分走答案归一化（全角转半角 + 去空白 + 忽略大小写 + 中英标点等价 +
+     支持多解 ans:[...]），避免「差一个空格/大小写就判错」这种劝退体验
+   rec 结构：{ai, kind, opts(显示顺序的选项文本；fill 为 null), ca(正确项在 opts 中的下标), ans(fill 的归一化答案数组)}
+   rec.ai 保留 authored 下标 → qzQ/qzO/qzWhy 的英文覆盖仍按原下标取，i18n 与乱序互不影响。 */
+function qKind(q){return (q&&q.type==="judge")?"judge":((q&&q.type==="fill")?"fill":"choice");}
+function judgeOpts(){return isEn()?["True","False"]:["正确","错误"];}
+function normAns(t){
+  var s=String(t==null?"":t);
+  s=s.replace(/[\uFF01-\uFF5E]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0xFEE0);});
+  s=s.replace(/\u3000/g," ").toLowerCase().replace(/\s+/g,"");
+  return s.replace(/[。，、；：！？·,.;:!?()\[\]{}<>《》〈〉「」『』【】—…\-_/\\|@#$%^&*+=~'"`]/g,"");
+}
+function fillAccepted(q){var a=q.ans;return (a==null?[]:(Array.isArray(a)?a:[a])).map(normAns);}
+function optsOf(s,ai){
+  var q=s.quiz[ai];
+  if(qKind(q)==="judge")return judgeOpts();
+  return iota(q.o.length).map(function(j){return qzO(s,ai,j);});
+}
+/* 抽题（题型均衡）：先给每种存在的题型保底 1 题（总数不超过 N），再随机补满。
+   否则题库里选择题占多数时，新增的判断/填空可能一次都抽不到，「加了题型」形同虚设。 */
+function drawQuiz(bank,n){
+  n=Math.min(n,bank.length);
+  var pool={choice:[],judge:[],fill:[]};
+  bank.forEach(function(q,i){pool[qKind(q)].push(i);});
+  var kinds=["choice","judge","fill"].filter(function(t){return pool[t].length;});
+  var picked=[],used={};
+  kinds.forEach(function(t){
+    if(picked.length>=n)return;
+    var k=Math.floor(Math.random()*pool[t].length);
+    used[pool[t][k]]=1;picked.push(pool[t][k]);
+  });
+  var rest=[];
+  for(var i=0;i<bank.length;i++){if(!used[i])rest.push(i);}
+  rest=shuffleArr(rest);
+  while(picked.length<n&&rest.length)picked.push(rest.shift());
+  return shuffleArr(picked);
+}
 function buildQuiz(s){
-  var picked=shuffleArr(iota(s.quiz.length)).slice(0,Math.min(QUIZ_COUNT,s.quiz.length));
+  var picked=drawQuiz(s.quiz,QUIZ_COUNT);
   return picked.map(function(ai){
-    var perm=shuffleArr(iota(s.quiz[ai].o.length));
-    return {ai:ai,perm:perm,ca:perm.indexOf(s.quiz[ai].a)};
+    var q=s.quiz[ai],kind=qKind(q);
+    if(kind==="fill")return {ai:ai,kind:"fill",opts:null,ca:-1,ans:fillAccepted(q)};
+    var o=optsOf(s,ai),perm=shuffleArr(iota(o.length));
+    return {ai:ai,kind:kind,opts:perm.map(function(j){return o[j];}),ca:perm.indexOf(q.a)};
   });
 }
 function qzText(s,rec){return qzQ(s,rec.ai);}
-function qzOpt(s,rec,disp){return qzO(s,rec.ai,rec.perm[disp]);}
-function qzAns(s,rec){return qzO(s,rec.ai,s.quiz[rec.ai].a);}
+function qzOpt(s,rec,disp){return rec.opts?rec.opts[disp]:"";}
+function qzAns(s,rec){return rec.opts?rec.opts[rec.ca]:((s.quiz[rec.ai].ans||[])[0]||"");}
 function qzExpl(s,rec){return qzWhy(s,rec.ai);}
+function kindTag(kind){return kind==="fill"?(isEn()?"Fill in the blank":"填空题"):(kind==="judge"?(isEn()?"True / False":"判断题"):(isEn()?"Single choice":"选择题"));}
+function abcOf(i){return ["A","B","C","D","E","F"][i]||"";}
+function quizWhyHtml(ok,rec,s){
+  return '<div class="q-why">'+(ok?("✅ "+T("correct")+"！"):("❌ "+T("wrong")+"："+escapeHtml(qzAns(s,rec))))+'<br>💡 '+escapeHtml(qzExpl(s,rec))+'</div>';
+}
+function quizNextHtml(st){
+  return '<div class="modal-actions"><button class="btn" data-act="next-q">'+(st.idx+1>=st.qs.length?T("quiz_result")+" →":T("quiz_next")+" →")+'</button></div>';
+}
 
 function startQuiz(stageId){
   var s=CURRICULUM.filter(function(x){return x.id===stageId;})[0];
   if(!s||!s.quiz.length)return;
-  quizState={id:stageId,idx:0,qs:buildQuiz(s),ans:[]};
+  quizState={id:stageId,idx:0,qs:buildQuiz(s),ans:[],ok:[]};
   showQuiz();
 }
 function showQuiz(){
@@ -1743,37 +1801,67 @@ function showQuiz(){
   if(!s)return;
   if(st.idx>=st.qs.length){finishQuiz();return;}
   var rec=st.qs[st.idx];
+  var body=(rec.kind==="fill")
+    ? '<div class="q-fill"><input class="fill-input" id="fillInput" type="text" autocomplete="off" spellcheck="false" placeholder="'+(isEn()?"Type your answer here…":"在这里输入答案…")+'"><button class="btn green" data-act="fill-submit">'+(isEn()?"Submit":"提交")+'</button></div>'+
+      '<div class="fill-hint">'+(isEn()?"Case, spaces and punctuation are ignored — just type the key term.":"大小写、空格与标点都不敏感，直接写关键词即可。")+'</div>'
+    : rec.opts.map(function(_,disp){return '<div class="q-opt" data-act="opt" data-i="'+disp+'"><div class="abc">'+abcOf(disp)+'</div><div>'+escapeHtml(qzOpt(s,rec,disp))+'</div></div>';}).join("");
   var html='<h3>📝 '+escapeHtml(T("quiz_of"))+' · '+escapeHtml(stName(s))+'</h3>'+
-    '<div class="meta">'+escapeHtml(T("quiz_progress",{a:st.idx+1,b:st.qs.length}))+'</div>'+
+    '<div class="meta">'+escapeHtml(T("quiz_progress",{a:st.idx+1,b:st.qs.length}))+' · <span class="q-type">'+kindTag(rec.kind)+'</span></div>'+
     '<div class="q-dots">'+st.qs.map(function(r,i){
-      var c=i<st.ans.length?(st.ans[i]===r.ca?"ok":"no"):(i===st.idx?"on":"");
+      var c=(st.ok[i]===true)?"ok":((st.ok[i]===false)?"no":(i===st.idx?"on":""));
       return '<i class="'+c+'"></i>';}).join("")+'</div>'+
     '<div style="font-size:16px;font-weight:600;margin:10px 0">'+escapeHtml(qzText(s,rec))+'</div>'+
-    rec.perm.map(function(_,disp){return '<div class="q-opt" data-act="opt" data-i="'+disp+'"><div class="abc">'+["A","B","C","D"][disp]+'</div><div>'+escapeHtml(qzOpt(s,rec,disp))+'</div></div>';}).join("")+
+    body+
     '<div class="modal-actions"><button class="btn ghost" data-act="close-modal">'+escapeHtml(T("quiz_exit"))+'</button></div>';
   showModal(html);
-}
-function answerQuiz(i){
-  var st=quizState;if(!st)return;
-  var rec=st.qs[st.idx];
-  var s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
-  st.ans.push(i);
-  if(i!==rec.ca){
-    data.mistakes[st.id+"-"+rec.ai]={q:qzText(s,rec),chosen:qzOpt(s,rec,i),correct:qzAns(s,rec),why:qzExpl(s,rec),stageName:s?stName(s):"",ts:Date.now()};
-    saveData();
+  var fi=$("fillInput");
+  if(fi){
+    fi.focus();
+    fi.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();answerQuizFill();}});
   }
-  var html='<div class="q-why">'+(i===rec.ca?("✅ "+T("correct")+"！"):("❌ "+T("wrong")+"："+escapeHtml(qzAns(s,rec))))+'<br>💡 '+escapeHtml(qzExpl(s,rec))+'</div>'+
-    '<div class="modal-actions"><button class="btn" data-act="next-q">'+(st.idx+1>=st.qs.length?T("quiz_result")+" →":T("quiz_next")+" →")+'</button></div>';
-  var box=document.createElement("div");box.innerHTML=html;
+}
+/* 记录错题：题型一并存下，错题本可显示类型徽标；fill 的 chosen 存用户原文 */
+function recordQuizMistake(st,rec,chosen){
+  var s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
+  data.mistakes[st.id+"-"+rec.ai]={q:qzText(s,rec),kind:rec.kind,chosen:chosen,correct:qzAns(s,rec),why:qzExpl(s,rec),stageName:s?stName(s):"",ts:Date.now()};
+  saveData();
+}
+// 选择题 / 判断题：按显示下标作答
+function answerQuiz(i){
+  var st=quizState;if(!st||st.ans[st.idx]!=null)return;
+  var rec=st.qs[st.idx];
+  if(rec.kind==="fill"){return;}
+  var s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
+  st.ans.push(i);st.ok.push(i===rec.ca);
+  if(i!==rec.ca)recordQuizMistake(st,rec,qzOpt(s,rec,i));
+  var box=document.createElement("div");
+  box.innerHTML=quizWhyHtml(i===rec.ca,rec,s)+quizNextHtml(st);
   document.querySelectorAll(".q-opt").forEach(function(el){el.style.pointerEvents="none";});
   var el=document.querySelectorAll(".q-opt")[i];
   if(el)el.classList.add(i===rec.ca?"right":"wrong");
   if(i!==rec.ca){var right=document.querySelectorAll(".q-opt")[rec.ca];if(right)right.classList.add("right");}
   $("modalBox").appendChild(box);
 }
+// 填空题：读输入框 → 归一化比对
+function answerQuizFill(){
+  var st=quizState;if(!st||st.ans[st.idx]!=null)return;
+  var rec=st.qs[st.idx];
+  if(rec.kind!=="fill")return;
+  var s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
+  var el=$("fillInput"),raw=el?el.value:"";
+  if(!normAns(raw)){toast(isEn()?"Type an answer first":"先输入答案再提交","warn");return;}
+  var ok=rec.ans.indexOf(normAns(raw))>=0;
+  st.ans.push(raw);st.ok.push(ok);
+  if(!ok)recordQuizMistake(st,rec,raw);
+  if(el)el.disabled=true;
+  var sb=document.querySelector('[data-act="fill-submit"]');if(sb)sb.disabled=true;
+  var box=document.createElement("div");
+  box.innerHTML=quizWhyHtml(ok,rec,s)+quizNextHtml(st);
+  $("modalBox").appendChild(box);
+}
 function finishQuiz(){
   var st=quizState,s=CURRICULUM.filter(function(x){return x.id===st.id;})[0];
-  var score=st.ans.filter(function(a,i){return a===st.qs[i].ca;}).length;
+  var score=st.ok.filter(function(x){return x===true;}).length;
   var prev=data.quiz[st.id];
   if(!prev||score>prev.score){
     data.quiz[st.id]={score:score,total:st.qs.length,ts:Date.now()};
@@ -2213,9 +2301,22 @@ function pickStratified(bank,n){
     if(!moved)break;                       // 题库总量不足
   }
   var out=[];
-  keys.forEach(function(d){out=out.concat(shuffleArr(buckets[d]).slice(0,alloc[d]));});
+  keys.forEach(function(d){out=out.concat(pickFromBand(buckets[d],alloc[d]));});
   out.sort(function(a,b){return diffOf(a)-diffOf(b);});
   return out;
+}
+/* 档内抽题：同样做题型均衡 —— 每档内先给存在的题型各保底 1 题，再随机补满。
+   这样 35 题里判断题/填空题会稳定出现（5 档 × 每档至少 1 题），而不是凭运气。 */
+function pickFromBand(arr,n){
+  n=Math.min(n,arr.length);
+  var buckets={choice:[],judge:[],fill:[]};
+  arr.forEach(function(q){buckets[qKind(q)].push(q);});
+  var kinds=["choice","judge","fill"].filter(function(t){return buckets[t].length;});
+  var out=[];
+  kinds.forEach(function(t){if(out.length<n){out.push(shuffleArr(buckets[t])[0]);}});
+  var rest=shuffleArr(arr.filter(function(q){return out.indexOf(q)<0;}));
+  while(out.length<n&&rest.length)out.push(rest.shift());
+  return shuffleArr(out);
 }
 function ptAnswered(st){var n=0;for(var i=0;i<st.qs.length;i++){if(st.ans[i]!=null)n++;}return n;}
 function startPlacement(langId){
@@ -2225,51 +2326,105 @@ function startPlacement(langId){
     finishOnboard(langId,1,null);return;
   }
   var picked=pickStratified(bank,Math.min(PT_COUNT,bank.length));
-  ptState={lang:langId,qs:picked,idx:0,ans:[]};
+  // 逐题构造：判断题复用两选项（乱序），填空题带归一化答案、无选项
+  var qs=picked.map(function(q){
+    var kind=qKind(q);
+    if(kind==="fill")return {q:q.q,kind:"fill",o:null,a:-1,ans:fillAccepted(q),why:q.why,diff:q.diff,st:q.st};
+    var o=(kind==="judge")?judgeOpts():q.o;
+    var perm=shuffleArr(iota(o.length));
+    return {q:q.q,kind:kind,o:perm.map(function(i){return o[i];}),a:perm.indexOf(q.a),why:q.why,diff:q.diff,st:q.st};
+  });
+  ptState={lang:langId,qs:qs,idx:0,ans:[],ok:[],draft:{}};
   showPt();
 }
 function showPt(){
   var st=ptState;if(!st)return;
   if(st.idx>=st.qs.length){finishPt();return;}
   var q=st.qs[st.idx],picked=st.ans[st.idx],answered=ptAnswered(st),isLast=(st.idx>=st.qs.length-1);
+  var curOk=(q.kind==="fill")?(normAns((st.draft||{})[st.idx]||"")!==""):(picked!=null);
   var L=langMeta(st.lang);
+  var body=(q.kind==="fill")
+    ? '<div class="q-fill"><input class="fill-input pt-fill" id="ptFill" type="text" autocomplete="off" spellcheck="false" placeholder="'+(isEn()?"Type your answer here…":"在这里输入答案…")+'" value="'+escapeHtml((st.draft||{})[st.idx]||"")+'"></div>'+
+      '<div class="fill-hint">'+(isEn()?"Case, spaces and punctuation are ignored. Your text is saved when you move on.":"大小写、空格与标点都不敏感；切到下一题时会自动记录你的填写。")+'</div>'
+    : q.o.map(function(o,i){return '<div class="q-opt'+(picked===i?' picked':'')+'" data-act="pt-opt" data-i="'+i+'"><div class="abc">'+abcOf(i)+'</div><div>'+escapeHtml(o)+'</div></div>';}).join("");
   var html='<h3>📝 '+escapeHtml(T("pt_title"))+' · '+L.icon+" "+escapeHtml(L.name)+'</h3>'+
-    '<div class="pt-meta"><span>'+escapeHtml(T("quiz_progress",{a:st.idx+1,b:st.qs.length}))+'</span>'+
+    '<div class="pt-meta"><span>'+escapeHtml(T("quiz_progress",{a:st.idx+1,b:st.qs.length}))+' · <span class="q-type">'+kindTag(q.kind)+'</span></span>'+
       '<span>'+escapeHtml(T("pt_answered",{n:answered,b:st.qs.length}))+'</span></div>'+
     '<div class="pt-bar"><i style="width:'+Math.round(answered/st.qs.length*100)+'%"></i></div>'+
     '<div style="font-size:16px;font-weight:600;margin:10px 0">'+escapeHtml(q.q)+'</div>'+
-    q.o.map(function(o,i){return '<div class="q-opt'+(picked===i?' picked':'')+'" data-act="pt-opt" data-i="'+i+'"><div class="abc">'+["A","B","C","D"][i]+'</div><div>'+escapeHtml(o)+'</div></div>';}).join("")+
+    body+
     '<div class="lock-tip" style="text-align:left;margin-top:12px">'+escapeHtml(T("pt_note",{n:st.qs.length}))+'</div>'+
     '<div class="modal-actions">'+
       '<button class="btn ghost" data-act="pt-prev"'+(st.idx===0?" disabled":"")+'>'+escapeHtml(T("pt_prev"))+'</button>'+
       (isLast
-        ? '<button class="btn green" data-act="pt-finish"'+(picked==null?" disabled":"")+'>'+escapeHtml(T("pt_finish"))+'</button>'
-        : '<button class="btn"'+(picked==null?" disabled":"")+' data-act="pt-next">'+escapeHtml(T("quiz_next"))+' →</button>')+
+        ? '<button class="btn green" data-act="pt-finish"'+(curOk?"":" disabled")+'>'+escapeHtml(T("pt_finish"))+'</button>'
+        : '<button class="btn"'+(curOk?"":" disabled")+' data-act="pt-next">'+escapeHtml(T("quiz_next"))+' →</button>')+
       '<button class="btn ghost" data-act="pt-submit">'+escapeHtml(T("pt_submit"))+'</button>'+
       '<button class="btn ghost" data-act="close-modal">'+escapeHtml(T("close"))+'</button>'+
     '</div>';
   showModal(html,true);            // 锁定遮罩：测试中不允许点空白退出
   var sc=document.querySelector(".modal .q-opt.picked");if(sc)sc.scrollIntoView({block:"nearest"});
+  var fi=$("ptFill");
+  if(fi){
+    fi.addEventListener("input",function(){
+      st.draft=st.draft||{};st.draft[st.idx]=this.value;ptSyncNav();
+    });
+    fi.addEventListener("keydown",function(e){
+      if(e.key==="Enter"){e.preventDefault();ptCommitFill();
+        if(st.idx>=st.qs.length-1)finishPt();else{st.idx++;showPt();}}
+    });
+    if(st.idx>=0)fi.focus();
+  }
+}
+/* 填空题的「当前是否已作答」与导航按钮联动（不重渲染，避免输入时丢焦点） */
+function ptCurAnswered(st){
+  var q=st.qs[st.idx];if(!q)return false;
+  if(q.kind==="fill")return normAns((st.draft||{})[st.idx]||"")!=="";
+  return st.ans[st.idx]!=null;
+}
+function ptSyncNav(){
+  var st=ptState;if(!st)return;
+  var isLast=(st.idx>=st.qs.length-1),ok=ptCurAnswered(st);
+  var btn=document.querySelector('.modal-actions [data-act="'+(isLast?"pt-finish":"pt-next")+'"]');
+  if(btn)btn.disabled=!ok;
+}
+/* 离开当前填空题前把草稿落库（含判定），保证「上一题/下一题/交卷」都不丢填写 */
+function ptCommitFill(){
+  var st=ptState;if(!st)return;
+  var q=st.qs[st.idx];if(!q||q.kind!=="fill")return;
+  st.draft=st.draft||{};
+  var el=$("ptFill");
+  var v=el?el.value:(st.draft[st.idx]||"");
+  st.draft[st.idx]=v;
+  if(normAns(v)===""){st.ans[st.idx]=null;st.ok[st.idx]=null;return;}
+  st.ans[st.idx]=v;st.ok[st.idx]=(q.ans.indexOf(normAns(v))>=0);
 }
 // 选项只记录选中，不自动跳题 —— 给用户回看/修改的思考缓冲；由「上一题/下一题」控制节奏
 function answerPt(i){
   var st=ptState;if(!st)return;
-  st.ans[st.idx]=i;showPt();
+  var q=st.qs[st.idx];if(!q||q.kind==="fill")return;
+  st.ans[st.idx]=i;st.ok[st.idx]=(i===q.a);showPt();
 }
 function ptFinish(){
-  var st=ptState;if(!st||st.ans[st.idx]==null)return;
+  var st=ptState;if(!st)return;
+  ptCommitFill();
+  if(st.ans[st.idx]==null)return;
   finishPt();
 }
 function ptPrev(){
   var st=ptState;if(!st||st.idx===0)return;
-  st.idx--;showPt();               // 回上一题：已选项保留高亮，可改可不变
+  ptCommitFill();
+  st.idx--;showPt();               // 回上一题：已选项/已填内容保留，可改可不变
 }
 function ptNext(){
-  var st=ptState;if(!st||st.ans[st.idx]==null||st.idx>=st.qs.length-1)return;
+  var st=ptState;if(!st||st.idx>=st.qs.length-1)return;
+  ptCommitFill();
+  if(st.ans[st.idx]==null)return;
   st.idx++;showPt();
 }
 function ptSubmitEarly(){
   var st=ptState;if(!st)return;
+  ptCommitFill();
   var left=st.qs.length-ptAnswered(st);
   if(left>0&&!confirm(T("pt_confirm_submit",{n:left})))return;
   finishPt();
@@ -2302,7 +2457,7 @@ function finishPt(){
   var st=ptState;if(!st)return;ptState=null;
   var byStage={},byDiff={},correct=0,answered=0,wsum=0,wcorrect=0;
   st.qs.forEach(function(q,i){
-    var a=st.ans[i],ok=(a!=null&&a===q.a),d=Math.min(5,Math.max(1,diffOf(q)));
+    var a=st.ans[i],ok=(st.ok[i]===true),d=Math.min(5,Math.max(1,diffOf(q)));
     if(a!=null)answered++;
     if(ok)correct++;
     wsum+=d;if(ok)wcorrect+=d;
@@ -2401,7 +2556,7 @@ function showIntro(){
     '<div class="meta">'+(isEn()?"7 languages · from zero to depth":"七门语言 · 从零到深入")+'</div>'+
     '<div class="intro-step"><div class="n">1</div><div>'+(isEn()?"Switch between 7 languages at the top. Each is a complete track from zero to depth.":"顶部可切换 7 门语言，每门都是完整的从 0 到深入的编排，不做任何路线适配。")+'</div></div>'+
     '<div class="intro-step"><div class="n">2</div><div>'+(isEn()?"Every lesson: key points + runnable example + sample output + in-depth notes + pitfall + recap.":"每节课含：讲解要点 + 可运行示例 + 示例输出 + 深入讲解 + 易错点 + 速记。")+'</div></div>'+
-    '<div class="intro-step"><div class="n">3</div><div>'+(isEn()?"Each stage has a 3-question quiz and a coding lab (with one-click AI review prompt).":"每个阶段配一套 3 题测评与一道编程实战（可一键生成 AI 批改提示词）。")+'</div></div>'+
+    '<div class="intro-step"><div class="n">3</div><div>'+(isEn()?"Each stage has a quiz (single choice / true-false / fill-in, 4 drawn from 9) and 5 coding labs (with one-click AI review prompt).":"每个阶段配一套测评（选择题 / 判断题 / 填空题，9 题库随机抽 4）与 5 道编程实战（可一键生成 AI 批改提示词）。")+'</div></div>'+
     '<div class="intro-step"><div class="n">4</div><div>'+(isEn()?"Studying, reviewing and checking in earn XP / coins / achievements; reviews are scheduled automatically.":"学习、复习、打卡都会累积 XP / 星币 / 成就，并按间隔复习自动安排巩固。")+'</div></div>'+
     '<div class="intro-step"><div class="n">5</div><div>'+(isEn()?"Data stays in your browser — export a backup regularly.":"数据只存在你本机浏览器，记得定期在「设置与数据」导出备份。")+'</div></div>'+
     '<div class="modal-actions"><button class="btn green" data-act="close-intro">'+(isEn()?"Start learning 🚀":"开始学习 🚀")+'</button></div>';
@@ -2482,6 +2637,7 @@ document.addEventListener("click",function(e){
       saveData();break;}
     case "quiz":startQuiz(id);break;
     case "opt":answerQuiz(parseInt(t.dataset.i,10));break;
+    case "fill-submit":answerQuizFill();break;
     case "next-q":if(quizState){quizState.idx++;showQuiz();}break;
     case "lab":openLab(id,(t.dataset.k!==undefined?parseInt(t.dataset.k,10):0));break;
     case "ai-prompt":generateAiPrompt();break;

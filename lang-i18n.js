@@ -673,6 +673,21 @@ phases_en:{
   {n:"Part 2 · Object-Oriented",d:"Classes & encapsulation, inheritance, interfaces, exceptions & generics"},
   {n:"Part 3 · Systems & Concurrency",d:"IO/NIO, serialization, threads & concurrency utilities"},
   {n:"Part 4 · Modern Features & JVM",d:"Lambda/Stream, date & reflection, JVM memory & GC"}
+ ],
+ js:[
+  {n:"Part 1 · Foundations",d:"Environment, variables, control flow & functions — get JS syntax running"},
+  {n:"Part 2 · Core Data Structures",d:"Arrays, objects, DOM & events — build interactive pages"},
+  {n:"Part 3 · Async & Engineering",d:"Promises, OOP, Web APIs, modern tooling"}
+ ],
+ cs:[
+  {n:"Part 1 · Foundations",d:".NET environment, variables, control flow & methods — get C# running"},
+  {n:"Part 2 · Collections & OOP",d:"Generic collections, object-oriented, async programming"},
+  {n:"Part 3 · Data & Advanced",d:"Files & JSON, records, pattern matching, DI"}
+ ],
+ go:[
+  {n:"Part 1 · Foundations",d:"Go environment, variables, control flow & functions — get Go running"},
+  {n:"Part 2 · Type System",d:"Slices/maps, structs, interfaces & error handling"},
+  {n:"Part 3 · Concurrency & Engineering",d:"Goroutines/channels, Web, testing & tooling"}
  ]
 },
 

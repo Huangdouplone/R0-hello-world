@@ -1556,6 +1556,1272 @@ print(area(2))`
   out:"(terminal prints heap and GC statistics)",
   deep:["The heap splits into young gen (Eden + Survivors) and old gen; objects allocate in Eden and age into old gen after multiple GCs.","GC Roots include stack locals, static fields, JNI references; objects unreachable from Roots are collectable.","Parent delegation: load requests go to the parent loader first, ensuring core classes like java.lang.Object aren't replaced."],
   recap:"Memory by region, collection by reachability, class loading by parent delegation."
+},
+/* ==================== JavaScript ==================== */
+"js-1-1":{
+  summary:["JavaScript is the programming language of the Web, running in the browser and on servers via Node.js.","It brings pages to life: interaction, animation, form validation, API calls.","ES6+ is the modern JS standard — master arrow functions, let/const, template literals."],
+  pit:"Don't confuse JS with Java — they share almost nothing but the name.",
+  ex:{q:"Where does JS mainly run?",a:"Mainly in the browser; Node.js lets it run on servers too."},
+  target:"You can run a line of JS in both the browser console and Node.js.",
+  out:"Hello, JavaScript!",
+  deep:["JS was created by Brendan Eich in 10 days in 1995; originally Mocha, then LiveScript, finally JavaScript.","Browser engines: Chrome V8, Firefox SpiderMonkey, Safari JavaScriptCore.","ES6 (2015) is the modern watershed: arrow functions, class, let/const, template literals, Promise all come from ES6."],
+  recap:"JS = browser native language + Node.js backend + ES6+ modern standard.",
+  code:`// Your first line of JS
+console.log("Hello, JavaScript!");
+alert("Hi, JS!");`
+},
+"js-1-2":{
+  summary:["let declares mutable variables; const declares constants (prefer const by default).","var is legacy with function-scoped hoisting — avoid it in modern code.","Block scope: let/const are scoped to {}; var is function-scoped only."],
+  pit:"const on objects/arrays doesn't freeze their contents — const protects the binding, not the value.",
+  ex:{q:"When to use let vs const?",a:"Default to const; use let only when reassignment is needed."},
+  target:"You can correctly declare variables with let/const.",
+  out:"(no output — just declares variables)",
+  deep:["Hoisting: var declarations are lifted and initialized to undefined; let/const are hoisted but in a temporal dead zone.","const objects: you can mutate obj.prop, but cannot reassign the binding.","Block scope makes closures capture the right variable in loops."],
+  recap:"const by default; let when reassignment needed; never var.",
+  code:`let age = 25;
+const name = "Alice";
+age = 26; // OK
+// name = "Bob"; // TypeError: cannot reassign const`
+},
+"js-1-3":{
+  summary:["Primitive types: string, number, boolean, null, undefined, symbol, bigint.","Reference types: Object (Array, Function, Date, etc.).","== does implicit coercion; === is strict — always use ===."],
+  pit:"0, '', null, undefined, NaN are falsy; but empty array [] and empty object {} are truthy.",
+  ex:{q:"Why prefer === over ==",a:"== coercion rules are counterintuitive (null == undefined is true but null === undefined is false); === is safer and predictable."},
+  target:"You can distinguish primitive vs reference types and use === correctly.",
+  out:"true false \"object\"",
+  deep:["typeof null returns 'object' — a historical bug kept for compatibility.","NaN is the only value not equal to itself; use Number.isNaN().","Primitive wrappers: 'str'.length works via automatic boxing."],
+  recap:"=== always; know your falsy values; typeof has the null quirk.",
+  code:`const n = 42;
+const s = "42";
+console.log(n == s);  // true (implicit coercion)
+console.log(n === s); // false (different types)
+console.log(typeof null); // "object" (historical bug)`
+},
+"js-1-4":{
+  summary:["Template literals use backticks and support ${} interpolation and multi-line strings.","Arithmetic: + - * / % ** (power).","Comparison & logic: === !== > < && || !."],
+  pit:"+ adds numbers but concatenates strings; '5' + 3 = '53', while '5' - 3 = 2.",
+  ex:{q:"How do you insert a variable into a string?",a:"Use a template literal: \\`Hello, \\${name}\\` — clearer than 'Hello, ' + name."},
+  target:"You can compose strings with template literals and understand common operators.",
+  out:"Hello, World!\\n1000",
+  deep:["** is exponentiation (ES2016): 2 ** 10 = 1024.","?? nullish coalescing returns the right side when left is null/undefined.","|| returns the first truthy value; ?? only null/undefined."],
+  recap:"Backticks for strings; watch + vs - with mixed types.",
+  code:`const name = "World";
+console.log(\`Hello, \${name}!
+This is multi-line\`);
+const a = 10, b = 3;
+console.log(a ** b); // 1000`
+},
+
+/* ---- JS Stage 2 ---- */
+"js-2-1":{
+  summary:["if/else if/else for branching.","switch for multi-value matching — remember break.","Ternary condition ? a : b for simple choices."],
+  pit:"Falling through switch without break executes all subsequent cases; use default as a fallback.",
+  ex:{q:"if vs switch?",a:"2-3 ranges: if; many fixed values: switch."},
+  target:"You can implement multi-branch logic with if/else.",
+  out:"B",
+  deep:["Ternary is an expression, not a statement — it returns a value.","switch uses strict equality (===) for case matching.","Object lookup maps can replace long if-chains."],
+  recap:"Ranges → if; values → switch; never forget break.",
+  code:`const score = 85;
+if(score >= 90) console.log("A");
+else if(score >= 80) console.log("B");
+else console.log("C");
+const level = score >= 60 ? "pass" : "fail";`
+},
+"js-2-2":{
+  summary:["for for known iteration counts; while for condition-based.","for...of iterates array values; for...in iterates object keys (not for arrays).","break exits the loop; continue skips the current iteration."],
+  pit:"for...in yields string indices and walks the prototype chain; always use for...of for arrays.",
+  ex:{q:"for...of or for...in for arrays?",a:"for...of gives values directly; for...in gives string indices and may hit unexpected properties."},
+  target:"You can choose the right loop for the task.",
+  out:"0\\n1\\n2\\n10 20 30\\n0 1 2",
+  deep:["for...of works on any iterable (arrays, strings, Maps, Sets).","for await...of handles async iterators.","Array.forEach can't break; use for...of when you need break."],
+  recap:"for...of for arrays; for...in for object keys; break/continue control flow.",
+  code:`for(let i=0;i<3;i++) console.log(i);
+const arr=[10,20,30];
+for(const v of arr) console.log(v);
+let n=0; while(n<3){console.log(n++);}`
+},
+"js-2-3":{
+  summary:["Function declaration: function name() {} is hoisted.","Function expression: const f = function() {}.","Arrow function: const f = (a,b) => a+b — does not bind its own this."],
+  pit:"Arrow functions don't have their own this — they inherit from the enclosing scope. Useful in callbacks, but can't be constructors.",
+  ex:{q:"Key difference between arrow and regular functions?",a:"Arrow functions don't bind this/arguments, can't use new, and have no prototype."},
+  target:"You can write concise callbacks with arrow functions.",
+  out:"5 6 Hi, Tom!",
+  deep:["Hoisting: function declarations are fully hoisted; expressions are not.","Arrow functions in methods: this still comes from the enclosing scope.","arguments is not available in arrow functions; use rest parameters ...args."],
+  recap:"function declarations hoist; arrow functions inherit this; no this in arrows.",
+  code:`// Function declaration
+function add(a,b){ return a+b; }
+// Arrow function
+const mul = (a,b) => a*b;
+const greet = name => \`Hi, \${name}!\`;
+console.log(add(2,3), mul(2,3), greet("Tom"));`
+},
+"js-2-4":{
+  summary:["Three scopes: global, function, block.","Closure: a function remembers its lexical scope.","Closures are used for data privacy and function factories."],
+  pit:"Closures hold references to outer variables — watch for memory leaks; null them out when done.",
+  ex:{q:"Why do closures remember variables?",a:"The inner function references outer variables; even after the outer returns, those variables aren't garbage-collected."},
+  target:"You understand the basics of closures.",
+  out:"1\\n2",
+  deep:["Every function creates a closure over its surrounding scope when defined.","Loops with var capture the same variable; let creates per-iteration bindings.","IIFE pattern was the pre-ES6 way to create module-private scopes."],
+  recap:"Closure = function + its lexical environment; data privacy via closures.",
+  code:`function counter(){
+  let count = 0;
+  return function(){ return ++count; };
+}
+const c = counter();
+console.log(c()); // 1
+console.log(c()); // 2`
+},
+
+/* ---- JS Stage 3 ---- */
+"js-3-1":{
+  summary:["push/pop at end; shift/unshift at beginning.","map transforms, filter selects, reduce aggregates — the functional trio.","slice copies a segment (non-destructive); splice modifies in place."],
+  pit:"forEach can't break; use for...of when you need to interrupt. map/filter return new arrays.",
+  ex:{q:"map vs forEach?",a:"map returns a new array (has return value); forEach just iterates (returns undefined)."},
+  target:"You can process arrays with map/filter/reduce.",
+  out:"[2,4,6,8,10] [2,4] 15",
+  deep:["reduce can implement map, filter, flatMap — it's the most flexible.","slice with negative indices counts from the end.","splice(start, deleteCount, ...items) changes the original array."],
+  recap:"map/filter/reduce for functional ops; slice safe, splice destructive.",
+  code:`const nums=[1,2,3,4,5];
+const doubled = nums.map(n=>n*2);
+const evens = nums.filter(n=>n%2===0);
+const sum = nums.reduce((a,b)=>a+b,0);
+console.log(doubled, evens, sum);`
+},
+"js-3-2":{
+  summary:["Objects are key-value maps; keys are strings by default.","Dot notation obj.key or bracket obj['key'].","Object.keys/values/entries get all keys, values, pairs."],
+  pit:"Keys with spaces or special characters need bracket notation: obj['my key'].",
+  ex:{q:"How to iterate all key-value pairs?",a:"Object.entries(obj).forEach(([k,v]) => ...)."},
+  target:"You can create and manipulate objects.",
+  out:"Alice\\n[\"name\",\"age\",\"city\"]\\n[\"Alice\",25,\"Beijing\"]",
+  deep:["Computed keys: obj['key_' + i] works at creation.","delete removes a property.","Object.freeze prevents modification; Object.seal prevents adding/removing."],
+  recap:"Dot for known keys; bracket for dynamic keys; entries for iteration.",
+  code:`const user = {name:"Alice", age:25, city:"Beijing"};
+console.log(user.name);
+console.log(Object.keys(user));
+console.log(Object.values(user));`
+},
+"js-3-3":{
+  summary:["Array destructuring: const [a,b] = arr.","Object destructuring: const {name,age} = obj.","Spread ... copies/merges arrays and objects."],
+  pit:"Object spread is shallow — nested objects are still shared references.",
+  ex:{q:"How to add without mutating?",a:"const newArr = [...oldArr, newItem]."},
+  target:"You can extract data with destructuring and copy with spread.",
+  out:"1 2 Bob 30 [1,2,3,4] {a:1,b:2}",
+  deep:["Default values: const {name='Guest'} = obj.","Rest in destructuring: const [first, ...rest] = arr.","Shallow copy pitfalls with nested objects (use structuredClone for deep)."],
+  recap:"Destructuring extracts; spread copies; shallow caveat for nested.",
+  code:`const [x,y] = [1,2];
+const {name,age} = {name:"Bob",age:30};
+const arr1=[1,2], arr2=[...arr1,3,4];
+const obj1={a:1}, obj2={...obj1,b:2};`
+},
+"js-3-4":{
+  summary:["JSON.stringify turns objects into JSON strings.","JSON.parse turns JSON strings back into objects.","localStorage persists data as strings."],
+  pit:"JSON doesn't support undefined, functions, or Symbol — these are dropped during serialization.",
+  ex:{q:"Can localStorage store objects directly?",a:"No — JSON.stringify to a string, then JSON.parse when reading."},
+  target:"You can store data with JSON and localStorage.",
+  out:"{\"name\":\"Tom\",\"score\":95}",
+  deep:["JSON keys must be double-quoted; trailing commas are invalid.","structuredClone does deep cloning with circular references.","localStorage quota ~5MB; sync API on main thread."],
+  recap:"Stringify to store, parse to read; JSON has no undefined/function.",
+  code:`const data = {name:"Tom", score:95};
+const str = JSON.stringify(data);
+const obj = JSON.parse(str);
+localStorage.setItem("user", str);`
+},
+
+/* ---- JS Stage 4 ---- */
+"js-4-1":{
+  summary:["querySelector('#id') / '.class' / 'tag' selects elements.","textContent changes text; innerHTML changes HTML.","classList.add/remove/toggle toggles CSS classes."],
+  pit:"innerHTML with user input is XSS-prone — use textContent for safety.",
+  ex:{q:"textContent or innerHTML for plain text?",a:"textContent (safe); innerHTML only when inserting HTML tags."},
+  target:"You can select and modify page elements.",
+  out:"(page updates)",
+  deep:["querySelectorAll returns a NodeList (use Array.from or for...of).","hidden property or style.display controls visibility.","dataset.* reads data-* attributes."],
+  recap:"querySelector to find, textContent/classList to modify.",
+  code:`const el = document.querySelector("#title");
+el.textContent = "New Title";
+el.classList.add("highlight");
+el.style.color = "red";`
+},
+"js-4-2":{
+  summary:["addEventListener('click', fn) binds events.","The event object e has target, type, etc.","Event delegation: listen on a parent for child events."],
+  pit:"onclick property overwrites previous handlers — use addEventListener instead.",
+  ex:{q:"Why use event delegation?",a:"Dynamically added children need no new listeners; fewer listeners overall."},
+  target:"You can handle clicks with addEventListener.",
+  out:"(logs on click)",
+  deep:["stopPropagation prevents bubbling; preventDefault cancels default behavior.","Event delegation leverages bubbling — ideal for lists.","removeEventListener needs the same function reference."],
+  recap:"addEventListener; e.target for the source; delegation for dynamic children.",
+  code:`const btn = document.querySelector("#btn");
+btn.addEventListener("click", function(e){
+  console.log("clicked", e.target);
+});`
+},
+"js-4-3":{
+  summary:["input/change events track user input.","FormData collects form data.","preventDefault() stops form submission refresh."],
+  pit:"input fires on every keystroke; change fires on blur or Enter.",
+  ex:{q:"How to prevent form refresh?",a:"Call e.preventDefault() in the submit handler."},
+  target:"You can read form input and prevent default submission.",
+  out:"(logs input)",
+  deep:["FormData entries via for...of; files via .files.","Disabled fields are excluded from FormData.","submit event on the form element itself."],
+  recap:"input for live, change for commit; preventDefault on submit.",
+  code:`input.addEventListener("input", e => {
+  console.log("typing:", e.target.value);
+});
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  console.log(new FormData(form).get("name"));
+});`
+},
+"js-4-4":{
+  summary:["setTimeout(fn, ms) runs once after delay.","setInterval(fn, ms) repeats at interval.","clearTimeout/clearInterval cancel them."],
+  pit:"setInterval isn't precise — if the callback is slow, calls stack up; recursive setTimeout is more controllable.",
+  ex:{q:"Does setTimeout(0) run immediately?",a:"No — it queues the callback after the current synchronous code finishes."},
+  target:"You can use timers for delayed and repeating tasks.",
+  out:"(logs after delay)",
+  deep:["The event loop: callbacks run after the call stack empties.","requestAnimationFrame is preferred for animation over setInterval.","Web workers don't share the event loop."],
+  recap:"setTimeout once, setInterval repeats, clear to cancel.",
+  code:`setTimeout(() => console.log("after 1s"), 1000);
+let count = 0;
+const id = setInterval(() => {
+  console.log(++count);
+  if(count >= 3) clearInterval(id);
+}, 500);`
+},
+
+/* ---- JS Stage 5 ---- */
+"js-5-1":{
+  summary:["A Promise represents the eventual completion or failure of an async operation.","Three states: pending, fulfilled, rejected.",".then handles success, .catch handles failure."],
+  pit:"Once a Promise settles, it's immutable — can't go back from fulfilled to pending.",
+  ex:{q:"What problem does Promise solve?",a:"Callback hell — chained .then reads like synchronous code."},
+  target:"You understand the three states and basic usage.",
+  out:"Success!",
+  deep:["Promise.all runs all in parallel; Promise.race settles with the first.","Uncaught rejections trigger window.onunhandledrejection.","Microtask queue: .then callbacks run before setTimeout(0)."],
+  recap:"pending → fulfilled/rejected; then/catch; immutable once settled.",
+  code:`const p = new Promise((resolve, reject) => {
+  setTimeout(() => resolve("Success!"), 1000);
+});
+p.then(result => console.log(result))
+ .catch(err => console.error(err));`
+},
+"js-5-2":{
+  summary:["async functions always return a Promise.","await pauses until the Promise resolves.","try/catch catches async errors."],
+  pit:"await only works inside async functions (top-level await in modules).",
+  ex:{q:"async vs regular function?",a:"async returns a Promise and lets you await inside."},
+  target:"You can write async logic with async/await.",
+  out:"(fetched data)",
+  deep:["await on a non-Promise value just returns that value.","Parallel: await Promise.all([a, b]) vs sequential await a; await b.","async functions preserve execution order per microtask."],
+  recap:"async wraps in Promise; await pauses; try/catch catches.",
+  code:`async function fetchData(){
+  try{
+    const res = await fetch("/api");
+    return await res.json();
+  } catch(err){
+    console.error("Failed:", err);
+  }
+}`
+},
+"js-5-3":{
+  summary:["fetch(url) returns a Promise.","res.ok checks success (200-299).","res.json() / res.text() read the body."],
+  pit:"fetch only rejects on network errors; 404/500 don't reject — check res.ok.",
+  ex:{q:"Does a 404 go into catch?",a:"No — fetch resolves; check res.ok for HTTP errors."},
+  target:"You can call APIs with fetch.",
+  out:"(JSON data)",
+  deep:["fetch uses the Fetch API; headers, method, body go in options.","res.body is a ReadableStream for streaming.","Credentials: 'include' sends cookies cross-origin."],
+  recap:"fetch returns a Promise; check res.ok; .json() for body.",
+  code:`async function getUser(id){
+  const res = await fetch(\`https://api.example.com/users/\${id}\`);
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  return await res.json();
+}`
+},
+"js-5-4":{
+  summary:["try/catch catches sync and async errors.","throw raises an error.","finally runs regardless of outcome."],
+  pit:"Uncaught Promise rejections log UnhandledPromiseRejection — always .catch or try/catch.",
+  ex:{q:"When does finally run?",a:"Whether try succeeds or catch handles, finally always runs."},
+  target:"You can handle async errors properly.",
+  out:"(cleanup)",
+  deep:["Error types: TypeError, RangeError, SyntaxError, custom classes.","catch without a variable: catch { ... } (ES2019).","globalThis.onerror and onunhandledrejection catch leftovers."],
+  recap:"try/catch/finally; throw to raise; unhandled rejections are warnings.",
+  code:`try{
+  const data = JSON.parse(badJson);
+} catch(e){
+  console.error("Parse failed:", e.message);
+} finally {
+  console.log("Cleanup");
+}`
+},
+
+/* ---- JS Stage 6 ---- */
+"js-6-1":{
+  summary:["class is syntactic sugar over prototype inheritance.","constructor initializes instances.","this in methods refers to the calling object."],
+  pit:"Class methods are non-enumerable; this is undefined when called standalone in strict mode.",
+  ex:{q:"What does new do?",a:"Creates empty object, binds this, runs constructor, returns the new object."},
+  target:"You can define and instantiate classes.",
+  out:"Hi, I'm Alice",
+  deep:["Methods live on the prototype, not each instance.","static methods belong to the class.","Private fields use #name syntax (ES2022)."],
+  recap:"class wraps prototypes; constructor sets up; this binds the instance.",
+  code:`class Person {
+  constructor(name, age){ this.name = name; this.age = age; }
+  greet(){ return \`Hi, I'm \${this.name}\`; }
+}
+const p = new Person("Alice", 25);`
+},
+"js-6-2":{
+  summary:["extends implements inheritance.","super calls parent constructor and methods.","Method overriding: same name in child overrides parent."],
+  pit:"In a child constructor, you must call super() before using this.",
+  ex:{q:"super() vs super.method()?",a:"super() calls the parent constructor; super.method() calls a parent method."},
+  target:"You can implement inheritance with extends.",
+  out:"(inherits greet)",
+  deep:["super in static methods refers to the parent class.","Object.getPrototypeOf walks the prototype chain.","class fields (#private) and public static blocks are modern additions."],
+  recap:"extends for inheritance; super() in constructor; super.method() to reuse.",
+  code:`class Student extends Person {
+  constructor(name, age, grade){
+    super(name, age);
+    this.grade = grade;
+  }
+  greet(){ return super.greet() + ", grade " + this.grade; }
+}`
+},
+"js-6-3":{
+  summary:["export exports functions/classes/variables.","import brings them in.","ESM is the standard module system in browsers and Node.js."],
+  pit:"this is undefined at module top level; relative imports need .js extension in browsers.",
+  ex:{q:"export default vs export?",a:"One default per module; named exports can be multiple."},
+  target:"You can split and import modules.",
+  out:"3",
+  deep:["Tree-shaking: bundlers remove unused named exports.","Dynamic import() loads modules on demand.","import * as ns imports all exports."],
+  recap:"export/import; default one per module; named many.",
+  code:`// math.js
+export const add = (a,b) => a+b;
+export default function(){ return 42; }
+// app.js
+import add, { add as addFn } from "./math.js";`
+},
+"js-6-4":{
+  summary:["IIFE creates a private scope.","Module pattern: closures expose public API, hide internals.","Modern ES Modules have replaced IIFE modules."],
+  pit:"Closure variables are private — external code can't touch them directly.",
+  ex:{q:"What problem does the module pattern solve?",a:"Private variables with a controlled public interface."},
+  target:"You understand closures and the module pattern.",
+  out:"1 1",
+  deep:["IIFE pattern: (function(){ /* private */ return publicAPI })().","Revealing module pattern exposes chosen methods.","ES Modules have file-level scope natively."],
+  recap:"IIFE + closure = private state; modern ESM replaces it.",
+  code:`const counter = (function(){
+  let count = 0;
+  return { inc: () => ++count, get: () => count };
+})();`
+},
+
+/* ---- JS Stage 7 ---- */
+"js-7-1":{
+  summary:["localStorage persists forever (until cleared).","sessionStorage lasts only per tab.","Both store strings only — objects need JSON."],
+  pit:"localStorage may be unavailable in private browsing; ~5MB limit.",
+  ex:{q:"localStorage vs sessionStorage?",a:"localStorage persists; sessionStorage clears when the tab closes."},
+  target:"You can persist settings with localStorage.",
+  out:"dark",
+  deep:["Storage events fire on other tabs when data changes.","IndexedDB for larger structured data.","Cookies are sent to the server; storage stays client-side."],
+  recap:"localStorage permanent, sessionStorage per tab; JSON for objects.",
+  code:`localStorage.setItem("theme", "dark");
+const theme = localStorage.getItem("theme");
+localStorage.removeItem("theme");`
+},
+"js-7-2":{
+  summary:["location.href gets/sets the URL.","history.back()/forward()/pushState() manipulate history.","URLSearchParams reads query strings."],
+  pit:"pushState doesn't trigger a reload; pair with popstate for SPAs.",
+  ex:{q:"How to read ?id=123?",a:"new URLSearchParams(location.search).get('id')."},
+  target:"You can work with URLs and history.",
+  out:"",
+  deep:["history.pushState changes the URL without reload.","URL object parses href cleanly.","Hash-based routing uses location.hash."],
+  recap:"location for URL; URLSearchParams for query; pushState for SPA.",
+  code:`const params = new URLSearchParams(location.search);
+console.log(params.get("page"));
+history.pushState({}, "", "/new-page");`
+},
+"js-7-3":{
+  summary:["rAF runs before next repaint — ideal for animation.","Smoother and more power-efficient than setInterval.","Returns an id; cancelAnimationFrame cancels it."],
+  pit:"rAF receives a high-res timestamp useful for computing animation progress.",
+  ex:{q:"Why rAF over setInterval for animation?",a:"It syncs with the display refresh rate and pauses when the tab is hidden."},
+  target:"You can do simple animations with rAF.",
+  out:"(animated)",
+  deep:["CSS transforms are GPU-accelerated; use them instead of layout properties.","rAF pauses automatically in background tabs.","requestIdleCallback schedules low-priority work."],
+  recap:"rAF syncs with refresh; use transforms for GPU animation.",
+  code:`function animate(t){
+  el.style.transform = \`translateX(\${t}px)\`;
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);`
+},
+"js-7-4":{
+  summary:["POST requests set method and body.","Content-Type tells the server the data format.","FormData handles file uploads."],
+  pit:"JSON requests need manual Content-Type: application/json; fetch doesn't send cookies by default (credentials).",
+  ex:{q:"What header is required for POST JSON?",a:"Content-Type: application/json, and JSON.stringify the body."},
+  target:"You can send POST requests with fetch.",
+  out:"(response)",
+  deep:["fetch uses a Request object under the hood.","multipart/form-data via FormData for files.","AbortController cancels in-flight requests."],
+  recap:"POST sets method/body/headers; JSON needs Content-Type.",
+  code:`const res = await fetch("/api", {
+  method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify({name: "Alice"})
+});`
+},
+
+/* ---- JS Stage 8 ---- */
+"js-8-1":{
+  summary:["npm is the JS package manager.","npm init creates package.json.","npm install <pkg> adds a dependency."],
+  pit:"node_modules is huge and regenerable — .gitignore it; commit only package.json.",
+  ex:{q:"Why not commit node_modules?",a:"It can be reinstalled from package.json and is enormous."},
+  target:"You can manage dependencies with npm.",
+  out:"(installed)",
+  deep:["package-lock.json locks exact versions for reproducibility.","npx runs binaries without global install.","Semantic versioning: major.minor.patch."],
+  recap:"npm init; npm install; .gitignore node_modules.",
+  code:`npm init -y
+npm install lodash
+node app.js`
+},
+"js-8-2":{
+  summary:["jQuery is imperative: directly manipulate the DOM.","React/Vue are declarative: describe state, framework updates the DOM.","State drives the view: data changes → UI updates automatically."],
+  pit:"Frameworks aren't required — vanilla JS is fine for small projects; frameworks shine at scale.",
+  ex:{q:"Declarative vs imperative?",a:"Imperative says how; declarative says what — the framework figures out how."},
+  target:"You understand the core idea of modern frameworks.",
+  out:"(UI updates)",
+  deep:["Virtual DOM minimizes real DOM mutations.","React uses one-way data flow; Vue uses reactive objects.","State management: useState/useReducer or Pinia/Redux."],
+  recap:"Declarative: describe state; framework updates DOM.",
+  code:`// Imperative (jQuery)
+$("#btn").click(() => $("#count").textContent(n+1));
+// Declarative (React idea)
+// const [count, setCount] = useState(0);
+// <button onClick={() => setCount(count+1)}>{count}</button>`
+},
+"js-8-3":{
+  summary:["console.error/warn/debug for levels.","debugger statement pauses in DevTools.","window.onerror catches unhandled errors."],
+  pit:"Remove debugger before production — build tools strip them automatically.",
+  ex:{q:"When does debugger activate?",a:"When DevTools is open — it's a breakpoint."},
+  target:"You can debug with console and debugger.",
+  out:"(logs)",
+  deep:["console.table logs arrays as a table; console.time measures.","Source maps map minified code back to source.","Error boundaries (React) or window.onerror catch production errors."],
+  recap:"console levels; debugger breakpoint; onerror global catch.",
+  code:`console.log("info");
+console.warn("warn");
+console.error("error");
+debugger;
+window.onerror = (msg, src, line) => console.error("global:", msg, line);`
+},
+"js-8-4":{
+  summary:["Reduce reflows: batch style changes via class.","Event delegation reduces listener count.","Debounce and throttle optimize high-frequency events."],
+  pit:"scroll/resize/input fire very frequently — debounce/throttle prevents jank.",
+  ex:{q:"Debounce vs throttle?",a:"Debounce waits until events stop; throttle runs at fixed intervals."},
+  target:"You understand common performance optimizations.",
+  out:"(optimized)",
+  deep:["Reflow = layout recalculation; repaint = visual update.","Virtual list rendering for long lists.","Performance panel in DevTools profiles bottlenecks."],
+  recap:"Batch DOM changes; delegate events; debounce/throttle.",
+  code:`function debounce(fn, ms=300){
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(()=>fn(...args), ms); };
+}
+input.addEventListener("input", debounce(search, 300));`
+},
+
+/* ==================== C# ==================== */
+"cs-1-1":{
+  summary:["C# is developed by Microsoft, runs on .NET — type-safe and syntactically elegant.","Use cases: Unity games, Windows desktop, Web (ASP.NET Core), cloud services.","Modern C# (10+) supports top-level statements, nullable reference types, records."],
+  pit:"C# is statically typed — types are known at compile time, catching many errors early.",
+  ex:{q:"What is C# used for?",a:"Unity game dev, enterprise backends, Windows desktop apps."},
+  target:"You can explain what C# is and run Hello World.",
+  out:"Hello, C#!",
+  deep:["C# first appeared in 2002 as part of .NET.",".NET Core (2016) made it cross-platform; .NET 5+ unified everything.","Top-level statements (C# 9) remove the class/Main ceremony for simple programs."],
+  recap:"C# = Microsoft + .NET + type-safe + modern features.",
+  code:`// Top-level statements (C# 9+), no class/Main needed
+Console.WriteLine("Hello, C#!");`
+},
+"cs-1-2":{
+  summary:["Download the .NET SDK from dot.net (includes runtime and compiler).","Verify: dotnet --version.","IDE: Visual Studio (Windows/Mac) or VS Code + C# Dev Kit."],
+  pit:"Visual Studio and VS Code are different products — VS is a full IDE; VS Code is a lightweight editor.",
+  ex:{q:"What does dotnet new console do?",a:"Creates a new console project template with .csproj and Program.cs."},
+  target:"You can install .NET SDK and create your first project.",
+  out:"Hello, C#!",
+  deep:["The SDK includes the CLI, compilers, and the base class library.","dotnet run builds and runs in one step.","Solution (.sln) groups multiple projects."],
+  recap:"dotnet new console → cd → dotnet run.",
+  code:`dotnet --version
+dotnet new console -n HelloApp
+cd HelloApp
+dotnet run`
+},
+"cs-1-3":{
+  summary:["int integers, double floating point, bool booleans, string strings, char characters.","var lets the compiler infer the type (still statically typed).","Strings use double quotes; interpolation: $\"{name}\"."],
+  pit:"var is not dynamic — the type is fixed at compile time; you can't reassign an int as string.",
+  ex:{q:"var vs dynamic?",a:"var is compile-time inference (still static); dynamic is runtime dispatch."},
+  target:"You can declare variables of various types.",
+  out:"Alice is 25 years old",
+  deep:["Value types (int, double, bool) live on the stack; reference types (string, objects) on the heap.","string is immutable — concatenation creates new strings.","nameof(x) gets the name as a string."],
+  recap:"var infers but stays static; $ for interpolation.",
+  code:`int age = 25;
+double price = 19.99;
+string name = "Alice";
+var inferred = "hello"; // string
+Console.WriteLine($"{name} is {age} years old");`
+},
+"cs-1-4":{
+  summary:["Reference types are nullable by default; value types add ? to become nullable: int? n = null.","String interpolation: $\"...{var}...\" is cleaner than string.Format.","Null-conditional: name?.Length prevents NullReferenceException."],
+  pit:"?? returns the right side when left is null; ??= assigns only when null.",
+  ex:{q:"int? vs int?",a:"int? can be null; int cannot. Check with .HasValue or != null."},
+  target:"You can use nullable types and string interpolation.",
+  out:"No value\\nZhang San",
+  deep:["Nullable<T> wraps a value type with a HasValue flag.","Null coalescing ?? and ??= are C# 8+ features.","Nullable reference types (C# 8) are compile-time warnings, not runtime changes."],
+  recap:"? for nullable value types; ?. for null-safe access; ?? fallback.",
+  code:`int? maybeNumber = null;
+Console.WriteLine(maybeNumber?.ToString() ?? "No value");
+string firstName = "Zhang", lastName = "San";
+Console.WriteLine($"{firstName}{lastName}");`
+},
+"cs-2-1":{
+  summary:["if/else if/else for branching.","switch pattern matching supports type and value patterns.","Ternary condition ? a : b."],
+  pit:"C# 8+ switch supports relational patterns like case >= 90 — more powerful than classic switch.",
+  ex:{q:"switch vs if?",a:"Multi-value matching: switch; ranges: if is clearer."},
+  target:"You can write conditional branching.",
+  out:"Excellent",
+  deep:["Switch expressions (C# 8) return a value directly.","Property patterns match nested object properties.","Relational patterns use >=, <, etc. in case labels."],
+  recap:"if for ranges; switch for values; pattern matching for rich checks.",
+  code:`int score = 85;
+if(score >= 90) Console.WriteLine("A");
+else if(score >= 80) Console.WriteLine("B");
+else Console.WriteLine("C");
+switch(score) {
+  case >= 90: Console.WriteLine("Excellent"); break;
+  default: Console.WriteLine("Keep going"); break;
+}`
+},
+"cs-2-2":{
+  summary:["for for known counts; while for condition-based.","foreach iterates collections (arrays, List).","break exits, continue skips."],
+  pit:"foreach can't modify elements — use for when you need to change them.",
+  ex:{q:"for vs foreach for arrays?",a:"Read-only: foreach; index or modify: for."},
+  target:"You can choose the right loop.",
+  out:"0 1 2\\n1 2 3",
+  deep:["IEnumerable/IEnumerator powers foreach.","List<T>.ForEach is a method (not the foreach keyword).","do-while runs at least once."],
+  recap:"foreach read-only; for for index/modify.",
+  code:`for(int i=0; i<3; i++) Console.WriteLine(i);
+int[] nums = {1,2,3};
+foreach(int n in nums) Console.WriteLine(n);`
+},
+"cs-2-3":{
+  summary:["Method signature: return-type Name(params).","void means no return value.","Optional parameters: default values; params for variable args."],
+  pit:"Expression-bodied methods (=>) suit one-liners; optional params must be at the end.",
+  ex:{q:"What does params do?",a:"Lets a method take any number of same-typed args, treated as an array internally."},
+  target:"You can define methods with and without return values.",
+  out:"3\\n10",
+  deep:["Method overloading: same name, different params.","out parameters must be assigned by the method.","Local functions (C# 7) nest inside methods."],
+  recap:"return-type Name(params); void for none; params for varargs.",
+  code:`int Add(int a, int b) => a + b;
+void Greet(string name = "friend") => Console.WriteLine($"Hi, {name}");
+int Sum(params int[] numbers) {
+  int total = 0;
+  foreach(var n in numbers) total += n;
+  return total;
+}`
+},
+"cs-2-4":{
+  summary:["Value types are passed by copy; reference types by reference.","ref passes by reference (must be assigned first).","out is an output parameter (must be assigned inside)."],
+  pit:"int, double, bool are value types; string, arrays, classes are reference types — one of C#'s most important concepts.",
+  ex:{q:"Value vs reference parameters?",a:"Value: copy, method changes don't affect original; Reference: address, changes affect the original object."},
+  target:"You understand value vs reference types.",
+  out:"2,1",
+  deep:["struct is value type; class is reference type.","ref returns and ref structs (C# 7/8) for advanced scenarios.","in keyword passes by readonly reference."],
+  recap:"Value = copy; Reference = address; ref/out explicit reference.",
+  code:`void Swap(ref int a, ref int b) {
+  int t = a; a = b; b = t;
+}
+int x=1, y=2;
+Swap(ref x, ref y);
+Console.WriteLine(x + "," + y);`
+},
+"cs-3-1":{
+  summary:["Arrays have fixed length; List<T> grows dynamically.","List<T> is generic: List<int>, List<string>.","Add/Remove/Contains/Count are common methods."],
+  pit:"Array ↔ List conversions: list.ToArray(), new List<T>(arr).",
+  ex:{q:"Array vs List?",a:"Fixed size: array (less memory); need add/remove: List<T>."},
+  target:"You can CRUD with List<T>.",
+  out:"3\\n1 3 4",
+  deep:["List<T> internally uses an array that doubles when full.","Capacity vs Count: set Capacity to avoid reallocations.","ReadOnlyCollection wraps a List without exposing modification."],
+  recap:"List<T> for dynamic collections; Add/Remove/Count.",
+  code:`var nums = new List<int> {1,2,3};
+nums.Add(4);
+nums.Remove(2);
+Console.WriteLine(nums.Count);`
+},
+"cs-3-2":{
+  summary:["Dictionary stores key-value pairs for fast lookup.","Add/indexer [] to write; TryGetValue to read safely.","Keys must be unique; typically string or int."],
+  pit:"dict[key] throws KeyNotFoundException if missing — use TryGetValue.",
+  ex:{q:"How to read a dictionary safely?",a:"Use TryGetValue; it returns false if the key is missing."},
+  target:"You can store key-value pairs in a Dictionary.",
+  out:"Alice: 95",
+  deep:["Hash collisions are handled internally.","ConcurrentDictionary is thread-safe.","SortedDictionary keeps keys ordered."],
+  recap:"TryGetValue for safe reads; keys unique; fast lookup.",
+  code:`var dict = new Dictionary<string, int>();
+dict["Alice"] = 95;
+dict.Add("Bob", 87);
+if(dict.TryGetValue("Alice", out int score))
+    Console.WriteLine($"Alice: {score}");`
+},
+"cs-3-3":{
+  summary:["LINQ queries collections with SQL-like syntax.","Where filters, Select projects, OrderBy sorts.","Min/Max/Average/Sum aggregate."],
+  pit:"LINQ is lazy — ToList() or foreach triggers execution.",
+  ex:{q:"What does LINQ solve?",a:"Unified query syntax across arrays, collections, databases."},
+  target:"You can filter and project with LINQ.",
+  out:"3.5\\n6",
+  deep:["Deferred execution: queries build an expression tree.","IQueryable vs IEnumerable: IQueryable translates to SQL.","Method syntax vs query syntax: both compile to the same."],
+  recap:"Where/Select/OrderBy; lazy until enumerated.",
+  code:`var nums = new List<int>{1,2,3,4,5,6};
+var evens = nums.Where(n => n%2==0).ToList();
+var doubled = nums.Select(n => n*2).ToList();
+Console.WriteLine(nums.Average());`
+},
+"cs-3-4":{
+  summary:["Collection initializers simplify creation.","var local variables make code concise.","?. null-conditional prevents NullReferenceException."],
+  pit:"Initializers make code compact — but avoid over-nesting that hurts readability.",
+  ex:{q:"How does var work with collections?",a:"var list = new List<int>(); compiler infers List<int>."},
+  target:"You can quickly create collections with initializers.",
+  out:"",
+  deep:["Object initializers set properties at creation.","Collection expressions (C# 12) use [1,2,3] syntax.","target-typed new (C# 9): new() without type on the right."],
+  recap:"Initializers for brevity; var infers; ?. for null safety.",
+  code:`var list = new List<string>{"a","b","c"};
+var dict = new Dictionary<int,string>{ [1]="one", [2]="two" };
+int? maybe = null;`
+},
+"cs-4-1":{
+  summary:["A class is a blueprint; an object is an instance.","Fields hold data; methods define behavior.","new creates instances."],
+  pit:"Fields differ from properties in C# — fields are private variables; properties have get/set.",
+  ex:{q:"Class vs object?",a:"Class is the template; object is a concrete instance built from it."},
+  target:"You can define classes and instantiate them.",
+  out:"Hi, I'm Alice",
+  deep:["Default constructor if none is defined.","Object initializers set properties at creation.","static members belong to the class, not instances."],
+  recap:"class = blueprint; new = instance; fields + methods.",
+  code:`class Person {
+  public string Name;
+  public int Age;
+  public void Greet() => Console.WriteLine($"Hi, I'm {Name}");
+}
+var p = new Person { Name = "Alice", Age = 25 };`
+},
+"cs-4-2":{
+  summary:["Properties with get/set encapsulate fields.","Auto-properties: public string Name {get;set;}.","Constructors initialize objects."],
+  pit:"Use properties over public fields — set can add validation and prevent invalid states.",
+  ex:{q:"Why properties over public fields?",a:"Properties can validate, notify, compute in set — safer and more flexible."},
+  target:"You can encapsulate data with properties.",
+  out:"150",
+  deep:["init-only properties (C# 9) settable only in constructor.","Required properties (C# 11) must be set.","Computed properties: get-only expression-bodied."],
+  recap:"Properties wrap fields; private set for read-only outside.",
+  code:`class Account {
+  public decimal Balance { get; private set; }
+  public Account(decimal initial) => Balance = initial;
+  public void Deposit(decimal amount) => Balance += amount;
+}
+var acc = new Account(100);
+acc.Deposit(50);`
+},
+"cs-4-3":{
+  summary:[": implements inheritance.","virtual marks overridable; override overrides.","base calls the parent."],
+  pit:"sealed prevents further inheritance; base.Method() calls the parent method.",
+  ex:{q:"What is polymorphism?",a:"A parent reference pointing to a child instance calls the child's version at runtime."},
+  target:"You can use inheritance and polymorphism.",
+  out:"Woof!",
+  deep:["C# supports single class inheritance but multiple interfaces.","virtual dispatch looks up the most derived override.","abstract methods have no body and must be overridden."],
+  recap:": for inheritance; virtual/override; base to call parent.",
+  code:`class Animal {
+  public virtual void Speak() => Console.WriteLine("...");
+}
+class Dog : Animal {
+  public override void Speak() => Console.WriteLine("Woof!");
+}
+Animal a = new Dog();
+a.Speak();`
+},
+"cs-4-4":{
+  summary:["Interfaces define contracts; classes implement them.","Interfaces contain only signatures, no implementation.","A class can implement multiple interfaces."],
+  pit:"C# has single class inheritance but multiple interfaces — this solves the multiple-inheritance problem.",
+  ex:{q:"Interface vs abstract class?",a:"Interface is a pure contract (multiple implementation); abstract class can have partial implementation (single inheritance)."},
+  target:"You can define and implement interfaces.",
+  out:"78.54",
+  deep:["Default interface methods (C# 8) allow implementations.","IDisposable is a common framework interface.","Dependency injection relies on interfaces for testability."],
+  recap:"Interface = contract; multiple implementation; no inheritance diamond.",
+  code:`interface IShape { double Area(); }
+class Circle : IShape {
+  public double Radius {get;set;}
+  public double Area() => Math.PI * Radius * Radius;
+}
+IShape shape = new Circle { Radius = 5 };`
+},
+"cs-5-1":{
+  summary:["try wraps code that may fail.","catch handles exceptions.","finally always runs."],
+  pit:"catch without a type catches everything — not recommended; catch specific types.",
+  ex:{q:"When does finally run?",a:"Whether try succeeds or catch handles, finally always runs."},
+  target:"You can handle exceptions with try/catch.",
+  out:"Format error...\\nCleanup",
+  deep:["Exception filters (when): catch (Exception e) when (...).","throw vs throw e: throw preserves stack trace.","InnerException chains errors."],
+  recap:"try/catch/finally; catch specific types; finally for cleanup.",
+  code:`try {
+    int.Parse("abc");
+} catch(FormatException e) {
+    Console.WriteLine("Format error: " + e.Message);
+} finally {
+    Console.WriteLine("Cleanup");
+}`
+},
+"cs-5-2":{
+  summary:["async marks an async method.","await waits for a Task without blocking.","Async methods return Task or Task<T>."],
+  pit:"async void is only for event handlers — return Task otherwise or exceptions can't be caught.",
+  ex:{q:"What does async/await solve?",a:"Makes async code read like sync code, avoiding callback hell."},
+  target:"You can write async/await methods.",
+  out:"Data",
+  deep:["async/await is built on Task and a state machine.","ConfigureAwait(false) avoids context capture in libraries.","IAsyncEnumerable streams async sequences."],
+  recap:"async marks; await waits; return Task; avoid async void.",
+  code:`async Task<string> FetchDataAsync() {
+  await Task.Delay(1000);
+  return "data";
+}
+async Task Main() {
+  var data = await FetchDataAsync();
+  Console.WriteLine(data);
+}`
+},
+"cs-5-3":{
+  summary:["Task represents an async operation.","Task.WhenAll waits for multiple tasks in parallel.","Task.Run offloads CPU-bound work to the thread pool."],
+  pit:"Async ≠ multithreading — async is for I/O-bound work; CPU-bound uses Task.Run.",
+  ex:{q:"Task.WhenAll vs awaiting one by one?",a:"WhenAll runs in parallel (total = slowest); awaiting sequentially is serial."},
+  target:"You understand Task and parallelism.",
+  out:"Both done",
+  deep:["Task.Run queues to the thread pool.","ValueTask<T> reduces allocations for sync-fast paths.","Parallel.ForEach for data parallelism."],
+  recap:"WhenAll parallel; Task.Run for CPU; await never blocks.",
+  code:`async Task RunParallel() {
+  var t1 = Task.Delay(1000);
+  var t2 = Task.Delay(2000);
+  await Task.WhenAll(t1, t2);
+  Console.WriteLine("Both done");
+}`
+},
+"cs-5-4":{
+  summary:["using declaration auto-disposes IDisposable resources.","Files, network streams release when done.","using variable disposes at scope end."],
+  pit:"Not disposing file/network resources leaks them — using is C#'s RAII.",
+  ex:{q:"What does using do?",a:"Ensures IDisposable resources are released at scope end."},
+  target:"You can manage resources with using.",
+  out:"(file content)",
+  deep:["using blocks vs using declarations: declarations are scoped.","IAsyncDisposable for async cleanup.","Span<T> stack-allocated buffers avoid heap allocations."],
+  recap:"using = auto-dispose; RAII for C#.",
+  code:`using var reader = new StreamReader("file.txt");
+string content = await reader.ReadToEndAsync();
+// File auto-closes at scope end`
+},
+"cs-6-1":{
+  summary:["File.ReadAllText/WriteAllText for simple read/write.","File static methods are convenient for small files.","Large files use StreamReader/StreamWriter."],
+  pit:"Use Path.Combine to build paths, not hardcoded slashes.",
+  ex:{q:"How to read large files?",a:"Use StreamReader line by line to avoid loading everything into memory."},
+  target:"You can read and write text files.",
+  out:"Hello!",
+  deep:["File.AppendAllText appends.","File.OpenRead/OpenWrite return streams.","File Encoding: UTF-8 is default in .NET Core."],
+  recap:"File.ReadAllText for small; StreamReader for large.",
+  code:`File.WriteAllText("hello.txt", "Hello!");
+string content = File.ReadAllText("hello.txt");`
+},
+"cs-6-2":{
+  summary:["System.Text.Json is built-in.","JsonSerializer.Serialize to JSON string.","JsonSerializer.Deserialize<T> back to object."],
+  pit:"Properties must be public; default naming is PascalCase, configurable to camelCase.",
+  ex:{q:"What if types don't match on deserialize?",a:"JsonException — ensure JSON structure matches the target type."},
+  target:"You can serialize and deserialize JSON.",
+  out:"{\"Name\":\"Alice\",\"Age\":25}",
+  deep:["JsonSerializerOptions configures naming policy, indentation.","Source generation (C# 9+) improves AOT performance.","System.Text.Json is fast and built-in."],
+  recap:"Serialize/Deserialize; public properties; configure options.",
+  code:`var person = new { Name = "Alice", Age = 25 };
+string json = JsonSerializer.Serialize(person);
+var back = JsonSerializer.Deserialize<Person>(json);`
+},
+"cs-6-3":{
+  summary:["Regex class handles text pattern matching.","IsMatch checks if it matches.","Replace/Matches replace and extract."],
+  pit:"Regex is performance-heavy — use dedicated libraries for email validation.",
+  ex:{q:"What does @\"...\" mean?",a:"Verbatim string — no backslash escaping, good for regex and paths."},
+  target:"You can use regex for simple validation.",
+  out:"true\\nabc",
+  deep:["RegexOptions enumerate flags.","TimeSpan matches cap runaway matches.","RegexGenerator source generator (C# 7+) compiles regex at build time."],
+  recap:"@ for verbatim strings; IsMatch/Replace; watch performance.",
+  code:`using System.Text.RegularExpressions;
+bool isEmail = Regex.IsMatch("test@example.com", @"^\\w+@\\w+\\.\\w+$");
+string cleaned = Regex.Replace("a1b2c3", @"\\d", "");`
+},
+"cs-6-4":{
+  summary:["DateTime represents a date and time.","DateTime.Now is local time.","TimeSpan represents a duration."],
+  pit:"DateTime.Now is local; DateTime.UtcNow is UTC — use UTC across systems.",
+  ex:{q:"Why store UTC?",a:"No timezone ambiguity; convert to local only for display."},
+  target:"You can handle dates and times.",
+  out:"2026-09-17...",
+  deep:["DateTimeKind: Unspecified, Utc, Local.","DateOnly/TimeOnly (C# 10) separate date from time.","TimeZoneInfo handles conversions."],
+  recap:"Store UTC; display local; TimeSpan for intervals.",
+  code:`DateTime now = DateTime.Now;
+Console.WriteLine(now.ToString("yyyy-MM-dd HH:mm:ss"));
+DateTime tomorrow = now.AddDays(1);`
+},
+"cs-7-1":{
+  summary:["record is an immutable data type with built-in value equality.","Ideal for pure data carriers (DTOs, models).","with expression creates a modified copy."],
+  pit:"records are immutable by default — properties are init-only at construction.",
+  ex:{q:"record vs class?",a:"record has value equality (same content = equal); class has reference equality."},
+  target:"You can use records for data.",
+  out:"True",
+  deep:["record struct is a value type version.","Positional records auto-generate properties, deconstruct, Equals.","record can be sealed to prevent inheritance."],
+  recap:"record = value equality + immutable; with for copy-modify.",
+  code:`record Point(double X, double Y);
+var p1 = new Point(1, 2);
+var p2 = p1 with { Y = 3 };
+Console.WriteLine(p1 == new Point(1,2));`
+},
+"cs-7-2":{
+  summary:["is type pattern checks and casts in one step.","switch expressions support property and positional patterns.","Logical patterns and/or/not."],
+  pit:"Pattern matching combines type check and conversion safely.",
+  ex:{q:"switch expression vs traditional switch?",a:"Expressions return a value directly, support patterns, no break needed."},
+  target:"You can simplify code with pattern matching.",
+  out:"5",
+  deep:["List patterns (C# 11) match collections.","Property patterns check nested properties.","Relational patterns use >=, <, etc."],
+  recap:"is pattern; switch expression; _ discard.",
+  code:`object obj = "Hello";
+if(obj is string s) Console.WriteLine(s.Length);
+string Describe(object o) => o switch {
+  0 => "zero",
+  int n when n > 0 => "positive",
+  _ => "other"
+};`
+},
+"cs-7-3":{
+  summary:["With nullable reference types on, the compiler finds null reference bugs.","string? means may be null; string means not null.","Enable in .csproj: <Nullable>enable</Nullable>."],
+  pit:"Nullable reference types are compile-time checks, not runtime — they help find bugs early.",
+  ex:{q:"string? vs string?",a:"string? annotates may be null; string promises not null."},
+  target:"You understand nullable reference types.",
+  out:"",
+  deep:["null-forgiving operator ! suppresses warnings.","Nullable contexts: annotations + warnings.","Interoperability with older code uses null-tolerant operators."],
+  recap:"string? may be null; compiler checks; ! suppresses.",
+  code:`string? name = GetName();
+Console.WriteLine(name.Length); // warning
+Console.WriteLine(name!.Length); // suppress
+if(name != null) Console.WriteLine(name.Length);`
+},
+"cs-7-4":{
+  summary:["DI containers create and inject dependencies automatically.","ASP.NET Core has built-in DI.","Registration: AddSingleton/AddScoped/AddTransient."],
+  pit:"DI decouples code — don't new dependencies, inject them for testability.",
+  ex:{q:"Why use dependency injection?",a:"Decouples components, enables unit testing and swapping implementations."},
+  target:"You understand the basics of DI.",
+  out:"",
+  deep:["Singleton: one instance; Scoped: per request; Transient: per injection.","Constructor injection is preferred.","Options pattern configures services."],
+  recap:"Register services; inject via constructor; lifetimes matter.",
+  code:`builder.Services.AddSingleton<ILogger, ConsoleLogger>();
+class Service {
+  private readonly ILogger _logger;
+  public Service(ILogger logger) => _logger = logger;
+}`
+},
+
+/* ==================== Go ==================== */
+"go-1-1":{
+  summary:["Go (Golang) by Google — simple syntax, native concurrency, fast compilation.","Use cases: Docker, Kubernetes, microservices, cloud-native, CLI tools.","Design philosophy: less is more — only 25 keywords, no classes or inheritance."],
+  pit:"Go is not OOP — it has structs and interfaces, but no classes or inheritance.",
+  ex:{q:"What is Go best at?",a:"High-concurrency network services, cloud-native infrastructure, CLI tools."},
+  target:"You can explain what Go is and run Hello World.",
+  out:"Hello, Go!",
+  deep:["Go was designed at Google in 2007.","Compiles to a single static binary — easy deployment.","Goroutines are cheap (~2KB initial stack)."],
+  recap:"Go = simple + concurrent + fast static binaries.",
+  code:`package main
+import "fmt"
+func main() {
+    fmt.Println("Hello, Go!")
+}`
+},
+"go-1-2":{
+  summary:["Download from go.dev.","go version to verify.","Go Modules manage dependencies — modern Go doesn't need GOPATH."],
+  pit:"Go 1.11+ defaults to Modules — don't use the old GOPATH mode.",
+  ex:{q:"What does go.mod do?",a:"Records the module path and dependency versions — like package.json."},
+  target:"You can install Go and initialize a module.",
+  out:"(go.mod created)",
+  deep:["go.sum records dependency hashes.","GOPROXY configures the module proxy.","go mod tidy adds missing and removes unused."],
+  recap:"go mod init; go.mod + go.sum; GOPATH is legacy.",
+  code:`go version
+mkdir myproject && cd myproject
+go mod init example.com/myproject`
+},
+"go-1-3":{
+  summary:["var declares variables; := short variable declaration (inside functions).","Basic types: int, float64, string, bool, byte, rune.","Go is statically typed but type inference keeps code concise."],
+  pit:"Go requires declared variables to be used — unused variables are compile errors; := can't be used outside functions.",
+  ex:{q:"var vs :=?",a:"var works at package and function level with explicit type; := only inside functions, infers type."},
+  target:"You can declare variables and constants.",
+  out:"Go 15 1 2.5",
+  deep:["Constants are untyped by default.","iota generates sequential constants.","Zero values: int=0, string=\"\", bool=false."],
+  recap:":= inside functions; var at package level; unused = compile error.",
+  code:`var name string = "Go"
+age := 15
+const Pi = 3.14
+fmt.Println(name, age)`
+},
+"go-1-4":{
+  summary:["fmt.Print/Println/Printf output.","fmt.Scan reads input.","Strings use double quotes; backticks are raw strings."],
+  pit:"fmt.Scan needs a pointer &name; Printf uses %s/%d/%v formatting.",
+  ex:{q:"%v vs %s?",a:"%v is generic (debug); %s formats strings specifically."},
+  target:"You can do I/O with fmt.",
+  out:"Hello, Alice!",
+  deep:["fmt.Sprintf returns a formatted string.","Raw strings (backticks) don't process escapes.","bufio.Scanner for line-based input."],
+  recap:"fmt.Print output; fmt.Scan input; backticks raw strings.",
+  code:`var name string
+fmt.Print("Your name? ")
+fmt.Scan(&name)
+fmt.Printf("Hello, %s!\\n", name)`
+},
+"go-2-1":{
+  summary:["if doesn't need parentheses, but needs braces.","if can start with an init statement.","Go has no ternary operator."],
+  pit:"Opening brace must be on the same line as if; else must also be on the } line.",
+  ex:{q:"Does Go have a ternary?",a:"No — use if/else."},
+  target:"You can write conditional branches.",
+  out:"Adult",
+  deep:["gofmt enforces brace style.","if init scopes the variable to the if/else block.","switch can also start with an init statement."],
+  recap:"if no parens, braces required; no ternary.",
+  code:`age := 20
+if age >= 18 {
+    fmt.Println("Adult")
+} else {
+    fmt.Println("Minor")
+}`
+},
+"go-2-2":{
+  summary:["Go only has for — no while/until.","Standard for: for i:=0; i<10; i++ {}.","While-style: for condition {}; infinite: for {}."],
+  pit:"for range returns index and value; use _ to ignore what you don't need.",
+  ex:{q:"How to write while in Go?",a:"for condition {} — drop the init and post parts."},
+  target:"You can write all kinds of loops.",
+  out:"0 1 2",
+  deep:["range over maps iterates in random order.","range over channels receives until closed.","break/continue labels control outer loops."],
+  recap:"for is the only loop; for condition is while; range iterates.",
+  code:`for i := 0; i < 3; i++ { fmt.Println(i) }
+n := 0
+for n < 3 { n++ }
+nums := []int{1,2,3}
+for idx, v := range nums { fmt.Println(idx, v) }`
+},
+"go-2-3":{
+  summary:["Functions return multiple values — a Go signature feature.","Named return values and defer.","Variadic parameters ...int."],
+  pit:"Go convention: error as the last return; callers must check err != nil.",
+  ex:{q:"Why multiple returns instead of exceptions?",a:"Explicit error handling makes control flow clear."},
+  target:"You can write multi-return functions and handle errors.",
+  out:"3.333...",
+  deep:["Errors are values — wrap with fmt.Errorf + %w.","panic/recover for truly exceptional cases.","Deferred functions run even during panic."],
+  recap:"Multi-return (result, err); check err; no exceptions.",
+  code:`func div(a, b float64) (float64, error) {
+    if b == 0 { return 0, fmt.Errorf("divide by zero") }
+    return a / b, nil
+}
+result, err := div(10, 3)
+if err != nil { fmt.Println("error:", err) } else { fmt.Println(result) }`
+},
+"go-2-4":{
+  summary:["defer delays a call until before the function returns.","Used for closing files, releasing locks.","Multiple defers run LIFO (last in, first out)."],
+  pit:"Defer arguments are evaluated at defer time, not execution time.",
+  ex:{q:"What is defer for?",a:"Ensures resource release even if the function returns early."},
+  target:"You can manage resources with defer.",
+  out:"(file closed)",
+  deep:["defer runs after return but before the function actually returns.","Arguments are evaluated immediately.","Use defer right after opening a resource."],
+  recap:"defer before return; LIFO; eval args early.",
+  code:`f, err := os.Open("file.txt")
+if err != nil { return }
+defer f.Close()
+// read file...`
+},
+"go-3-1":{
+  summary:["slice is a dynamic-length sequence backed by an array.","make([]T, len, cap) creates one.","append adds elements.","slices are reference types — they share the backing array."],
+  pit:"Slice s[i:j] shares the backing array — modifying sub affects the original.",
+  ex:{q:"Array vs slice?",a:"Array has fixed length and is a value type; slice is dynamic and a reference type."},
+  target:"You can create and operate on slices.",
+  out:"[1 2 3 4 5] 5 5",
+  deep:["len vs cap: len is used, cap is allocated.","append may reallocate when cap is exceeded.","copy(dst, src) duplicates data to avoid sharing."],
+  recap:"slice = dynamic, reference; append grows; watch sharing.",
+  code:`nums := []int{1,2,3}
+nums = append(nums, 4, 5)
+s := make([]string, 3, 10)
+fmt.Println(nums, len(nums), cap(nums))`
+},
+"go-3-2":{
+  summary:["map[K]V key-value store.","make(map[K]V) creates one.","delete(map, key) removes.","Read returns (value, ok) to check existence."],
+  pit:"A nil map (not make'd) panics on write — must make first.",
+  ex:{q:"How to safely read a map?",a:"v, ok := m[key]; ok is false if the key doesn't exist."},
+  target:"You can store key-value pairs in a map.",
+  out:"Alice: 25",
+  deep:["Map iteration order is randomized.","Concurrent map access needs sync.RWMutex.","Map literals initialize inline."],
+  recap:"make before write; v, ok read; delete to remove.",
+  code:`ages := map[string]int{"Alice": 25, "Bob": 30}
+ages["Carol"] = 35
+delete(ages, "Bob")
+age, ok := ages["Alice"]
+if ok { fmt.Println("Alice:", age) }`
+},
+"go-3-3":{
+  summary:["struct is a collection of fields — Go's OOP foundation.","Capitalized field names are exported (public).","Dot notation accesses fields."],
+  pit:"Case determines visibility: capitalized = exported, lowercase = package-private. This is why Go has no public/private keywords.",
+  ex:{q:"struct vs class?",a:"struct has only data; methods are defined via receivers; no inheritance or constructors."},
+  target:"You can define and use structs.",
+  out:"Alice",
+  deep:["Struct embedding (not inheritance) composes behavior.","Struct tags annotate fields (e.g. JSON tags).","Pointer to struct for mutation; value for copies."],
+  recap:"struct = fields; capital = exported; methods via receivers.",
+  code:`type Person struct {
+    Name string
+    Age  int
+}
+p := Person{Name: "Alice", Age: 25}
+fmt.Println(p.Name)`
+},
+"go-3-4":{
+  summary:["Methods are functions with a receiver.","Value receiver operates on a copy; pointer receiver modifies the original.","Methods can be defined on any type."],
+  pit:"Use pointer receiver to modify; value receiver is read-only copy.",
+  ex:{q:"Value vs pointer receiver?",a:"Need to modify or struct is large: pointer receiver; read-only: value receiver."},
+  target:"You can define and call methods.",
+  out:"12",
+  deep:["Use receiver type consistently across methods.","Both pointer and value methods satisfy interfaces."],
+  recap:"Receiver (T) vs (T); pointer for mutation; value for read.",
+  code:`type Rectangle struct {
+    Width, Height float64
+}
+func (r Rectangle) Area() float64 {
+    return r.Width * r.Height
+}
+func (r *Rectangle) Scale(f float64) {
+    r.Width *= f
+    r.Height *= f
+}`
+},
+"go-4-1":{
+  summary:["Interface defines a method set.","A type implements it by just having the methods — no implements keyword.","The empty interface interface{} accepts any type."],
+  pit:"Go interfaces are implicit — you can define and implement interfaces for other people's types.",
+  ex:{q:"Go interfaces vs Java interfaces?",a:"Go is implicit (duck typing); no explicit implements keyword needed."},
+  target:"You can define and implement interfaces.",
+  out:"Woof!",
+  deep:["Small interfaces (io.Reader, io.Writer) are idiomatic.","Interface values hold (type, value).","Any is the modern alias for interface{}."],
+  recap:"Implicit implementation; empty interface{} accepts anything.",
+  code:`type Speaker interface {
+    Speak() string
+}
+type Dog struct{}
+func (d Dog) Speak() string { return "Woof!" }
+func MakeSpeak(s Speaker) { fmt.Println(s.Speak()) }`
+},
+"go-4-2":{
+  summary:["error is a built-in interface with Error() string.","Functions return error to indicate failure.","errors.New and fmt.Errorf create errors."],
+  pit:"Go errors are values, not exceptions — callers must explicitly check err.",
+  ex:{q:"Why no exceptions?",a:"Explicit error handling makes error paths visible."},
+  target:"You can return and handle errors correctly.",
+  out:"error: divide by zero",
+  deep:["errors.Is/As inspect wrapped errors.","fmt.Errorf with %w wraps an error.","Sentinel errors like io.EOF are compared with =="],
+  recap:"error as last return; check err != nil; wrap with %w.",
+  code:`func divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, errors.New("cannot divide by zero")
+    }
+    return a / b, nil
+}`
+},
+"go-4-3":{
+  summary:["Type assertion: x.(T) checks the concrete type.","Type switch: switch v := x.(type).","Empty interface accepts any type."],
+  pit:"The non-ok form x.(T) panics on mismatch — use the comma-ok form for safety.",
+  ex:{q:"What is interface{}?",a:"The empty interface accepts any type — like Java's Object."},
+  target:"You can use type assertions and switches.",
+  out:"string: hello",
+  deep:["Type switches extract the concrete type safely.","Reflection (reflect package) goes beyond assertions.","Any is the modern alias for interface{}."],
+  recap:"comma-ok assertion; type switch; any = interface{}.",
+  code:`var i interface{} = "hello"
+s, ok := i.(string)
+if ok { fmt.Println("string:", s) }
+switch v := i.(type) {
+case int: fmt.Println("int:", v)
+case string: fmt.Println("string:", v)
+default: fmt.Println("unknown")
+}`
+},
+"go-4-4":{
+  summary:["io.Reader: Read(p []byte) (n int, err error).","io.Writer: Write(p []byte) (n int, err error).","The stdlib is built on these two interfaces."],
+  pit:"Understanding Reader/Writer unlocks Go's I/O design — data streams are composable.",
+  ex:{q:"Why is Go I/O elegant?",a:"Based on Reader/Writer interfaces — memory, files, networks all use the same API."},
+  target:"You understand Reader/Writer.",
+  out:"(input)",
+  deep:["io.Copy bridges reader and writer.","Pipe connects Reader to Writer in-memory.","bufio.Writer buffers for efficiency."],
+  recap:"Reader/Writer interfaces; io.Copy composes streams.",
+  code:`import "io"
+var r io.Reader = os.Stdin
+buf := make([]byte, 1024)
+n, _ := r.Read(buf)
+fmt.Println(string(buf[:n]))`
+},
+"go-5-1":{
+  summary:["go f() starts a goroutine — managed by the Go runtime.","Goroutines start at 2KB stack — thousands are trivial.","Much lighter than OS threads."],
+  pit:"main returns immediately when done — killing all goroutines; use sync.WaitGroup to wait.",
+  ex:{q:"goroutine vs thread?",a:"goroutine is runtime-scheduled, 2KB initial stack; thread is OS-scheduled, MB stack."},
+  target:"You can start goroutines.",
+  out:"hello\\nworld",
+  deep:["GOMAXPROCS controls parallelism.","GMP scheduler multiplexes goroutines onto OS threads.","Channel communication coordinates goroutines."],
+  recap:"go f(); lightweight; WaitGroup to wait.",
+  code:`func say(s string) {
+    for i := 0; i < 3; i++ {
+        time.Sleep(100 * time.Millisecond)
+        fmt.Println(s)
+    }
+}
+go say("world")
+say("hello")`
+},
+"go-5-2":{
+  summary:["channel is a pipe between goroutines.","ch <- v sends; v := <-ch receives.","Unbuffered channels synchronize; buffered channels are async.","Go philosophy: share memory by communicating."],
+  pit:"Unbuffered send and receive must both be ready — otherwise it blocks.",
+  ex:{q:"Buffered vs unbuffered?",a:"Unbuffered: synchronous; Buffered: async up to capacity."},
+  target:"You can send and receive on channels.",
+  out:"hello",
+  deep:["close(ch) signals completion; range over channel until closed.","Select multiplexes multiple channels.","Nil channels block forever."],
+  recap:"ch <- v send; <-ch receive; unbuffered sync; buffered async.",
+  code:`ch := make(chan string)
+go func() { ch <- "hello" }()
+msg := <-ch
+fmt.Println(msg)
+bufCh := make(chan int, 2)
+bufCh <- 1; bufCh <- 2
+close(bufCh)`
+},
+"go-5-3":{
+  summary:["select waits on multiple channel ops simultaneously.","default branch makes operations non-blocking.","time.After implements timeouts."],
+  pit:"select randomly picks among ready cases.",
+  ex:{q:"How to implement a timeout?",a:"Add a <-time.After(timeout) case."},
+  target:"You can use select to wait on multiple channels.",
+  out:"(from ch1 or timeout)",
+  deep:["select without cases blocks forever.","select on a nil channel never fires.","context combines with select for cancellation."],
+  recap:"select multiplexes; default non-blocking; time.After timeout.",
+  code:`select {
+case msg := <-ch1:
+    fmt.Println("from ch1:", msg)
+case <-time.After(time.Second):
+    fmt.Println("timeout")
+}`
+},
+"go-5-4":{
+  summary:["WaitGroup waits for a group of goroutines.","Add(n) increments, Done() decrements, Wait() blocks at zero.","Mutex protects shared data."],
+  pit:"Done() must be called in the goroutine — use defer wg.Done().",
+  ex:{q:"Channel vs Mutex?",a:"Pass data with channels; protect pure shared state with Mutex."},
+  target:"You can wait for goroutines with WaitGroup.",
+  out:"workers done",
+  deep:["RWMutex allows concurrent readers.","atomic package for simple counters.","sync.Once for one-time initialization."],
+  recap:"WaitGroup Add/Done/Wait; Mutex for shared state.",
+  code:`var wg sync.WaitGroup
+for i := 0; i < 5; i++ {
+    wg.Add(1)
+    go func(n int) {
+        defer wg.Done()
+        fmt.Println("worker", n)
+    }(i)
+}
+wg.Wait()`
+},
+"go-6-1":{
+  summary:["http.HandleFunc registers a route handler.","Handler signature: func(w http.ResponseWriter, r *http.Request).","http.ListenAndServe starts the server."],
+  pit:"ListenAndServe returns an error — use log.Fatal to ensure it's logged.",
+  ex:{q:"What does r.URL.Query() return?",a:"URL query parameters (?key=value)."},
+  target:"You can write an HTTP server.",
+  out:"Hello, Alice!",
+  deep:["http.ServeMux is the built-in router.","Middleware wraps handlers.","Context propagates cancellation."],
+  recap:"HandleFunc routes; ListenAndServe starts; r *http.Request.",
+  code:`func main() {
+    http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Hello, %s!", r.URL.Query().Get("name"))
+    })
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}`
+},
+"go-6-2":{
+  summary:["encoding/json standard library.","json.Marshal encodes to JSON.","json.Unmarshal decodes into a struct.","Fields must be capitalized for the json package to see them."],
+  pit:"Struct tag sets the JSON field name; fields must be exported (capitalized).",
+  ex:{q:"Why must JSON fields be capitalized?",a:"The json package can only access exported fields."},
+  target:"You can encode and decode JSON.",
+  out:"{\"name\":\"Alice\",\"age\":25}",
+  deep:["omitempty skips zero values.","Use struct tags for custom names.","json.NewDecoder streams directly from HTTP bodies."],
+  recap:"Capitalize fields; tags name them; Marshal/Unmarshal.",
+  code:`type User struct {
+    Name string ` + "`json:\"name\"`" + `
+    Age  int    ` + "`json:\"age\"`" + `
+}
+u := User{Name: "Alice", Age: 25}
+data, _ := json.Marshal(u)
+fmt.Println(string(data))`
+},
+"go-6-3":{
+  summary:["http.Get makes a GET request.","http.Post makes a POST.","Always defer resp.Body.Close()."],
+  pit:"resp.Body must be Close'd — otherwise resource leaks.",
+  ex:{q:"What is resp.Body?",a:"io.ReadCloser — read then must Close."},
+  target:"You can make HTTP requests.",
+  out:"(response body)",
+  deep:["http.DefaultClient is fine for simple use.","Custom http.Client for timeouts.","NewRequest gives full control."],
+  recap:"http.Get/Post; defer Body.Close; io.ReadAll.",
+  code:`resp, err := http.Get("https://api.example.com/data")
+if err != nil { log.Fatal(err) }
+defer resp.Body.Close()
+body, err := io.ReadAll(resp.Body)`
+},
+"go-6-4":{
+  summary:["context.Context carries request-scoped values and cancellation.","context.WithTimeout sets a deadline.","HTTP requests use context for cancellation."],
+  pit:"Context must be passed — don't ignore it in goroutines.",
+  ex:{q:"What does context do?",a:"Passes cancellation signals, timeouts, and request-scoped data."},
+  target:"You can control timeouts with context.",
+  out:"(response or timeout)",
+  deep:["context.Background is the root.","context.Values are for request-scoped data.","Select on ctx.Done() to abort."],
+  recap:"WithTimeout; NewRequestWithContext; ctx.Done().",
+  code:`ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+defer cancel()
+req, _ := http.NewRequestWithContext(ctx, "GET", url, nil)
+resp, err := http.DefaultClient.Do(req)`
+},
+"go-7-1":{
+  summary:["go get downloads dependencies.","go mod tidy cleans go.mod.","go mod vendor copies deps to vendor/."],
+  pit:"go.sum records dependency hashes — commit it for reproducible builds.",
+  ex:{q:"What does go mod tidy do?",a:"Adds missing dependencies and removes unused ones."},
+  target:"You can manage deps with go mod.",
+  out:"(tidied)",
+  deep:["go.mod uses semantic import versions.","Private repos need GOPRIVATE.","go.work for multi-module local development."],
+  recap:"go get; go mod tidy; commit go.sum.",
+  code:`go get github.com/gin-gonic/gin
+go mod tidy
+go build`
+},
+"go-7-2":{
+  summary:["Test files end in _test.go.","TestXxx(t *testing.T) functions.","go test runs all tests.","Table-driven tests: a slice of input/output cases."],
+  pit:"Go recommends table-driven tests — one function covers many cases.",
+  ex:{q:"Test file naming?",a:"xxx_test.go in the same directory as the code."},
+  target:"You can write table-driven tests.",
+  out:"(tests pass)",
+  deep:["t.Errorf reports failure without stopping.","t.Run creates subtests.","Examples double as documentation."],
+  recap:"_test.go; TestXxx; table-driven; go test.",
+  code:`func TestAdd(t *testing.T) {
+    tests := []struct{ a, b, want int }{
+        {1, 2, 3}, {0, 0, 0}, {-1, 1, 0},
+    }
+    for _, tt := range tests {
+        if got := Add(tt.a, tt.b); got != tt.want {
+            t.Errorf("Add(%d,%d)=%d, want %d", tt.a, tt.b, got, tt.want)
+        }
+    }
+}`
+},
+"go-7-3":{
+  summary:["Project layout: cmd/ entry, internal/ private, pkg/ public.","Error wrapping: fmt.Errorf + %w.","Logging: log/slog structured logging."],
+  pit:"gofmt enforces style — no debates about braces or indentation.",
+  ex:{q:"What is internal/?",a:"Packages under internal/ can only be imported by code in the parent tree."},
+  target:"You know Go project layout.",
+  out:"(logged)",
+  deep:["Uber Go Style Guide is widely followed.","Package comments start with the package name.","Avoid dot imports."],
+  recap:"cmd/internal/pkg; %w wraps; gofmt enforces style.",
+  code:`if err != nil {
+    return fmt.Errorf("query user %s: %w", id, err)
+}
+slog.Info("user logged in", "user", name)`
+},
+"go-7-4":{
+  summary:["Go compiles to native machine code — fast startup, small memory.","pprof analyzes CPU/memory profiles.","Benchmark tests: BenchmarkXxx(b *testing.B)."],
+  pit:"Make it correct first, then fast — don't optimize on instinct.",
+  ex:{q:"When to optimize?",a:"After profiling identifies a bottleneck."},
+  target:"You know Go's performance tools.",
+  out:"(benchmark result)",
+  deep:["go test -bench . -benchmem runs benchmarks.","pprof web UI visualizes profiles.","trace shows timing and scheduling."],
+  recap:"Native binary; pprof profiles; benchmark before optimizing.",
+  code:`func BenchmarkAdd(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        Add(1, 2)
+    }
+}
+// go test -bench . -benchmem`
 }
 };
 
@@ -1848,5 +3114,5 @@ window.I18N.stage_en = {
   quiz:[
    {q:"Functional interface特点?",o:["Multiple abstract methods","Exactly one abstract method","Must extend Runnable","No default methods"],why:"Only interfaces with a single abstract method can be implemented by a lambda."},
    {q:"When do Stream intermediate ops execute?",o:["On definition","On a terminal op (lazily)","Immediately","On next startup"],why:"Intermediate ops are lazy; only terminal ops trigger the pipeline."},
-   {q:"Java 8+ recommended date API lives in?",o:["java.util.Date","java.time","java.sql","java.text"],why:"java.time provides immutable, thread-safe date-time types."}]}
+   {q:"Java 8+ recommended date API lives in?",o:["java.util.Date","java.time","java.sql","java.text"],why:"java.time provides immutable, thread-safe date-time types."}]},
 };
