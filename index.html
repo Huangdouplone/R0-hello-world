@@ -401,6 +401,50 @@ body.sbCollapsed .sb-toggle{display:flex;}
 .lock-tip span{color:var(--sub);}
 .header .lock-tip,.lang-switch .lock-tip{color:rgba(255,255,255,.85);}
 .header .lock-tip span,.lang-switch .lock-tip span{color:rgba(255,255,255,.7);}
+/* ===== 概念地图 + 名词库（自 agent 站移植） ===== */
+.cmap-svg{width:100%;height:auto;display:block;background:var(--bg2);border:1px solid var(--line);border-radius:14px;}
+.cmap-svg .nd{cursor:pointer;}
+.cmap-svg .nd rect{fill:var(--card);stroke:var(--line);stroke-width:1.5;transition:fill .15s,stroke .15s;}
+.cmap-svg .nd text{fill:var(--ink);font-size:11px;font-weight:700;text-anchor:middle;dominant-baseline:middle;pointer-events:none;}
+.cmap-svg .nd:hover rect{stroke:var(--accent);}
+.cmap-svg .nd.core rect{fill:var(--accent);stroke:var(--accent);}
+.cmap-svg .nd.core text{fill:#fff;}
+.cmap-svg .nd.on rect{fill:#f0a020;stroke:#f0a020;}
+.cmap-svg .nd.on text{fill:#fff;}
+.cmap-svg .nd.dim{opacity:.3;}
+.cmap-svg .ed{stroke:var(--line);stroke-width:1.4;}
+.cmap-svg .ed.on{stroke:#f0a020;stroke-width:2.2;}
+.cmap-svg .ed.dim{opacity:.15;}
+.cmap-svg .el{font-size:9.5px;fill:var(--sub);text-anchor:middle;pointer-events:none;}
+.cmap-note{margin-top:10px;font-size:13px;color:var(--sub);line-height:1.7;min-height:22px;}
+.cmap-note b{color:var(--accent);}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.chips .chip-x{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:999px;font-size:12px;
+  background:var(--card);border:1px solid var(--line);color:var(--sub);cursor:pointer;line-height:1.5;}
+.chips .chip-x b{color:var(--ink);font-weight:700;}
+.chips .chip-x:hover{border-color:var(--accent);}
+.chips .chip-x.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+.chips .chip-x.on b{color:#fff;}
+.term-tools{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+.term-search{flex:1;min-width:180px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;background:var(--bg2);color:var(--ink);}
+.term-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.term-cats .chip-x{cursor:pointer;font-size:12px;padding:4px 10px;}
+.term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.term{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+.term h3{margin:0 0 4px;font-size:15px;}
+.term-cat{display:inline-block;font-size:10.5px;color:var(--accent2);background:rgba(46,158,91,.12);border-radius:6px;padding:1px 7px;margin-bottom:6px;}
+.term .short{font-size:13px;color:var(--ink);line-height:1.6;margin-bottom:8px;}
+.term ul{margin:0 0 8px;padding-left:18px;}
+.term li{font-size:12.5px;color:var(--sub);line-height:1.7;}
+.term .vs{font-size:12.5px;color:var(--sub);line-height:1.7;border-top:1px dashed var(--line);padding-top:8px;}
+.term .vs b{color:var(--accent);}
+.term-empty{display:block;color:var(--sub);font-size:13px;padding:14px 2px;}
+/* 两大功能板块（概念地图 / 名词库）的快捷跳转条 */
+.sec-jump{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;}
+.sec-jump [data-act="sb-nav"]{font-size:12px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);
+  background:var(--bg2);color:var(--sub);cursor:pointer;user-select:none;}
+.sec-jump [data-act="sb-nav"]:hover{border-color:var(--accent);color:var(--ink);}
+.sec-jump [data-act="sb-nav"].on{background:var(--accent);border-color:var(--accent);color:#fff;}
 </style>
 </head>
 <body data-page-node-id="D6gEWavI8cfEfpzAoXeqDj">
@@ -527,6 +571,25 @@ body.sbCollapsed .sb-toggle{display:flex;}
     <div class="ach-grid" id="achGrid" data-page-node-id="Qcn6Wj7IQ2mVtVPkknRiEq"></div>
   </div>
 
+<div class="section" id="mapSec">
+    <h2>🗺️ 概念地图 <span class="tag">点选名词，实时看关系</span></h2>
+    <div class="sec-jump"><span data-act="sb-nav" data-target="mapSec" class="on">🗺️ 概念地图</span><span data-act="sb-nav" data-target="termsSec">🔍 名词辨析</span><span data-act="sb-nav" data-target="stagesSec">📚 课程全景</span></div>
+    <svg id="cmapSvg" class="cmap-svg" viewBox="0 0 780 428" preserveAspectRatio="xMidYMid meet" role="img" aria-label="概念地图"></svg>
+    <div class="cmap-note" id="cmapNote"></div>
+    <div class="chips" id="conceptChips"></div>
+</div>
+
+  <div class="section" id="termsSec">
+    <h2>🔍 名词辨析 <span class="tag" id="termsTag"></span></h2>
+    <div class="sec-jump"><span data-act="sb-nav" data-target="mapSec">🗺️ 概念地图</span><span data-act="sb-nav" data-target="termsSec" class="on">🔍 名词辨析</span><span data-act="sb-nav" data-target="stagesSec">📚 课程全景</span></div>
+    <div class="term-tools">
+      <input type="search" class="term-search" id="termSearch" placeholder="搜索名词 / 说明 / 关系…">
+      <button class="btn small ghost" id="termToggle" data-act="xt-toggle">显示全部</button>
+    </div>
+    <div class="term-cats" id="termCats"></div>
+    <div class="term-grid" id="terms"></div>
+</div>
+
   <div class="section" id="reportSec" data-page-node-id="nCTxU8Y1jJ2c2bBciKVgUW">
     <h2 data-page-node-id="AAFqs8NMxqvBME2BAnQWFn">📝 每日进度报告 <span class="tag">近 7 天 XP 趋势</span></h2>
     <div class="week-bars" id="weekBars"></div>
@@ -573,6 +636,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
       🔗 <span id="seriesLabel">EDU系列其他项目：</span>
       <a class="series-link" id="agiLink" href="https://huangdouplone.github.io/R0-hello-agi/" target="_blank" rel="noopener">🤖 R0:hello agi · 从零开始的 AGI 之路</a>
       <a class="series-link" id="agentLink" href="https://huangdouplone.github.io/R0-hello-agent/" target="_blank" rel="noopener">🔗 R0:hello agent · 从零开始的大模型</a>
+      <a class="series-link" id="officeLink" href="https://huangdouplone.github.io/R0-hello-office/" target="_blank" rel="noopener">🗂️ R0:hello office · 从0开始的Office</a>
     </div>
     <div id="eduLine" style="margin-top:14px;font-size:11px;opacity:.7;letter-spacing:.5px">隶属于拾色造梦企划EDU系列</div>
   </div>
@@ -605,6 +669,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
 <script src="lang-extra2.js?v=1"></script>
 <script src="lang-lab-extra2.js?v=1"></script>
 <script src="lang-i18n-extra.js?v=1"></script>
+<script src="world-concept.js?v=1"></script>
 <script>
 /* 合并扩容题库：lang-quiz-extra.js（+2 题）与 lang-extra2.js（+2 判断 +2 填空），每阶段共 9 题，
    使「随机抽 4 题」既具备真实随机性，又能稳定抽到判断 / 填空等新题型。 */
@@ -1498,7 +1563,128 @@ function renderBackupHint(){
   var stale=!data.lastExport||daysSince(data.lastExport)>14;
   el.style.display=(has&&stale)?"":"none";
 }
+/* ===================== 概念地图 + 名词库（自 agent 站移植） ===================== */
+var XT_TERMS = window.WORLD_TERMS || [];
+var XT_MAP = window.WORLD_CONCEPT_MAP || { nodes: [], edges: [] };
+var XT_EN = function(){return isEn();};
+var xtSel = null, xtOpenAll = false, xtCatFilter = "";
+function xtTerm(id){ return XT_TERMS.filter(function(x){ return x.term === id; })[0]; }
+function xtLabel(id){ var x = xtTerm(id); return x ? ((XT_EN() && x.term_en) ? x.term_en : x.term) : id; }
+function xtSub(id){ var x = xtTerm(id); return x ? ((XT_EN() && x.short_en) ? x.short_en : (x.short || "")) : ""; }
+function xtVs(id){ var x = xtTerm(id); return x ? ((XT_EN() && x.vs_en) ? x.vs_en : (x.vs || "")) : ""; }
+function xtDet(id){ var x = xtTerm(id); return x ? ((XT_EN() && x.detail_en) ? x.detail_en : (x.detail || [])) : []; }
+function xtCats(){ var c = []; XT_TERMS.forEach(function(x){ if (x.cat && c.indexOf(x.cat) < 0) c.push(x.cat); }); return c; }
+var XT_CX = 390, XT_CY = 210;
+var XT_RINGS = { 1: { rx: 126, ry: 84 }, 2: { rx: 246, ry: 128 }, 3: { rx: 338, ry: 194 } };
+var XT_OFFSET = { 1: 0, 2: 0, 3: Math.PI / 10 };
+function xtLayout(){
+  var byTier = {};
+  XT_MAP.nodes.forEach(function (n) { (byTier[n.tier] = byTier[n.tier] || []).push(n.id); });
+  var pos = {};
+  (byTier[0] || []).forEach(function (id) { pos[id] = { x: XT_CX, y: XT_CY }; });
+  Object.keys(XT_RINGS).forEach(function (t2) {
+    var list = byTier[t2] || [], R = XT_RINGS[t2];
+    list.forEach(function (id, i) {
+      var ang = -Math.PI / 2 + (XT_OFFSET[t2] || 0) + (2 * Math.PI * i) / list.length;
+      pos[id] = { x: XT_CX + R.rx * Math.cos(ang), y: XT_CY + R.ry * Math.sin(ang) };
+    });
+  });
+  return pos;
+}
+function xtPillW(l){ return Math.max(58, Math.round(l.length * 6 + 16)); }
+function renderMap(){
+  var svg = document.getElementById("cmapSvg"); if (!svg || !XT_MAP.nodes.length) return;
+  var pos = xtLayout(), sel = xtSel, near = {};
+  if (sel) { near[sel] = 1; XT_MAP.edges.forEach(function (e) { if (e.a === sel) near[e.b] = 1; else if (e.b === sel) near[e.a] = 1; }); }
+  var h = "";
+  XT_MAP.edges.forEach(function (e) {
+    var p1 = pos[e.a], p2 = pos[e.b]; if (!p1 || !p2) return;
+    var on = !!sel && (e.a === sel || e.b === sel), dim = !!sel && !on;
+    h += '<line class="ed' + (on ? " on" : "") + (dim ? " dim" : "") + '" x1="' + p1.x.toFixed(1) + '" y1="' + p1.y.toFixed(1) + '" x2="' + p2.x.toFixed(1) + '" y2="' + p2.y.toFixed(1) + '"></line>';
+    if (on) { var lab = XT_EN() ? e.en : e.zh;
+      h += '<text class="el" x="' + ((p1.x + p2.x) / 2).toFixed(1) + '" y="' + ((p1.y + p2.y) / 2 - 4).toFixed(1) + '">' + xtEsc(lab) + "</text>"; }
+  });
+  XT_MAP.nodes.forEach(function (n) {
+    var pt = pos[n.id]; if (!pt) return;
+    var label = xtLabel(n.id), w = xtPillW(label), hgt = 26;
+    var cls = "nd" + (n.tier === 0 ? " core" : "") + (sel === n.id ? " on" : "") + (sel && !near[n.id] ? " dim" : "");
+    h += '<g class="' + cls + '" data-act="xt-pick" data-id="' + xtEsc(n.id) + '">' +
+      '<rect x="' + (pt.x - w / 2).toFixed(1) + '" y="' + (pt.y - hgt / 2).toFixed(1) + '" width="' + w + '" height="' + hgt + '" rx="13"></rect>' +
+      '<text x="' + pt.x.toFixed(1) + '" y="' + (pt.y + 1).toFixed(1) + '">' + xtEsc(label) + "</text></g>";
+  });
+  svg.innerHTML = h;
+  var note = document.getElementById("cmapNote");
+  if (note) {
+    if (!sel) { note.innerHTML = (XT_EN()
+      ? "<b>Overview</b> — " + XT_MAP.nodes.length + " concepts and their relations. Click a chip or a node to focus."
+      : "<b>总图</b> — 共 " + XT_MAP.nodes.length + " 个概念及其关系；点下方名词或图中节点即可聚焦。"); }
+    else {
+      var rl = XT_MAP.edges.filter(function (e) { return e.a === sel || e.b === sel; }).map(function (e) {
+        var other = e.a === sel ? e.b : e.a;
+        var lab = XT_EN() ? e.en : e.zh;
+        return (e.a === sel ? xtEsc(xtLabel(other)) + " — " + xtEsc(lab || "") + " ▸" : "◂ " + xtEsc(xtLabel(other)) + " — " + xtEsc(lab || ""));
+      });
+      note.innerHTML = "<b>" + xtEsc(xtLabel(sel)) + "</b>" + (XT_EN() ? ": " : "：") + xtEsc(xtSub(sel)) +
+        '<br><span style="font-size:12.5px">' + (XT_EN() ? "Relations: " : "关系：") + (rl.join(XT_EN() ? " | " : " ｜ ") || "—") + "</span>"; }
+  }
+  var chips = document.getElementById("conceptChips");
+  if (chips) {
+    chips.innerHTML = '<span class="chip-x' + (!sel ? " on" : "") + '" data-act="xt-pick" data-id="">' + (XT_EN() ? "Overview" : "总图") + "</span>" +
+      XT_MAP.nodes.map(function (n) {
+        return '<span class="chip-x' + (sel === n.id ? " on" : "") + '" data-act="xt-pick" data-id="' + xtEsc(n.id) + '"><b>' +
+          xtEsc(xtLabel(n.id)) + "</b> · " + xtEsc(xtSub(n.id)) + "</span>";
+      }).join("");
+  }
+}
+function xtMatches(x, q){
+  if (!q) return true;
+  var hay = [x.term, x.term_en || "", x.short || "", x.short_en || "", (x.detail || []).join(" "), x.vs || "", x.vs_en || "", x.cat || ""].join(" ").toLowerCase();
+  return hay.indexOf(q) >= 0;
+}
+function renderTerms(){
+  var grid = document.getElementById("terms"); if (!grid) return;
+  var cats = xtCats();
+  var catBox = document.getElementById("termCats");
+  if (catBox) {
+    catBox.innerHTML = '<span class="chip-x' + (!xtCatFilter ? " on" : "") + '" data-act="xt-cat" data-id="">' +
+      (XT_EN() ? "All" : "全部") + "（" + XT_TERMS.length + "）</span>" +
+      cats.map(function (c) {
+        var n = XT_TERMS.filter(function (x) { return x.cat === c; }).length;
+        return '<span class="chip-x' + (xtCatFilter === c ? " on" : "") + '" data-act="xt-cat" data-id="' + xtEsc(c) + '">' + xtEsc(c) + "（" + n + "）</span>";
+      }).join("");
+  }
+  var q = ((document.getElementById("termSearch") || {}).value || "").trim().toLowerCase();
+  var list = XT_TERMS.filter(function (x) {
+    if (xtCatFilter && x.cat !== xtCatFilter) return false;
+    return xtMatches(x, q);
+  });
+  var limited = !xtOpenAll && !q && !xtCatFilter;
+  var show = limited ? list.slice(0, 9) : list;
+  grid.innerHTML = show.map(function (x) {
+    var name = (XT_EN() && x.term_en) ? x.term_en : x.term;
+    var short = (XT_EN() && x.short_en) ? x.short_en : x.short;
+    var vs = (XT_EN() && x.vs_en) ? x.vs_en : x.vs;
+    var det = xtDet(x.term);
+    var h = '<div class="term"><h3>' + xtEsc(name) + "</h3>";
+    if (x.cat) h += '<div class="term-cat">' + xtEsc(x.cat) + "</div>";
+    h += '<div class="short">' + xtEsc(short) + "</div>";
+    if (det.length) h += "<ul>" + det.map(function (d) { return "<li>" + xtEsc(d) + "</li>"; }).join("") + "</ul>";
+    if (vs) h += '<div class="vs"><b>' + (XT_EN() ? "Relations: " : "关系：") + "</b>" + xtEsc(vs) + "</div></div>";
+    return h;
+  }).join("") || '<span class="term-empty">' + (XT_EN() ? "No matching term — try another keyword" : "没有匹配的名词，换个关键词试试") + "</span>";
+  var tag = document.getElementById("termsTag");
+  if (tag) tag.textContent = XT_EN() ? (XT_TERMS.length + " terms · library") : ("共 " + XT_TERMS.length + " 条 · 名词库");
+  var btn = document.getElementById("termToggle");
+  if (btn) {
+    if (q || xtCatFilter) { btn.style.display = "none"; }
+    else { btn.style.display = ""; btn.textContent = xtOpenAll ? (XT_EN() ? "Show top 9" : "收起（只看 9 条）") : (XT_EN() ? ("Show all " + list.length) : ("显示全部 " + list.length + " 条")); }
+  }
+}
+function xtEsc(v){ return String(v == null ? "" : v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+document.getElementById("termSearch") && document.getElementById("termSearch").addEventListener("input", function () { renderTerms(); });
+
 function renderAll(){
+  renderMap();renderTerms();
   renderHeader();renderDash();renderCheckin();renderToday();renderPhases();renderStages();
   renderLabs();renderReview();renderMistakes();renderHeat();renderNotes();renderAch();
   renderReport();renderBackupHint();renderStyleShop();renderSidebar();renderCoins();
@@ -1506,13 +1692,14 @@ function renderAll(){
 
 /* ============ 侧边栏 ============ */
 var SERIES_URL="https://huangdouplone.github.io/R0-hello-agi/";
-var AGENT_URL="https://huangdouplone.github.io/R0-hello-agent/";   // EDU 系列第三作（大模型）
+var AGENT_URL="https://huangdouplone.github.io/R0-hello-agent/";
+var OFFICE_URL="https://huangdouplone.github.io/R0-hello-office/";   // EDU 系列第四作（Office）   // EDU 系列第三作（大模型）
 var ICON_MAP={dashSec:"📊",todaySec:"🎯",timerSec:"⏱️",phasesSec:"🗺️",stagesSec:"📚",labSec:"💻",
- reviewSec:"🔁",mistakeSec:"📕",heatSec:"🔥",achSec:"🏆",noteSec:"📝",reportSec:"📈",settingSec:"⚙️"};
+ reviewSec:"🔁",mistakeSec:"📕",heatSec:"🔥",achSec:"🏆",noteSec:"📝",reportSec:"📈",mapSec:"🗺️",termsSec:"🔍",settingSec:"⚙️"};
 /* 取真实 DOM 顺序（页面里 .section 出现的先后），保证侧栏与正文一一对应 */
 function realSectionOrder(){
   // Match AGI project sidebar order
-  return ["dashSec","todaySec","timerSec","phasesSec","stagesSec","labSec","reviewSec","mistakeSec","heatSec","achSec","noteSec","reportSec","settingSec"];
+  return ["dashSec","todaySec","timerSec","phasesSec","stagesSec","labSec","reviewSec","mistakeSec","heatSec","achSec","mapSec","termsSec","noteSec","reportSec","settingSec"];
 }
 /* 只取 h2 的第一个文本节点，避免把 <span class="tag"> 的文案也拼进来 */
 function sectionLabel(sec){
@@ -1557,6 +1744,7 @@ function renderSidebar(){
   }
   html+='<a class="sb-link" href="'+SERIES_URL+'" target="_blank" rel="noopener">🔗 '+(isEn()?"More in the EDU series: ":"EDU系列其他项目：")+(isEn()?"R0:hello agi · From Zero to AGI":"R0:hello agi · 从零开始的 AGI 之路")+'<small>'+SERIES_URL+'</small></a>';
   html+='<a class="sb-link" href="'+AGENT_URL+'" target="_blank" rel="noopener">🔗 '+(isEn()?"R0:hello agent · Large Models from Zero":"R0:hello agent · 从零开始的大模型")+'<small>'+AGENT_URL+'</small></a>';
+  html+='<a class="sb-link" href="'+OFFICE_URL+'" target="_blank" rel="noopener">🗂️ '+(isEn()?"R0:hello office · Office from Zero":"R0:hello office · 从0开始的Office")+'<small>'+OFFICE_URL+'</small></a>';
   sb.innerHTML=html;
   ensureResizer();
   updateSbSpy();
@@ -2118,6 +2306,8 @@ function applyStaticI18n(){
   if(al)al.textContent=isEn()?"🤖 R0:hello agi · From Zero to AGI":"🤖 R0:hello agi · 从零开始的 AGI 之路";
   var ag=$("agentLink");
   if(ag)ag.textContent=isEn()?"🔗 R0:hello agent · Large Models from Zero":"🔗 R0:hello agent · 从零开始的大模型";
+  var of2=$("officeLink");
+  if(of2)of2.textContent=isEn()?"🗂️ R0:hello office · Office from Zero":"🗂️ R0:hello office · 从0开始的Office";
   var gh=$("ghBtn");
   if(gh)gh.title=isEn()?"Open the GitHub repository":"打开 GitHub 仓库";
   var el2=$("eduLine");
@@ -2700,7 +2890,10 @@ document.addEventListener("click",function(e){
     case "sb-toggle-nav":{
       data.flags=data.flags||{};data.flags.sbNavCollapsed=!data.flags.sbNavCollapsed;
       saveData();renderSidebar();break;}
-    case "sb-collapse":{
+    case "xt-pick":{xtSel=id||null;renderMap();break;}
+    case "xt-cat":{xtCatFilter=id||"";renderTerms();break;}
+    case "xt-toggle":{xtOpenAll=!xtOpenAll;renderTerms();break;}
+        case "sb-collapse":{
       document.body.classList.toggle("sbCollapsed");
       data.flags=data.flags||{};data.flags.sbCollapsed=document.body.classList.contains("sbCollapsed");
       saveData();break;}
