@@ -813,7 +813,59 @@ const STYLES=[
  {id:"dusk_dark",nameKey:"skin_dusk_dark",cost:140,vars:{"--bg":"#1a1025","--card":"#251835","--line":"#3d2a52","--fg":"#f0e0ff","--sub":"#9e85b8","--accent":"#c084fc","--amber":"#fb923c","--bg2":"#2d1f40","--shadow":"0 6px 24px rgba(0,0,0,.5)","--red":"#f87171"}}
 ];
 /* 皮肤可覆盖的变量（含 --accent/--accent2：切换主题时统一复位，避免残留） */
-const SKIN_VARS=["--bg","--card","--line","--fg","--sub","--accent","--accent2","--amber","--bg2","--shadow","--red"];
+/* 皮肤可覆盖的「全部」变量：漏一个就会从基础主题泄漏 —— 典型症状是
+   暗色皮肤里冒出浅色区块（--bg2/--ink 泄漏）、文字读不出来（--fg 泄漏）。 */
+const SKIN_VARS=["--bg","--bg2","--card","--line","--fg","--ink","--sub","--accent","--accent2","--amber","--red","--green","--purple","--shadow"];
+const ACCENT_KEYS=["--accent","--accent2","--amber","--red","--green","--purple"];
+const ACCENT_FALLBACK={"--green":"#2e9e5b","--purple":"#8a63d2"};
+/* ---- 颜色工具：把皮肤签名色板推导出「明/暗对偶」，使皮肤与昼夜模式共存 ---- */
+function skRGB(h){h=String(h==null?"":h).trim();if(h.charAt(0)==="#")h=h.slice(1);
+  if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];if(h.length!==6)return null;
+  var n=parseInt(h,16);return isNaN(n)?null:[(n>>16)&255,(n>>8)&255,n&255];}
+function skHSL(c){var r=c[0]/255,g=c[1]/255,b=c[2]/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),
+  l=(mx+mn)/2,d=mx-mn,h=0,s=0;
+  if(d){s=l>0.5?d/(2-mx-mn):d/(mx+mn);
+    if(mx===r)h=(g-b)/d+(g<b?6:0);else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60;}
+  return{h:h,s:s*100,l:l*100};}
+function skHex(H,S,L){H=((H%360)+360)%360;S=Math.max(0,Math.min(100,S))/100;L=Math.max(0,Math.min(100,L))/100;
+  var c=(1-Math.abs(2*L-1))*S,x=c*(1-Math.abs((H/60)%2-1)),m=L-c/2,r=0,g=0,b=0;
+  if(H<60){r=c;g=x;}else if(H<120){r=x;g=c;}else if(H<180){g=c;b=x;}
+  else if(H<240){g=x;b=c;}else if(H<300){r=x;b=c;}else{r=c;b=x;}
+  var f=function(v){var n=Math.max(0,Math.min(255,Math.round((v+m)*255)));return("0"+n.toString(16)).slice(-2);};
+  return "#"+f(r)+f(g)+f(b);}
+function skLum(hex){var c=skRGB(hex);if(!c)return .5;
+  var f=function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);};
+  return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2]);}
+function skRetune(hex,L,S){var c=skRGB(hex);if(!c)return hex;var o=skHSL(c);return skHex(o.h,S!=null?S:o.s,L);}
+/* 以皮肤主底色的色相为基调生成「另一极」色板：亮皮肤→暗色板，暗皮肤→亮色板；
+   只重排明度、保留色相与强调色取向，因此每个皮肤在昼夜两侧都还是它自己。 */
+function flipSkin(v,toDark){
+  var o=skHSL(skRGB(v["--bg"])||[255,255,255]),h=o.h,sh=Math.min(o.s,42),p={};
+  if(toDark){
+    p["--bg"]=skHex(h,sh,9);p["--bg2"]=skHex(h,sh,12);p["--card"]=skHex(h,Math.min(sh+4,46),13);
+    p["--soft"]=skHex(h,sh,11);p["--line"]=skHex(h,Math.min(sh+6,34),24);
+    p["--ink"]=skHex(h,20,93);p["--fg"]=skHex(h,20,93);p["--sub"]=skHex(h,13,65);
+    p["--shadow"]="0 6px 24px rgba(0,0,0,.5)";
+  }else{
+    p["--bg"]=skHex(h,Math.min(sh,70),97);p["--bg2"]=skHex(h,Math.min(sh,60),95);
+    p["--card"]=skHex(h,Math.min(sh,50),100);p["--soft"]=skHex(h,Math.min(sh,60),94);
+    p["--line"]=skHex(h,Math.min(sh,45),88);
+    p["--ink"]=skHex(h,26,17);p["--fg"]=skHex(h,26,17);p["--sub"]=skHex(h,15,46);
+    p["--shadow"]="0 6px 18px rgba(20,30,50,.12)";
+  }
+  ACCENT_KEYS.forEach(function(k){if(v[k])p[k]=skRetune(v[k],toDark?72:42);});
+  return p;
+}
+/* 当前皮肤色板：① 先按昼夜推导出完整色板（补齐皮肤没定义的变量，防止泄漏）；
+   ② 若当前极性正是该皮肤的原生极性，再用皮肤自己的值覆盖，保住签名观感。 */
+function skinPalette(st,dark){
+  var base=(st&&st.vars)||{};if(!Object.keys(base).length)return null;
+  var nativeLight=skLum(base["--bg"]||"#ffffff")>0.5,full=flipSkin(base,dark);
+  if(nativeLight===(!dark))Object.keys(base).forEach(function(k){full[k]=base[k];});
+  return full;
+}
+function themeIsDark(){var pref=(data.settings&&data.settings.theme)||"auto";
+  return pref==="dark"||(pref==="auto"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);}
 function skinName(s){return s?T(s.nameKey):"";}
 
 /* ============ 状态与持久化 ============ */
@@ -1087,14 +1139,19 @@ function drawerPick(id){
 }
 function applyStyle(){
   var s=STYLES.filter(function(x){return x.id===(data.activeStyle||"default");})[0]||STYLES[0];
-  var m=langMeta(curLang),root=document.documentElement;
+  var m=langMeta(curLang),root=document.documentElement,dark=themeIsDark();
   /* 先复位皮肤变量：从「调色板皮肤」切回「强调色皮肤」时不留残留 */
   SKIN_VARS.forEach(function(k){root.style.setProperty(k,"");});
-  if(s&&s.vars){
-    Object.keys(s.vars).forEach(function(k){root.style.setProperty(k,s.vars[k]);});
-    root.style.setProperty("--accent",s.vars["--accent"]||m.c1);
-    root.style.setProperty("--accent2",s.vars["--amber"]||m.c2);
+  if(s&&s.vars&&Object.keys(s.vars).length){
+    /* 调色板皮肤：按当前昼夜取「原生极」或推导出的对偶极，变量一次写全 */
+    var pal=skinPalette(s,dark),full={};
+    Object.keys(pal).forEach(function(k){full[k]=pal[k];});
+    Object.keys(ACCENT_FALLBACK).forEach(function(k){if(!full[k])full[k]=skRetune(ACCENT_FALLBACK[k],dark?70:42);});
+    Object.keys(full).forEach(function(k){root.style.setProperty(k,full[k]);});
+    root.style.setProperty("--accent",full["--accent"]||m.c1);
+    root.style.setProperty("--accent2",full["--accent2"]||full["--amber"]||m.c2);
   }else{
+    /* 强调色皮肤：只改强调色，其余交给基础主题（天然与昼夜共存） */
     root.style.setProperty("--accent",s?s.c1:m.c1);
     root.style.setProperty("--accent2",s?s.c2:m.c2);
   }
