@@ -9,17 +9,14 @@ window.I18N = {
 
 /* ---------------- 界面框架 ---------------- */
 ui:{
- app_title:{zh:"R0：从零开始的编程之路",en:"R0:hello world"},
  app_alt:{zh:"R0:hello world",en:"R0:hello world"},
- app_sub:{zh:"Python · C · C++ · Java 四门通用语言 · 从零到深入",en:"Python · C · C++ · Java — from zero to depth"},
- app_tagline:{zh:"七门通用语言，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",
-              en:"Seven general-purpose languages — from your very first line of code to runtime mechanics. No career-track adaptation: just follow the course."},
+ app_sub:{zh:"Python · C · C++ · Java · JavaScript · C# · Go 七门通用语言 · 从零到深入",en:"Python · C · C++ · Java · JavaScript · C# · Go — from zero to depth"},
 
  nav_dash:{zh:"今日概览",en:"Today"},
  nav_curriculum:{zh:"学习路线",en:"Curriculum"},
  nav_lab:{zh:"编程实战",en:"Labs"},
  nav_review:{zh:"复习队列",en:"Review"},
- nav_mistake:{zh:"错题本",en:"Mistakes"},
+ nav_mistake:{zh:"错题本",en:"Error Log"},
  nav_heat:{zh:"热力图",en:"Heatmap"},
  nav_notes:{zh:"笔记中心",en:"Notes"},
  nav_ach:{zh:"成就",en:"Achievements"},
@@ -49,14 +46,14 @@ ui:{
  sec_stages:{zh:"课程全景",en:"Full Curriculum"},
  sec_lab:{zh:"编程实战",en:"Coding Labs"},
  sec_review:{zh:"复习队列",en:"Review Queue"},
- sec_mistake:{zh:"错题本",en:"Mistake Book"},
+ sec_mistake:{zh:"错题本",en:"Error Log"},
  sec_heat:{zh:"学习热力图",en:"Study Heatmap"},
  sec_notes:{zh:"笔记中心",en:"Notes"},
  sec_ach:{zh:"成就徽章",en:"Achievements"},
  sec_report:{zh:"每日进度报告",en:"Daily Progress Report"},
  report_tag:{zh:"近 7 天 XP 趋势",en:"7-day XP trend"},
  quota_left:{zh:"今日新学额度",en:"New-lesson quota today"},
- rev_hint:{zh:"节课到了复习时间",en:"lesson(s) are due for review"},
+ rev_hint:{zh:"节课到了复习时间",en:"Lessons are due for review"},
  eta_done:{zh:"🎉 本门语言课程已全部学完，可自由复习或推进其他语言！",en:"🎉 This language is fully completed — review freely or advance another language!"},
  eta_none:{zh:"完成今天的学习后，这里会按你的节奏预估毕业日期 🏁",en:"After today's study, your finish date will be estimated here 🏁"},
  eta_calc:{zh:"按近 7 天节奏（约 {a} 节/天）预估：{y} 年 {m} 月 {d} 日学完本门语言（还剩 {r} 节）",en:"At your recent 7-day pace (~{a} lessons/day): finish this language on {y}-{m}-{d} ({r} lessons left)"},
@@ -278,7 +275,7 @@ ui:{
  btn_dl_period:{zh:"下载 .md",en:"Download .md"},
 
  /* ---- 错题本 ---- */
- btn_clear_mistakes:{zh:"清空错题本",en:"Clear Mistake Book"},
+ btn_clear_mistakes:{zh:"清空错题本",en:"Clear Error Log"},
 
  /* ---- 设置区提示 ---- */
  hint_name:{zh:"会出现在打卡和日报里",en:"Shown in check-in and daily reports"},
@@ -315,7 +312,7 @@ ui:{
 
  /* ---- 首页标题 ---- */
  app_title:{zh:"🚀 R0：从零开始的编程之路",en:"🚀 R0: A Programming Roadmap from Zero"},
- app_tagline:{zh:"七门通用语言，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",en:"Seven general-purpose languages — from your very first line of code to runtime mechanics. No career-track adaptation: just follow the course."}
+ app_tagline:{zh:"七门通用语言，从第一行代码一直讲到语言纵深与运行时机制；不预设职业路线，跟着课程走就能学会。",en:"Seven general-purpose languages — from your very first line of code to runtime mechanics. No career-focused adaptation: just follow the course pace."}
 },
 
 /* ---------------- 阶段目录 ---------------- */
@@ -701,8 +698,8 @@ titles_en:[
 /* ---------------- 成就（29 枚，按 ACHIEVEMENTS id） ---------------- */
 ach_en:{
  first:{t:"First Step",d:"Complete lesson 1"},
- l10:{t:"Ten In",d:"Complete 10 lessons in total"},
- l50:{t:"Halfway Hundred",d:"Complete 50 lessons in total"},
+ l10:{t:"First Ten",d:"Complete 10 lessons in total"},
+ l50:{t:"Half Century",d:"Complete 50 lessons in total"},
  l100:{t:"Century Foundation",d:"Complete 100 lessons in total"},
  stage1:{t:"First Stage Cleared",d:"Clear any one stage"},
  stage5:{t:"Five Stages Cleared",d:"Clear 5 stages"},
@@ -727,7 +724,7 @@ ach_en:{
  labFirst:{t:"First Strike",d:"Finish your first coding lab"},
  lab5:{t:"Well-Forged",d:"Finish 5 coding labs"},
  aiFirst:{t:"AI Companion",d:"Generate an AI grading prompt for the first time"},
- mistake1:{t:"Mistake Collector",d:"First wrong answer saved to the mistake book"},
+ mistake1:{t:"Mistake Collector",d:"First wrong answer saved to the Error Log"},
  focus:{t:"Focus Master",d:"Accumulate 600 minutes of focused study"}
 },
 

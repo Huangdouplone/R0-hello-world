@@ -408,9 +408,9 @@ print(area(2))`
 
 /* ==================== C · Stage 1 ==================== */
 "c-1-1":{
-  summary:["C is a low-level, portable, highly efficient general-purpose language born at Bell Labs in 1972.","Main fields: operating systems, embedded, drivers, databases, compilers, high-performance libraries — C is the foundation of almost all modern software.","C's syntax influenced C++, Java, C#, JavaScript and many others; mastering C is like learning the Mandarin of programming languages."],
+  summary:["C is a low-level, portable, highly efficient general-purpose language born at Bell Labs in 1972.","Main fields: operating systems, embedded, drivers, databases, compilers, high-performance libraries — C is the foundation of almost all modern software.","C's syntax influenced C++, Java, C#, JavaScript and many others — it is the lingua franca of programming languages."],
   pit:"Don't expect C to hold your hand: it does almost no runtime checks; writing out of bounds won't error — it just plants a time bomb.",
-  ex:{q:"What's the biggest difference between C and Python?",a:"C is compiled, statically typed, manually memory-managed, close to hardware for speed; Python is interpreted, dynamically typed, garbage-collected, for development speed. It's a trade-off between control and efficiency."},
+  ex:{q:"What's the biggest difference between C and Python?",a:"C is compiled, statically typed, manually memory-managed, close to hardware for speed; Python is interpreted, dynamically typed, garbage-collected, for development speed. It's a trade-off between low-level control and developer convenience."},
   target:"You can explain C's positioning and its trade-off in one sentence.",
   out:"(no output: all 3 lines are comments)",
   deep:["C was created by Dennis Ritchie at Bell Labs in 1972 to rewrite the UNIX kernel — it was born as \"the language for writing operating systems\".","C's sweet spot: more readable than assembly yet maps directly to machine instructions; nearly every CPU has a C compiler.","The price is \"trust the programmer\": no bounds checking, no type safety guarantees — if you get it wrong, it's undefined behavior."],
@@ -2993,7 +2993,7 @@ window.I18N.stage_en = {
   quiz:[
    {q:"Best read-only range-for over vector<string>?",o:["for (auto x : v)","for (const auto &x : v)","for (auto &x : v)","for (int i...)"],why:"const reference avoids copies and prevents modification."},
    {q:"Which standard introduced structured bindings?",o:["C++11","C++14","C++17","C++20"],why:"Structured bindings are C++17."},
-   {q:"Brace initialization特点?",o:["Allows narrowing","Disallows narrowing conversions","Only for arrays","Requires explicit types"],why:"List initialization rejects implicit narrowing at compile time."}]},
+   {q:"What is special about brace initialization?",o:["Allows narrowing","Disallows narrowing conversions","Only for arrays","Requires explicit types"],why:"List initialization rejects implicit narrowing at compile time."}]},
 "cpp-s4":{goal:"Design function interfaces; understand overload resolution and parameter passing; master lambdas and callables.",
   links:[["cppreference · Functions","https://zh.cppreference.com/w/cpp/language/functions"],["cppreference · Lambda","https://zh.cppreference.com/w/cpp/language/lambda"]],
   lab:{t:"Generic sum function + lambda practice",req:["Write function template sum_if(v, pred) summing elements matching a predicate","Use lambdas for \"sum evens\" and \"sum numbers > 10\"","Write make_counter() returning a stateful lambda whose successive calls return an incrementing count"],hint:"For stateful lambdas that modify captured variables, add mutable: auto c = [n=0]() mutable { return ++n; };"},
@@ -3028,7 +3028,7 @@ window.I18N.stage_en = {
   quiz:[
    {q:"Default sequence container?",o:["list","vector","deque","array"],why:"vector is contiguous and cache-friendly, fastest in most cases."},
    {q:"map::operator[] on a missing key?",o:["Returns 0","Inserts a default element","Throws","Returns end()"],why:"It default-constructs and inserts; use find or contains for lookup only."},
-   {q:"string_view特点?",o:["Owns the string","Non-owning read-only view","Auto-allocates","Thread-safe"],why:"It's ptr+len; the source string must outlive the view."}]},
+   {q:"What is special about string_view?",o:["Owns the string","Non-owning read-only view","Auto-allocates","Thread-safe"],why:"It's ptr+len; the source string must outlive the view."}]},
 "cpp-s9":{goal:"Master modern C++ resource management; understand value categories, move semantics, and perfect forwarding.",
   links:[["cppreference · Smart pointers","https://zh.cppreference.com/w/cpp/memory"],["cppreference · Move semantics","https://zh.cppreference.com/w/cpp/language/move_constructor"]],
   lab:{t:"Resource-safe RAII classes",req:["Use unique_ptr with custom deleter to wrap FILE* (call fclose on release)","Implement a simple UniqueBuffer supporting move, forbidding copy, throwing on out-of-range","Use shared_ptr + weak_ptr to build a tree node with parent/child links; verify weak_ptr breaks cycles","Use std::move to efficiently transfer a large vector into a function"],hint:"make_shared is faster (single allocation) and exception-safe vs shared_ptr(new T); use weak_ptr for parent pointers in trees."},
@@ -3078,13 +3078,13 @@ window.I18N.stage_en = {
   lab:{t:"Bank account class",req:["Define BankAccount with private owner/balance; deposit/withdraw/transfer","Validate initial deposit non-negative; throw custom InsufficientFundsException on overdraw","Use static to count accounts; provide getInstanceCount()","Demo opening, transfer, exception handling, and balance check in main"],hint:"Use BigDecimal or long cents for money; private fields + public methods is standard encapsulation."},
   quiz:[
    {q:"Java parameter passing?",o:["By reference","By value","Depends on type","By pointer"],why:"Always by value; reference types pass copies of reference values."},
-   {q:"Constructor特点?",o:["Has return type","Same name as class, no return type","Must be public","Can be inherited"],why:"Constructors match the class name and have no return type (not even void)."},
+   {q:"What is special about a constructor?",o:["Has return type","Same name as class, no return type","Must be public","Can be inherited"],why:"Constructors match the class name and have no return type (not even void)."},
    {q:"In a static method, you can?",o:["Access instance fields","Access static fields","Use this","Be overridden"],why:"Static methods belong to the class, have no this, and access only static members."}]},
 "java-s6":{goal:"Build extensible designs with inheritance and interfaces; understand dynamic binding; implement equals/hashCode/toString.",
   links:[["Oracle · Inheritance","https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html"],["Oracle · Interfaces","https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html"]],
   lab:{t:"Shape and drawable system",req:["Define interface Drawable { void draw(); double area(); }","Abstract class Shape implements Drawable, holds name and constructor","Circle/Rect extend Shape and implement area, each printing its shape","Write drawAll(List<Drawable>) polymorphically; implement Comparable to sort by area"],hint:"Interfaces express \"can-do\"; abstract classes express \"is-a + shared impl\"; Comparable.compareTo must agree with equals."},
   quiz:[
-   {q:"Java class inheritance特点?",o:["Multiple class inheritance","Single class inheritance, multiple interfaces","No inheritance","Only interfaces"],why:"extends takes one class; implements can list multiple interfaces."},
+   {q:"What is special about Java class inheritance?",o:["Multiple class inheritance","Single class inheritance, multiple interfaces","No inheritance","Only interfaces"],why:"extends takes one class; implements can list multiple interfaces."},
    {q:"Call parent constructor in subclass ctor with?",o:["this()","super()","parent()","base()"],why:"super(...) must be the first statement of a subclass constructor."},
    {q:"When overriding equals, usually also override?",o:["toString","hashCode","clone","finalize"],why:"Maintain the equal-objects-equal-hash contract, or hash collections break."}]},
 "java-s7":{goal:"Write robust exception handling and resource management; master the collections framework and generics/wildcards.",
@@ -3112,7 +3112,7 @@ window.I18N.stage_en = {
   links:[["Oracle · Lambda expressions","https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html"],["Oracle · JVM spec (memory and GC)","https://docs.oracle.com/javase/specs/jvms/se17/html/index.html"]],
   lab:{t:"Stream data analysis + JVM observation",req:["Given orders (product, category, amount, date), use Stream to group-sum by category, top-3 amounts, filter a month","Use LocalDate to compute days since today","Use Comparator chaining: category asc + amount desc","Run with -Xms/-Xmx; observe GC via jstat or VisualVM; record in comments"],hint:"record is Java 16+ immutable data; Stream intermediate ops are lazy, terminal ops trigger execution."},
   quiz:[
-   {q:"Functional interface特点?",o:["Multiple abstract methods","Exactly one abstract method","Must extend Runnable","No default methods"],why:"Only interfaces with a single abstract method can be implemented by a lambda."},
+   {q:"What is special about a functional interface?",o:["Multiple abstract methods","Exactly one abstract method","Must extend Runnable","No default methods"],why:"Only interfaces with a single abstract method can be implemented by a lambda."},
    {q:"When do Stream intermediate ops execute?",o:["On definition","On a terminal op (lazily)","Immediately","On next startup"],why:"Intermediate ops are lazy; only terminal ops trigger the pipeline."},
    {q:"Java 8+ recommended date API lives in?",o:["java.util.Date","java.time","java.sql","java.text"],why:"java.time provides immutable, thread-safe date-time types."}]},
 };
