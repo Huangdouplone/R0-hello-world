@@ -107,4 +107,38 @@ window.WORLD_CONCEPT_MAP = {
   ]
 };
 
+/* B12/B13 英文覆盖层：名词 detail、概念图孤立节点、分类名。
+ * 不改上面的原始词条，装载时按 term 合并进 detail_en —— 与 AGI 站的叠加层做法一致。 */
+var TERM_DETAIL_EN = {
+  "变量与类型": ["A type decides which operations are allowed and how much memory it takes.", "Dynamically typed languages resolve the type only at runtime."],
+  "控制流": ["if/else for two-way forks, switch for many-way, and early returns.", "Deeply nested branches should be pulled out into functions."],
+  "循环": ["Use for when the count is known, while when a condition drives it.", "Watch the termination condition, or you get an infinite loop."],
+  "函数": ["Inputs are parameters; the output is the return value.", "One function, one job — and its name should say what that job is."],
+  "作用域": ["An inner scope can read the outer one, not the other way round.", "Fewer globals are better; they easily step on each other."],
+  "数组与列表": ["Index access is cheap; insert/delete costs differ between structures.", "Iteration is by far the most common operation."],
+  "字符串": ["Immutability is the default in most languages.", "For heavy concatenation use a builder or join instead."],
+  "递归": ["A base case is mandatory, otherwise the stack overflows.", "Trees and nested structures are a natural fit for recursion."],
+  "面向对象": ["Encapsulation, inheritance and polymorphism are the three pillars.", "Don't use OOP for its own sake — start from clear responsibilities."],
+  "异常处理": ["Catch only what you can handle; never swallow every exception.", "finally / cleanup logic must guarantee that resources are released."],
+  "模块与包": ["Split by responsibility; avoid files thousands of lines long.", "Keep imports one-directional and avoid dependency cycles."],
+  "输入输出": ["I/O is usually far slower than computation and is the classic bottleneck.", "When reading files, mind the encoding and close the handle."],
+  "算法复杂度": ["A tiny constant cannot rescue an O(n²).", "Look at the complexity first, micro-optimise afterwards."],
+  "数据结构": ["Choosing the right structure often beats rewriting the algorithm.", "Dictionaries / maps are among the most heavily used structures."],
+  "调试": ["Narrow the range first, then inspect variables and the call stack.", "Print statements are not a bad method; breakpoints are just faster."],
+  "版本控制": ["Git is the de facto standard: commit, branch, merge.", "Commit in small steps with clear messages."],
+  "编译与解释": ["Compiled languages are usually faster and fail earlier; interpreted ones are more flexible.", "Many modern languages are hybrids that compile to bytecode first."],
+  "指针与引用": ["C/C++ pointers manipulate addresses directly.", "References are safer, but shared mutable state still bites."],
+  "标准库": ["Check the standard library first, then third-party packages, then write it yourself.", "Knowing the standard library saves a lot of reinvented wheels."],
+  "单元测试": ["Tests are what let you change code without fear.", "Cover the happy path first, then edge cases and failures."]
+};
+window.WORLD_TERMS.forEach(function (x) { if (TERM_DETAIL_EN[x.term]) x.detail_en = TERM_DETAIL_EN[x.term]; });
+
+/* 概念图里这两个节点不是词条（词条表查不到），只能靠标签表兜底 */
+window.WORLD_LABEL_EN = { "程序": "Program", "数据": "Data" };
+window.WORLD_CAT_EN = {
+  "语言基础": "Language Fundamentals",
+  "结构与抽象": "Structure & Abstraction",
+  "工程与工具": "Engineering & Tools"
+};
+
 })();
