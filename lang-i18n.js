@@ -247,7 +247,6 @@ ui:{
  lang_switch_aria:{zh:"语言切换",en:"Course language switch"},
  search_notes_ph:{zh:"搜索笔记内容或 #标签…",en:"Search notes or #tags…"},
  name_ph:{zh:"例如：小明",en:"e.g. Xiaoming"},
- tag_lab:{zh:"每阶段一道",en:"one per stage"},
  tag_review:{zh:"间隔重复",en:"spaced repetition"},
  tag_mistake:{zh:"从错误里长记性",en:"learn from your mistakes"},
  tag_heat:{zh:"近 18 周",en:"last 18 weeks"},

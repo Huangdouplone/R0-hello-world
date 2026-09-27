@@ -12,7 +12,7 @@
 :root{
   --accent:#2f7ed8;--accent2:#2e9e5b;
   --green:#2e9e5b;--blue:#2f7ed8;--amber:#f0a020;--red:#e2553b;--purple:#8a63d2;
-  --ink:#233044;--sub:#6b7785;--bg:#eef2f6;--bg2:#f6f8fa;--card:#ffffff;--line:#e3e9ef;
+  --ink:#233044;--sub:#5f6a79;--bg:#eef2f6;--bg2:#f6f8fa;--card:#ffffff;--line:#e3e9ef;
   --fg:#2b3440;
 }
 html[data-theme="dark"]{
@@ -99,7 +99,7 @@ body.sbCollapsed .sidebar{transform:translateX(-100%);}
 
 .section{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:14px;border:1px solid var(--line);}
 .section h2{font-size:16.5px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.tag{font-size:11.5px;font-weight:600;background:var(--bg2);color:var(--sub);border-radius:999px;padding:3px 10px;}
+.tag{font-size:11.5px;font-weight:600;background:var(--bg2);color:color-mix(in srgb,var(--sub) 52%,var(--ink));border-radius:999px;padding:3px 10px;}
 
 .btn{appearance:none;border:none;border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff;transition:transform .12s,filter .15s;position:relative;overflow:hidden;}
 .btn:hover{filter:brightness(1.06);}
@@ -187,6 +187,26 @@ body.sbCollapsed .sidebar{transform:translateX(-100%);}
 .nav-lesson{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
 
 .lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;}
+/* 实战按阶段分组折叠 */
+.lab-tools{margin:2px 0 10px;}
+.lab-group{border:1px solid var(--line);border-radius:12px;margin-bottom:6px;overflow:hidden;background:var(--card);}
+.lab-ghd{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:none;background:transparent;
+  cursor:pointer;padding:9px 12px;font-size:13.5px;color:var(--ink);font-weight:700;font-family:inherit;}
+.lab-ghd:hover{background:var(--bg2);}
+.lab-ghd .lg-caret{width:12px;color:var(--sub);font-size:12px;}
+.lab-ghd .lg-count{margin-left:auto;font-size:12px;font-weight:600;color:var(--sub);white-space:nowrap;}
+.lab-group.open .lab-ghd{border-bottom:1px dashed var(--line);}
+.lab-gbody{display:none;padding:10px;}
+.lab-group.open .lab-gbody{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;}
+@media (max-width:640px){.lab-group.open .lab-gbody{grid-template-columns:1fr;}}
+.mk-pager{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;font-size:13px;color:var(--sub);}
+.pg-btn,.pg-opt{min-width:34px;height:32px;padding:0 10px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit;}
+.pg-btn:hover,.pg-opt:hover{border-color:var(--blue);}
+.pg-btn.on,.pg-opt.on{background:color-mix(in srgb,var(--blue) 58%,#0b1a2e);border-color:transparent;color:#fff;font-weight:600;}
+.pg-ell{padding:0 2px;}
+.pg-jump{width:58px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);padding:0 8px;font-size:13px;}
+.pg-info,.pg-size{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+@media (max-width:640px){.mk-pager{gap:8px;font-size:12px;}}
 .lab-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:transform .15s,border-color .15s;}
 .lab-card:hover{transform:translateY(-3px);border-color:var(--accent);}
 .lab-card.locked{opacity:.6;cursor:not-allowed;}
@@ -461,7 +481,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
 .term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
 .term{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
 .term h3{margin:0 0 4px;font-size:15px;}
-.term-cat{display:inline-block;font-size:10.5px;color:var(--accent2);background:rgba(46,158,91,.12);border-radius:6px;padding:1px 7px;margin-bottom:6px;}
+.term-cat{display:inline-block;font-size:10.5px;color:color-mix(in srgb,var(--accent2) 45%,var(--ink));background:color-mix(in srgb,var(--accent2) 14%,var(--card));border-radius:6px;padding:1px 7px;margin-bottom:6px;}
 .term .short{font-size:13px;color:var(--ink);line-height:1.6;margin-bottom:8px;}
 .term ul{margin:0 0 8px;padding-left:18px;}
 .term li{font-size:12.5px;color:var(--sub);line-height:1.7;}
@@ -513,7 +533,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
         <a class="gh-btn" id="ghBtn" href="https://github.com/huangdouplone/R0-hello-world" target="_blank" rel="noopener" title="GitHub 仓库 / Repository" aria-label="GitHub repository"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
         <div class="lang-switch" id="langSwitch" role="group" aria-label="语言切换" data-page-node-id="VJ8O9WnfMx28D3oOTlg02d"></div>
       </div>
-      <div id="localeBox" style="display:flex;gap:4px" title="界面语言 / Interface language" data-page-node-id="jpPSXNoeL6sTIHmrMQIIgW"></div>
+      <div id="localeBox" style="display:flex;gap:4px" title="界面语言" data-page-node-id="jpPSXNoeL6sTIHmrMQIIgW"></div>
     </div>
     <div class="lang-bar" data-page-node-id="5RZIVSKiZB31bUoIxfQyma">
       <span class="lb-hint" data-page-node-id="GS4baePLeEDDtuCR9jEzGN">全语言进度：</span>
@@ -568,7 +588,8 @@ body.sbCollapsed .sb-toggle{display:flex;}
   </div>
 
   <div class="section" id="labSec" data-page-node-id="XHcpE8kJHD1QA33LRFcnCU">
-    <h2 data-page-node-id="Yf3r8rZOnwL5kYIEn6Ior5">💻 编程实战 <span class="tag" data-page-node-id="3GKhOQIirF6S7Cn2AcofKT">每阶段一道</span></h2>
+    <h2 data-page-node-id="Yf3r8rZOnwL5kYIEn6Ior5">💻 编程实战 <span class="tag" id="labTag" data-page-node-id="3GKhOQIirF6S7Cn2AcofKT"></span></h2>
+    <div class="lab-tools"><button class="btn small ghost" id="labToggle" data-act="lab-toggle-all">展开全部实战</button></div>
     <div class="lab-grid" id="labGrid" data-page-node-id="dcZq6noEs9RrIEnpKP36DG"></div>
   </div>
 
@@ -694,7 +715,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
 <script src="lang-placement.js"></script>
 <script src="lang-placement-extra.js?v=1"></script>
 <script src="lang-crosslinks.js"></script>
-<script src="lang-i18n.js?v=25"></script>
+<script src="lang-i18n.js?v=26"></script>
 <script src="lang-i18n-content.js?v=43"></script>
 <script src="lang-quiz-extra.js?v=1"></script>
 <script src="lang-lab-extra.js?v=2"></script>
@@ -702,6 +723,13 @@ body.sbCollapsed .sb-toggle{display:flex;}
 <script src="lang-lab-extra2.js?v=1"></script>
 <script src="lang-i18n-extra.js?v=1"></script>
 <script src="world-concept.js?v=2"></script>
+<script src="world-depth-go.js?v=3"></script>
+<script src="world-depth-js.js?v=3"></script>
+<script src="world-depth-csharp.js?v=3"></script>
+<script src="world-quiz-en.js?v=3"></script>
+<script src="world-quiz-extra-en.js?v=1"></script>
+<script src="world-code-en.js?v=1"></script>
+<script src="world-xls-en.js?v=4"></script>
 <script>
 /* 合并扩容题库：lang-quiz-extra.js（+2 题）与 lang-extra2.js（+2 判断 +2 填空），每阶段共 9 题，
    使「随机抽 4 题」既具备真实随机性，又能稳定抽到判断 / 填空等新题型。 */
@@ -767,6 +795,8 @@ var I18N=window.I18N||{ui:{},stages:{},lessons:{}};
 
 /* ---- 双语 ---- */
 var LOCALE="zh";
+/* 默认语言跟随系统：浏览器语言不是 zh* 就默认英文；用户手动切换过则以存储值为准 */
+function sysLocale(){var l=String(navigator.language||(navigator.userLanguage||"")).toLowerCase();return l.indexOf("zh")===0?"zh":"en";}
 function T(key,vars){
   var e=I18N.ui&&I18N.ui[key];
   if(!e)return key;
@@ -782,7 +812,7 @@ function phName(p){var arr=(I18N.phases_en||{})[DK2LANG[curLang]];if(isEn()&&arr
 function phDesc(p){var arr=(I18N.phases_en||{})[DK2LANG[curLang]];if(isEn()&&arr&&arr[p._i]!==undefined)return arr[p._i].d;return p.desc;}
 function leContent(id){var e=(I18N.lesson_en||{})[id];return (isEn()&&e)?e:null;}
 function stEn(s){var e=(I18N.stage_en||{})[s.id];return (isEn()&&e)?e:null;}
-function stGoal(s){var e=stEn(s);return e?e.goal:s.goal;}
+function stGoal(s){var e=stEn(s);return (e&&e.goal)?e.goal:s.goal;}   /* 按字段兜底：只填了 quiz 的 stage_en 条目不能把 goal 变成 undefined */
 function stLinks(s){var e=stEn(s);return (e&&e.links)?e.links:s.links;}
 /* 多实战支持：每阶段 labs[]（labs[0] 为原 s.lab，其余来自 lang-lab-extra.js / lang-lab-extra2.js） */
 function labList(s){return (s.labs&&s.labs.length)?s.labs:(s.lab?[s.lab]:[]);}
@@ -791,6 +821,10 @@ function labOf(s,k){var l=labList(s)[k||0]||(s.lab||{});return l;}
 function labT(s,k){k=k||0;var l=labOf(s,k);if(k>0)return (isEn()&&l.t_en)?l.t_en:l.t;var e=stEn(s);return (e&&e.lab)?e.lab.t:l.t;}
 function labReq(s,k){k=k||0;var l=labOf(s,k);if(k>0)return (isEn()&&l.req_en&&l.req_en.length)?l.req_en:l.req;var e=stEn(s);return (e&&e.lab)?e.lab.req:l.req;}
 function labHint(s,k){k=k||0;var l=labOf(s,k);if(k>0)return (isEn()&&l.hint_en)?l.hint_en:l.hint;var e=stEn(s);return (e&&e.lab)?e.lab.hint:l.hint;}
+/* 起步代码的英文通道：与标题/要求/提示同一套规则（k=0 查 stage_en[sid].lab.starter，
+   k>0 查 labs[k].starter_en）。原来这里直接读 lab.starter，英文态只能印中文注释与中文字符串
+   —— 而代码块在 DOM 里会炸成几十个节点，所以"缺这一个字段"在审计里表现为几百处残留。 */
+function labStarter(s,k){k=k||0;var l=labOf(s,k);if(k>0)return (isEn()&&l.starter_en)?l.starter_en:l.starter;var e=stEn(s);return (e&&e.lab&&e.lab.starter)?e.lab.starter:l.starter;}
 function qzQ(s,i){var e=stEn(s);return (e&&e.quiz&&e.quiz[i])?e.quiz[i].q:s.quiz[i].q;}
 function qzO(s,i,j){var e=stEn(s);return (e&&e.quiz&&e.quiz[i]&&e.quiz[i].o)?e.quiz[i].o[j]:s.quiz[i].o[j];}
 function qzWhy(s,i){var e=stEn(s);return (e&&e.quiz&&e.quiz[i])?e.quiz[i].why:s.quiz[i].why;}
@@ -821,6 +855,11 @@ function extraOf(id){
 }
 
 /* ---- 跨语言对照 ---- */
+/* D36：对照面板的组标题 / 组说明 / 差异提醒 / 每格点拨原来直接印 CROSSLINKS 的中文，
+   没有任何英文通道（面板一展开就是整屏中文，且只在展开后才看得见，抽样审计抓不到）。
+   组按中文标题键（标题本身是数据里稳定的名字），每格按「语言:课节 id」键 —— 后者不会因插入而错位。 */
+function xlGrp(g){var m=(I18N.xls_en||{}).groups;var e=(isEn()&&m)?m[g.n]:null;return e?{n:e.n||g.n,t:e.t||g.t,w:e.w||g.w}:g;}   /* 逐字段合并：翻译进行到一半时只写了 n 的组，不能把 t/w 变成 undefined */
+function xlNote(e){var m=(I18N.xls_en||{}).cells;var v=(isEn()&&m)?m[e[0]+":"+e[1]]:null;return v||e[2];}
 function groupsOfLesson(id){return XLS.filter(function(g){return g.m.some(function(e){return e[1]===id;});});}
 function mainTrack(){
   // Dynamically find the deepest language (most completed lessons)
@@ -960,11 +999,23 @@ function flipSkin(v,toDark){
 }
 /* 当前皮肤色板：① 先按昼夜推导出完整色板（补齐皮肤没定义的变量，防止泄漏）；
    ② 若当前极性正是该皮肤的原生极性，再用皮肤自己的值覆盖，保住签名观感。 */
+function skAA(a,b){var la=skLum(a),lb=skLum(b);return (Math.max(la,lb)+0.05)/(Math.min(la,lb)+0.05);}
+/* 派生色板的 --sub 在浅底与深底上都容易掉到 WCAG AA 以下（实测 3.2~4.1）。
+   这里只沿明度收紧到 ≥4.5，保留色相与饱和度，所以每个皮肤在昼夜两侧仍然是它自己。 */
+function skEnforceAA(pal){
+  if(!pal||!pal["--sub"])return pal;
+  var bg=pal["--card"]||pal["--bg"];if(!bg)return pal;
+  var o=skHSL(skRGB(pal["--sub"]));if(!o)return pal;
+  var darker=skLum(bg)>0.5,n=0;
+  var bg2=pal["--bg"]||bg;   /* 底色取最保守的那个：卡片达标但页面底不达标同样会被看见 */
+  while(Math.min(skAA(pal["--sub"],bg),skAA(pal["--sub"],bg2))<4.5&&n++<18){o.l=Math.max(0,Math.min(100,o.l+(darker?-3:3)));pal["--sub"]=skHex(o.h,o.s,o.l);}
+  return pal;
+}
 function skinPalette(st,dark){
   var base=(st&&st.vars)||{};if(!Object.keys(base).length)return null;
   var nativeLight=skLum(base["--bg"]||"#ffffff")>0.5,full=flipSkin(base,dark);
   if(nativeLight===(!dark))Object.keys(base).forEach(function(k){full[k]=base[k];});
-  return full;
+  return skEnforceAA(full);
 }
 function themeIsDark(){var pref=(data.settings&&data.settings.theme)||"auto";
   return pref==="dark"||(pref==="auto"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);}
@@ -985,7 +1036,8 @@ function defaultData(){return{version:1,name:"学习者",goal:2,xp:0,coins:0,lan
  completed:{},daily:{},notes:{},quiz:{},achievements:{},labs:{},mistakes:{},phaseSeen:{},
  aiUsed:0,focusMinutes:0,flags:{},lastExport:null,reviewCount:0,
  streak:0,longestStreak:0,lastStudyDate:null,lastCheckinDate:null,
- settings:{theme:"auto",remind:"20:00",notify:false,locale:"zh"},locale:"zh",
+ /* locale 故意留空：留空才代表「用户没选过」，此时才该按浏览器语言推断（见 loadData 里的 sysLocale） */
+ settings:{theme:"auto",remind:"20:00",notify:false,locale:""},locale:"",
  track:"",onboarded:0,placement:null,
  startedDate:todayStr(),introSeen:0};}
 function loadData(){
@@ -1003,7 +1055,7 @@ function loadData(){
   if(!data||data.version!==1)data=def;
   else data=Object.assign({},def,data,{settings:Object.assign({},def.settings,data.settings||{}),quiz:data.quiz||{},mistakes:data.mistakes||{}});
   if(!data.track)data.track=data.lang||"python";
-  if(!data.locale)data.locale=(data.settings&&data.settings.locale)||"zh";
+  if(!data.locale)data.locale=(data.settings&&data.settings.locale)||sysLocale();
   LOCALE=data.locale==="en"?"en":"zh";
   data.flags=data.flags||{};
   data.completed=data.completed||{};
@@ -1440,19 +1492,42 @@ function applyStageFilter(){
 }
 function renderLabs(){
   var g=$("labGrid");if(!g)return;
-  var html="";
+  /* 实战按阶段分组折叠：组标题带阶段名与题数，默认全部收起，展开态存 data.labOpen */
+  var open=data.labOpen||{},html="",groups=0,total=0;
   CURRICULUM.forEach(function(s){
+    var list=labList(s);if(!list.length)return;
     var unlocked=s.lessons.filter(function(l){return data.completed[l.id];}).length>=Math.ceil(s.lessons.length/2);
-    var list=labList(s),multi=list.length>1;
-    list.forEach(function(lab,k){
+    var multi=list.length>1;
+    var body=list.map(function(lab,k){
       var done=!!data.labs[labKey(s.id,k)];
-      html+='<div class="lab-card'+(unlocked?"":" locked")+(done?" done":"")+'" '+(unlocked?'data-act="lab" ':'')+'data-id="'+s.id+'" data-k="'+k+'" title="'+(unlocked?"":(isEn()?"finish half of this stage to unlock":"完成本阶段一半课程即解锁"))+'">'+
+      return '<div class="lab-card'+(unlocked?"":" locked")+(done?" done":"")+'" '+(unlocked?'data-act="lab" ':'')+'data-id="'+s.id+'" data-k="'+k+'" title="'+(unlocked?"":(isEn()?"finish half of this stage to unlock":"完成本阶段一半课程即解锁"))+'">'+
         '<div class="lc-badge">'+(done?"✅":unlocked?"💻":"🔒")+'</div>'+
         '<div class="lc-t">'+escapeHtml(labT(s,k))+'</div>'+
         '<div class="lc-m">'+escapeHtml(stName(s))+(multi?' · 💻 '+(k+1)+'/'+list.length:'')+' · '+(lab.xp||20)+' XP'+(unlocked?"":" · "+(isEn()?"locked":"未解锁"))+'</div></div>';
-    });
+    }).join("");
+    groups++; total+=list.length;
+    var isOpen=!!open[s.id];
+    html+='<div class="lab-group'+(isOpen?" open":"")+'">'+
+      '<button class="lab-ghd" data-act="lab-group" data-id="'+s.id+'" aria-expanded="'+(isOpen?"true":"false")+'">'+
+      '<span class="lg-caret">'+(isOpen?"▾":"▸")+'</span>'+
+      '<span class="lg-ic">'+escapeHtml(s.icon||"💻")+'</span>'+
+      '<span class="lg-name">'+escapeHtml(stName(s))+'</span>'+
+      '<span class="lg-count">'+list.length+(isEn()?(list.length>1?" labs":" lab"):" 题")+(unlocked?"":" · "+(isEn()?"locked":"未解锁"))+'</span>'+
+      '</button><div class="lab-gbody">'+body+'</div></div>';
   });
   g.innerHTML=html;
+  var tg=$("labToggle");
+  if(tg){var allOpen=groups>0&&CURRICULUM.every(function(s){return !labList(s).length||open[s.id];});
+    tg.textContent=allOpen?(isEn()?"Collapse all labs":"收起全部实战"):(isEn()?"Expand all labs":"展开全部实战");tg.dataset.id=allOpen?"collapse":"expand";}
+  var tag=$("labTag");
+  if(tag)tag.textContent=(isEn()?(total+" labs · "+groups+" stage groups · collapsed")
+    :(total+" 题 · "+groups+" 个阶段组 · 默认收起"));
+}
+function toggleLabGroup(id){data.labOpen=data.labOpen||{};data.labOpen[id]=!data.labOpen[id];saveData();renderLabs();}
+function toggleAllLabs(mode){
+  data.labOpen={};
+  if(mode!=="collapse")CURRICULUM.forEach(function(s){if(labList(s).length)data.labOpen[s.id]=true;});
+  saveData();renderLabs();
 }
 function renderReview(){
   var due=dueLessons();
@@ -1467,17 +1542,48 @@ function renderReview(){
       '<button class="btn small green" data-act="review" data-id="'+x.lesson.id+'">'+(isEn()?"Review done +3":"完成复习 +3")+'</button></div>';
   }).join("");
 }
+/* 错题本翻页：错题会一直累积，平铺会把板块越拉越长。
+   默认每页 5 题，可选 5 / 10 / 15；页码与每页题数都进存档，刷新后不丢。 */
+function mkPaged(arr){
+  var size=data.mkSize||5,pages=Math.max(1,Math.ceil(arr.length/size));
+  var page=Math.min(Math.max(1,data.mkPage||1),pages);
+  data.mkPage=page;
+  return {page:page,pages:pages,size:size,total:arr.length,items:arr.slice((page-1)*size,page*size)};
+}
+function mkPagerHtml(st){
+  if(!st.total)return "";
+  var en=isEn();
+  var btn=function(label,act,id,on){return '<button class="pg-btn'+(on?" on":"")+'" data-act="'+act+'"'+(id?' data-id="'+id+'"':"")+">"+label+"</button>";};
+  var nums=[];
+  if(st.pages<=7){for(var i=1;i<=st.pages;i++)nums.push(i);}
+  else{
+    nums.push(1);
+    if(st.page>3)nums.push(0);
+    for(var j=Math.max(2,st.page-1);j<=Math.min(st.pages-1,st.page+1);j++)nums.push(j);
+    if(st.page<st.pages-2)nums.push(0);
+    nums.push(st.pages);
+  }
+  var numsHtml=nums.map(function(n){return n===0?'<span class="pg-ell">…</span>':btn(String(n),"mk-page",String(n),n===st.page);}).join("");
+  var jump='<input class="pg-jump" type="number" min="1" max="'+st.pages+'" value="'+st.page+'">';
+  var info=en?('<span class="pg-info">'+st.pages+" pages / "+st.total+" items · jump to "+jump+"</span>")
+    :('<span class="pg-info">共 '+st.pages+" 页 / "+st.total+" 个 · 跳至 "+jump+" 页</span>");
+  var size='<span class="pg-size">'+(en?"Per page ":"每页 ")+[5,10,15].map(function(n){return '<button class="pg-opt'+(n===st.size?" on":"")+'" data-act="mk-size" data-id="'+n+'">'+n+"</button>";}).join("")+(en?"":" 题")+"</span>";
+  return '<div class="mk-pager">'+(st.page>1?btn(en?"Prev":"上一页","mk-prev","",false):"")+numsHtml+
+    (st.page<st.pages?btn(en?"Next":"下一页","mk-next","",false):"")+info+size+"</div>";
+}
+function mkJump(v){var n=parseInt(v,10);if(!n)return;data.mkPage=n;saveData();renderMistakes();}
 function renderMistakes(){
   var ks=Object.keys(data.mistakes);
   var box=$("mistakeList");
   if(!ks.length){box.innerHTML='<div class="empty-hint">'+(isEn()?"No mistakes recorded yet. Wrong quiz answers land here automatically.":"还没有错题。测评答错的题会自动收进这里。")+'</div>';return;}
-  box.innerHTML=ks.sort(function(a,b){return (data.mistakes[b].ts||0)-(data.mistakes[a].ts||0);}).map(function(k){
+  var st=mkPaged(ks.sort(function(a,b){return (data.mistakes[b].ts||0)-(data.mistakes[a].ts||0);}));
+  box.innerHTML=st.items.map(function(k){
     var m=data.mistakes[k];
     return '<div class="mistake-item"><div class="mq">❓ '+escapeHtml(m.q)+'</div>'+
       '<div class="ma">✗ '+(isEn()?"You chose: ":"你选了：")+escapeHtml(m.chosen)+'<br>✓ '+(isEn()?"Correct: ":"正确答案：")+escapeHtml(m.correct)+
       '<br>💡 '+escapeHtml(m.why)+'<br><span style="opacity:.7">'+escapeHtml(m.stageName||"")+'</span></div>'+
       '<button class="btn small ghost" data-act="del-mistake" data-id="'+k+'" style="margin-top:8px">'+(isEn()?"Remove":"删除")+'</button></div>';
-  }).join("");
+  }).join("")+mkPagerHtml(st);
 }
 function renderHeat(){
   var g=$("heatGrid");if(!g)return;
@@ -1988,11 +2094,12 @@ function crossPanel(id){
     return head+'<div class="xl-d">🔒 '+escapeHtml(T("xl_locked",{n:need}))+'（'+escapeHtml(prog)+'）</div></div>';
   }
   var body="";
-  gs.forEach(function(g){
+  gs.forEach(function(g0){
+    var g=xlGrp(g0);
     body+='<div class="xl-grp"><div class="xl-t">'+escapeHtml(g.n)+'</div>'+
       '<div class="xl-d">'+escapeHtml(g.t)+'</div>'+
       '<div class="xl-warn"><b>⚠️ '+escapeHtml(T("xl_diff"))+'：</b>'+escapeHtml(g.w)+'</div>';
-    g.m.forEach(function(e){
+    g0.m.forEach(function(e){
       if(e[1]===id)return;
       var L=langMeta(e[0]==="py"?"python":e[0]);
       var unlocked=trackUnlocked(L.id);
@@ -2002,7 +2109,7 @@ function crossPanel(id){
       body+='<div class="xl-item"'+attr+' style="'+(unlocked?"cursor:pointer;":"")+'">'+
         '<span class="xl-badge'+(unlocked?"":" lock")+'">'+L.icon+" "+(unlocked?L.name:"🔒")+'</span>'+
         '<div class="xl-body"><div class="xl-t'+(unlocked?"":" locked")+'">'+escapeHtml(title)+'</div>'+
-        '<div class="xl-d">'+escapeHtml(unlocked?e[2]:T("track_unlock_at",{n:unlockNeed(L.id)}))+'</div></div></div>';
+        '<div class="xl-d">'+escapeHtml(unlocked?xlNote(e):T("track_unlock_at",{n:unlockNeed(L.id)}))+'</div></div></div>';
     });
     body+='</div>';
   });
@@ -2105,7 +2212,10 @@ function normAns(t){
   s=s.replace(/\u3000/g," ").toLowerCase().replace(/\s+/g,"");
   return s.replace(/[。，、；：！？·,.;:!?()\[\]{}<>《》〈〉「」『』【】—…\-_/\\|@#$%^&*+=~'"`]/g,"");
 }
-function fillAccepted(q){var a=q.ans;return (a==null?[]:(Array.isArray(a)?a:[a])).map(normAns);}
+function fillAccepted(q){var a=q.ans;var list=(a==null?[]:(Array.isArray(a)?a:[a]));
+  /* 填空题的英文可接受答案走 ans_en：英文态用户不可能猜中文关键词，只读 q.ans 等于必然判错 */
+  var e=(q.ans_en==null?[]:(Array.isArray(q.ans_en)?q.ans_en:[q.ans_en]));
+  return list.concat(e).map(normAns);}
 function optsOf(s,ai){
   var q=s.quiz[ai];
   if(qKind(q)==="judge")return judgeOpts();
@@ -2249,7 +2359,7 @@ function openLab(stageId,k){
   var multi=labList(s).length>1;
   var html='<h3>💻 '+escapeHtml(labT(s,k))+'</h3><div class="meta">'+escapeHtml(stName(s))+(multi?' · 💻 '+(k+1)+'/'+labList(s).length:'')+' · '+(lab.xp||20)+' XP</div>'+
     '<h4>📋 '+escapeHtml(T("lab_req"))+'</h4><ul class="lab-req">'+labReq(s,k).map(function(r){return "<li>"+escapeHtml(r)+"</li>";}).join("")+'</ul>'+
-    '<h4>🧩 '+escapeHtml(T("lab_starter"))+'</h4><div class="copy-code"><button class="cp" data-act="copy-code">'+escapeHtml(T("copy"))+'</button><pre><code>'+codeBlock(lab.starter||"",curLang)+'</code></pre></div>'+
+    '<h4>🧩 '+escapeHtml(T("lab_starter"))+'</h4><div class="copy-code"><button class="cp" data-act="copy-code">'+escapeHtml(T("copy"))+'</button><pre><code>'+codeBlock(labStarter(s,k)||"",curLang)+'</code></pre></div>'+
     '<div class="pit">💡 '+escapeHtml(T("lab_hint"))+'：'+escapeHtml(labHint(s,k))+'</div>'+
     '<h4>✍️ '+escapeHtml(T("lab_code"))+'</h4><textarea class="code-area" id="labCode" placeholder="'+(isEn()?"Paste your code here…":"在这里粘贴你的代码…")+'">'+escapeHtml(rec.code||"")+'</textarea>'+
     '<h4>🖥️ '+escapeHtml(T("lab_out"))+'</h4><textarea class="out-area code-area" id="labOut" placeholder="'+(isEn()?"Paste your program output here…":"把程序的运行输出粘贴到这里…")+'">'+escapeHtml(rec.out||"")+'</textarea>'+
@@ -2371,8 +2481,8 @@ var SEC_I18N={dashSec:"sec_dash",timerSec:"sec_timer",todaySec:"sec_today",phase
  heatSec:"sec_heat",noteSec:"sec_notes",achSec:"sec_ach",reportSec:"sec_report",settingSec:"sec_settings",
  mapSec:"sec_map",termsSec:"sec_terms"};
 var TAG_I18N={timerSec:"timer_focus",todaySec:"today_tag",reportSec:"report_tag",
- labSec:"tag_lab",reviewSec:"tag_review",mistakeSec:"tag_mistake",heatSec:"tag_heat",noteSec:"tag_notes",
- mapSec:"tag_map"};   /* termsSec 的 .tag 由 renderTerms 动态填条数，不能进 TAG_I18N 静态表 */
+ reviewSec:"tag_review",mistakeSec:"tag_mistake",heatSec:"tag_heat",noteSec:"tag_notes",
+ mapSec:"tag_map"};   /* labSec / termsSec 的 .tag 由 renderLabs / renderTerms 动态填条数，进静态表会被刷回 */
 function setNodeText(el,key){
   if(!el)return;
   var node=el.firstChild;
@@ -2391,6 +2501,8 @@ function applyStaticI18n(){
   var tt=$("toTop");if(tt){tt.setAttribute("aria-label",T("to_top"));tt.title=T("to_top");}
   var cc=$("coinChip");if(cc)cc.title=T("coin_tip");
   var lsw=$("langSwitch");if(lsw)lsw.setAttribute("aria-label",T("lang_switch_aria"));
+  /* 语言切换盒子的提示原来写死成中英双语，英文态不会变 —— 属性级双语要跟着界面语言走 */
+  var lb=$("localeBox");if(lb)lb.title=T("lbl_locale");
   var si=$("searchInput");if(si)si.placeholder=T("search_ph");
   var ns=$("noteSearch");if(ns)ns.placeholder=T("search_notes_ph");
   var tms=$("termSearch");if(tms)tms.placeholder=T("terms_search_ph");
@@ -2592,7 +2704,7 @@ function importData(file){
 function resetData(){
   if(!confirm(isEn()?"Clear ALL study data? This cannot be undone — export a backup first.":"确定清空所有学习记录吗？此操作不可恢复，建议先导出备份。"))return;
   data=defaultData();saveData();
-  LOCALE="zh";data.track="";data.onboarded=0;
+  LOCALE=sysLocale();data.track="";data.onboarded=0;   // 重置后回到「跟随系统」，而不是硬写中文
   applyLang("python");applyTheme();renderLocaleBtn();renderAll();bindSettings();applyStaticI18n();
   toast(isEn()?"Reset done — starting fresh":"已清空重置，重新开始吧");
   showOnboarding();
@@ -2948,6 +3060,9 @@ function showIntro(){
 }
 
 /* ============ 事件 ============ */
+/* 错题本翻页的「跳至 N 页」：输入框走 change 与回车两条路，不额外加按钮 */
+document.addEventListener("change",function(e){var el=e.target;if(el&&el.classList&&el.classList.contains("pg-jump"))mkJump(el.value);});
+document.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target&&e.target.classList&&e.target.classList.contains("pg-jump"))mkJump(e.target.value);});
 document.addEventListener("click",function(e){
   var btn=e.target.closest(".btn");
   if(btn&&!btn.disabled){
@@ -3033,6 +3148,8 @@ document.addEventListener("click",function(e){
     case "fill-submit":answerQuizFill();break;
     case "next-q":if(quizState){quizState.idx++;showQuiz();}break;
     case "lab":openLab(id,(t.dataset.k!==undefined?parseInt(t.dataset.k,10):0));break;
+    case "lab-group":toggleLabGroup(id);break;
+    case "lab-toggle-all":toggleAllLabs(id);break;
     case "ai-prompt":generateAiPrompt();break;
     case "copy-ai":{
       var pre=$("aiPre");
@@ -3051,6 +3168,10 @@ document.addEventListener("click",function(e){
       $("stages").dataset.filter=t.dataset.filter;applyStageFilter();break;}
     case "note-tag":{$("noteSearch").value=id;renderNotes();break;}
     case "del-mistake":{delete data.mistakes[id];saveData();renderMistakes();break;}
+    case "mk-page":data.mkPage=parseInt(id,10)||1;saveData();renderMistakes();break;
+    case "mk-prev":data.mkPage=Math.max(1,(data.mkPage||1)-1);saveData();renderMistakes();break;
+    case "mk-next":data.mkPage=(data.mkPage||1)+1;saveData();renderMistakes();break;
+    case "mk-size":{var n=parseInt(id,10)||5,top=((data.mkPage||1)-1)*(data.mkSize||5);data.mkSize=n;data.mkPage=Math.floor(top/n)+1;saveData();renderMistakes();break;}
     case "clear-mistake":{
       if(confirm(isEn()?"Clear the mistake book?":"确定清空错题本？")){data.mistakes={};saveData();renderMistakes();}
       break;}

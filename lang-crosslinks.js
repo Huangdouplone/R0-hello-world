@@ -375,10 +375,11 @@ window.CROSSLINKS = [
  ["cs","cs-1-3","var 是编译期推断，仍为静态类型。"],
  ["go","go-1-3",":= 短变量声明，编译器自动推断类型。"]]},
 
-{id:"x72",n:"并发模型对比",t:"C# async/await vs Go goroutine vs JS 事件循环。",w:"JS 单线程事件循环；C# 用 async/await 抽象异步；Go 用 goroutine+channel 原生并发。",m:[
+{id:"x72",n:"并发模型对比",t:"C# async/await vs Go goroutine vs JS 事件循环。",w:"JS 单线程事件循环 + 微任务队列；C# 用 async/await 与 Task 抽象线程池；Go 用 goroutine + channel 原生并发。三者都是「不阻塞线程」，但谁来调度差别很大。",m:[
+ ["js","js-5-1","单线程 + 事件循环；Promise 链式调用；async/await。"],
  ["js","js-5-2","单线程事件循环，async/await 让异步代码可读。"],
- ["cs","cs-5-2","async/await + Task，基于线程池的并发。"],
- ["go","go-5-1","goroutine 轻量并发 + channel 通信，通过通信共享内存。"]]},
+ ["cs","cs-5-2","async/await + Task，基于线程池；await 不占线程。"],
+ ["go","go-5-1","goroutine 轻量并发 + channel 通信，通过通信共享内存；select 多路复用。"]]},
 
 {id:"x73",n:"对象与类",t:"三种 OOP 模型。",w:"JS 原型链 + class 语法糖；C# 完整的类型安全 OOP；Go 没有类，用 struct + 接口。",m:[
  ["js","js-6-1","class 是原型链的语法糖，this 有坑。"],
@@ -400,10 +401,6 @@ window.CROSSLINKS = [
  ["cs","cs-5-1","异常是类：Exception 层级；catch 按类型。"],
  ["go","go-4-2","error 接口，nil 表示成功；if err != nil 是惯例。"]]},
 
-{id:"x77",n:"异步与并发",t:"从回调到 goroutine。",w:"JS 单线程事件循环，异步靠回调/Promise；C# async/await + 线程池；Go goroutine + channel。",m:[
- ["js","js-5-1","单线程 + 事件循环；Promise 链式调用；async/await。"],
- ["cs","cs-5-2","async/await 非阻塞；Task 表示异步操作。"],
- ["go","go-5-1","goroutine 初始 2KB 栈；channel 通信；select 多路复用。"]]},
 
 {id:"x78",n:"模块与包管理",t:"代码怎么组织、依赖怎么装。",w:"JS npm + ESM import/export；C# NuGet + using；Go go mod + import。",m:[
  ["js","js-6-3","ES Module 静态 import/export；npm 管理依赖。"],
