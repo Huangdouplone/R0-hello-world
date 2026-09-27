@@ -2831,7 +2831,7 @@ window.I18N.stage_en = {
 /* ---------- Python ---------- */
 "py-s1":{goal:"Install Python and a virtual environment, understand script vs interactive modes, and build the mental model of \"edit file -> run -> see result\".",
   links:[["Python official docs · Tutorial","https://docs.python.org/zh-cn/3/tutorial/index.html"],["Runoob · Python3 basics","https://www.runoob.com/python3/python3-basic-syntax.html"]],
-  lab:{t:"Environment self-check & introduction",req:["Create intro.py with a triple-quoted docstring at the top","Print the current Python version (sys.version)","Print your nickname, Python goal, and today's date (datetime.date.today())"],hint:"if __name__ == \"__main__\": lets the file run directly and also be imported without running test code."},
+  lab:{t:"Self-introduction script",req:["Create intro.py with a one-line docstring comment at the top","Print a short self-introduction","Print your nickname and your goal for learning Python"],hint:"print can be called multiple times in a row. Feeling ambitious? import sys and print sys.version (imports are covered in s6)."},
   quiz:[
    {q:"What does Python use to delimit code blocks?",o:["Braces {}","Indentation","end keyword","Semicolons"],why:"Python uses indentation rather than braces — its most iconic syntax."},
    {q:"Command to create a virtual environment?",o:["python -m venv .venv","pip new env","python -m env","virtual python"],why:"venv is the standard library module; python -m venv is the most reliable way."},

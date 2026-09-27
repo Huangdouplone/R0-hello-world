@@ -66,7 +66,48 @@ window.WORLD_TERMS = [
     vs: "标准库自带，第三方库需安装。", vs_en: "The stdlib ships; third-party needs installing." },
   { term: "单元测试", term_en: "Unit Test", cat: "工程与工具", short: "对最小可测单元写自动化验证。", short_en: "Automated checks for the smallest testable unit.",
     detail: ["测试让你改代码时心里有底。", "先写正常路径，再补边界与异常。"],
-    vs: "测试是护栏，调试是事故处理。", vs_en: "Tests are the guardrail; debugging is the cleanup." }
+    vs: "测试是护栏，调试是事故处理。", vs_en: "Tests are the guardrail; debugging is the cleanup." },
+    { term: "变量", term_en: "Variables", cat: "语言基础", short: "给数据起名字并绑定类型。", short_en: "Name your data and bind a type.",
+      detail: ["七门语言都支持，差别在声明方式：动态类型直接赋值，静态类型先写类型。"], vs: "变量是程序里最小的可复用单元。" },
+    { term: "常量", term_en: "Constants", cat: "语言基础", short: "声明后不可重新赋值的量。", short_en: "A value that cannot be reassigned after declaration.",
+      detail: ["拼写各异：const / final / constexpr / #define。"], vs: "常量约束的是「绑定」，不总是「内容」。" },
+    { term: "类型转换", term_en: "Type Conversion", cat: "语言基础", short: "在类型之间显式或隐式地换一种解释。", short_en: "Reinterpreting a value as another type, implicitly or explicitly.",
+      detail: ["隐式转换方便但易错（C 的整型提升）；显式构造最稳。"], vs: "整型提升是 C 系独有的隐形坑。" },
+    { term: "条件分支", term_en: "Branching", cat: "语言基础", short: "按条件走不同路径：if / else if / switch。", short_en: "Choosing a path by condition: if / else if / switch.",
+      detail: ["C 系注意 switch 贯穿；Python 用 elif。"], vs: "分支是所有控制流的地基。" },
+    { term: "循环", term_en: "Loops", cat: "语言基础", short: "重复执行：计数 for、条件 while、遍历 for-in。", short_en: "Repetition: counting for, conditional while, iterating for-in.",
+      detail: ["Python 的 for 遍历可迭代对象；C 系经典 for 是计数循环。"], vs: "range-based for 是后来才加入 C++ 与 Java 的。" },
+    { term: "函数", term_en: "Functions", cat: "语言基础", short: "把逻辑命名并复用。", short_en: "Name a piece of logic and reuse it.",
+      detail: ["默认参数、重载、可变参数的规则各语言不同。"], vs: "C 没有重载与默认参数；C++ 两者都有。" },
+    { term: "参数传递", term_en: "Argument Passing", cat: "语言基础", short: "传值还是传引用，决定函数能否改到外面。", short_en: "By value or by reference decides whether a function can mutate the caller's data.",
+      detail: ["四门主语言都号称值传递，但「值」的内容不同。"], vs: "swap 题考的就是这个。" },
+    { term: "递归", term_en: "Recursion", cat: "结构与抽象", short: "函数调用自身，把问题拆小。", short_en: "A function calling itself to shrink the problem.",
+      detail: ["必须有终止条件；栈深度是硬限制。"], vs: "递归的代价是栈。" },
+    { term: "数组", term_en: "Arrays", cat: "结构与抽象", short: "同类型元素的连续集合。", short_en: "A contiguous run of same-typed elements.",
+      detail: ["C 数组传参退化成指针；vector/list 是各自语言的动态版。"], vs: "数组随机访问 O(1)，插入删除是弱项。" },
+    { term: "字符串", term_en: "Strings", cat: "结构与抽象", short: "文本的表示与处理。", short_en: "How text is represented and processed.",
+      detail: ["C 用 char 数组加 \0 结尾；高级语言内置不可变字符串。"], vs: "文本是标准库差异最大的地方。" },
+    { term: "映射", term_en: "Maps / Dicts", cat: "结构与抽象", short: "键值对的存取。", short_en: "Storing and reading key-value pairs.",
+      detail: ["Python dict 内置且保序；C++ 有 map/unordered_map 两套。"], vs: "键值查找是日常代码的主力结构。" },
+    { term: "面向对象", term_en: "Object-Oriented Programming", cat: "结构与抽象", short: "把数据和行为打包成一个类型。", short_en: "Packaging data with behaviour into one type.",
+      detail: ["C 的 struct 只有数据；C++/Java 的 class 补上行为。"], vs: "这是面向对象的起点。" },
+    { term: "继承", term_en: "Inheritance", cat: "结构与抽象", short: "基于已有类型扩展新类型。", short_en: "Extending an existing type into a new one.",
+      detail: ["Java 单继承+多接口；Python 多继承靠 MRO 定序。"], vs: "优先组合，其次继承。" },
+    { term: "多态", term_en: "Polymorphism", cat: "结构与抽象", short: "同一接口驱动不同实现。", short_en: "One interface driving many implementations.",
+      detail: ["C++ 需 virtual；Java 实例方法默认就是虚的。"], vs: "鸭子类型是天然的多态。" },
+    { term: "泛型", term_en: "Generics", cat: "结构与抽象", short: "写一次，适配多种类型。", short_en: "Write once, use for many types.",
+      detail: ["C++ 模板是编译期生成；Java 泛型是擦除式。"], vs: "泛型与模板的机制差异是面试常客。" },
+    { term: "异常处理", term_en: "Exception Handling", cat: "工程与工具", short: "程序遇到意外时优雅退场。", short_en: "Exiting gracefully when something unexpected happens.",
+      detail: ["Go 显式返回 error 不抛异常；Java 区分受检异常。"], vs: "C 没有异常机制，只有返回码。" },
+    { term: "文件读写", term_en: "File IO", cat: "工程与工具", short: "把数据持久化到磁盘。", short_en: "Persisting data beyond memory.",
+      detail: ["打开模式差异大：'w' 会截断，'a' 才追加。"], vs: "读写前必须判断打开是否成功。" },
+    { term: "模块", term_en: "Modules", cat: "工程与工具", short: "把大程序拆成可维护的文件。", short_en: "Splitting a program into maintainable files.",
+      detail: ["Python 是 import + 包目录；Go 的 import 路径即包路径。"], vs: "模块化是可维护性的前提。" },
+    { term: "并发", term_en: "Concurrency", cat: "工程与工具", short: "多件事同时发生且不出错。", short_en: "Doing many things at once, without breaking things.",
+      detail: ["线程/协程/事件循环是三种心智模型。"], vs: "Python 受 GIL 限制；Go 用 goroutine。" },
+    { term: "内存管理", term_en: "Memory Management", cat: "工程与工具", short: "谁申请、谁释放、什么时候释放。", short_en: "Who allocates, who frees, and when.",
+      detail: ["C/C++ 手动管理；Java/Python 由回收器代劳。"], vs: "学过 C 再看 GC，才明白它替你做了什么。" }
+
 ];
 
 window.WORLD_CONCEPT_MAP = {
@@ -75,11 +116,17 @@ window.WORLD_CONCEPT_MAP = {
     { id: "数据", tier: 1 }, { id: "控制流", tier: 1 }, { id: "函数", tier: 1 },
     { id: "输入输出", tier: 1 }, { id: "调试", tier: 1 },
     { id: "变量与类型", tier: 2 }, { id: "循环", tier: 2 }, { id: "递归", tier: 2 },
-    { id: "作用域", tier: 2 }, { id: "数组与列表", tier: 2 }, { id: "字符串", tier: 2 },
-    { id: "异常处理", tier: 2 }, { id: "算法复杂度", tier: 2 },
-    { id: "面向对象", tier: 3 }, { id: "模块与包", tier: 3 }, { id: "数据结构", tier: 3 }, { id: "版本控制", tier: 3 }
+    { id: "作用域", tier: 2 }, { id: "数组", tier: 2 }, { id: "字符串", tier: 2 },
+    { id: "异常处理", tier: 2 },
+    { id: "面向对象", tier: 3 }, { id: "继承", tier: 3 }, { id: "泛型", tier: 3 },
+    { id: "集合", tier: 3 }, { id: "异常", tier: 2 }, { id: "模块", tier: 3 }, { id: "数据结构", tier: 3 }
   ],
   edges: [
+    { a: "面向对象", b: "字符串", zh: "方法操作数据", en: "methods operate on data" },
+    { a: "继承", b: "面向对象", zh: "类型的扩展契约", en: "extending types by contract" },
+    { a: "泛型", b: "面向对象", zh: "类型参数化", en: "parameterised types" },
+    { a: "集合", b: "数据", zh: "成组管理数据", en: "managing data in groups" },
+    { a: "异常", b: "控制流", zh: "错误也是一条路径", en: "errors are control flow too" },
     { a: "数据", b: "程序", zh: "程序的原料", en: "the fuel" },
     { a: "控制流", b: "程序", zh: "执行的顺序", en: "the order" },
     { a: "函数", b: "程序", zh: "组织的单位", en: "the unit of organisation" },
@@ -87,23 +134,18 @@ window.WORLD_CONCEPT_MAP = {
     { a: "调试", b: "程序", zh: "让它跑对", en: "makes it right" },
 
     { a: "变量与类型", b: "数据", zh: "数据的载体", en: "holds the data" },
-    { a: "数组与列表", b: "数据", zh: "成组的数据", en: "grouped data" },
+    { a: "数组", b: "数据", zh: "成组的数据", en: "grouped data" },
     { a: "字符串", b: "数据", zh: "文本数据", en: "text data" },
-    { a: "数据结构", b: "数组与列表", zh: "更高层的组织", en: "higher-level organisation" },
+    { a: "数据结构", b: "数组", zh: "更高层的组织", en: "higher-level organisation" },
 
     { a: "循环", b: "控制流", zh: "重复执行", en: "repeats" },
     { a: "递归", b: "函数", zh: "函数调用自己", en: "a function calling itself" },
     { a: "递归", b: "循环", zh: "可互相改写", en: "interchangeable" },
     { a: "作用域", b: "变量与类型", zh: "决定可见性", en: "decides visibility" },
-    { a: "算法复杂度", b: "循环", zh: "衡量嵌套的代价", en: "costs of nesting" },
-    { a: "数据结构", b: "算法复杂度", zh: "结构影响复杂度", en: "structure shapes cost" },
 
     { a: "面向对象", b: "函数", zh: "把函数与数据绑定", en: "binds data to behaviour" },
-    { a: "模块与包", b: "函数", zh: "把函数分组复用", en: "groups functions" },
+    { a: "模块", b: "函数", zh: "把函数分组复用", en: "groups functions" },
     { a: "异常处理", b: "函数", zh: "函数出错的出口", en: "the error path" },
-
-    { a: "版本控制", b: "调试", zh: "能回滚就能放心改", en: "rollback enables bold edits" },
-    { a: "版本控制", b: "模块与包", zh: "管理代码的演进", en: "manages evolution" }
   ]
 };
 
@@ -134,7 +176,7 @@ var TERM_DETAIL_EN = {
 window.WORLD_TERMS.forEach(function (x) { if (TERM_DETAIL_EN[x.term]) x.detail_en = TERM_DETAIL_EN[x.term]; });
 
 /* 概念图里这两个节点不是词条（词条表查不到），只能靠标签表兜底 */
-window.WORLD_LABEL_EN = { "程序": "Program", "数据": "Data" };
+window.WORLD_LABEL_EN = { "程序": "Program", "数据": "Data", "数组": "Arrays", "模块": "Modules", "继承": "Inheritance", "泛型": "Generics", "集合": "Collections", "异常": "Exceptions" };
 window.WORLD_CAT_EN = {
   "语言基础": "Language Fundamentals",
   "结构与抽象": "Structure & Abstraction",

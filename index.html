@@ -494,6 +494,8 @@ body.sbCollapsed .sb-toggle{display:flex;}
   background:var(--bg2);color:var(--sub);cursor:pointer;user-select:none;}
 .sec-jump [data-act="sb-nav"]:hover{border-color:var(--accent);color:var(--ink);}
 .sec-jump [data-act="sb-nav"].on{background:var(--bg2);background:color-mix(in srgb,var(--accent) 16%,var(--card));border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);color:var(--ink);font-weight:700;}
+/* 拓展徽标（教学审计 2026-09-27） */
+.ext-badge{display:inline-block;font-size:10px;vertical-align:middle;margin-left:6px;padding:1px 7px;border-radius:10px;background:color-mix(in srgb,var(--accent,#2f7ed8) 14%,transparent);color:var(--accent,#2f7ed8);font-weight:600;}
 </style>
 </head>
 <body data-page-node-id="D6gEWavI8cfEfpzAoXeqDj">
@@ -589,6 +591,7 @@ body.sbCollapsed .sb-toggle{display:flex;}
 
   <div class="section" id="labSec" data-page-node-id="XHcpE8kJHD1QA33LRFcnCU">
     <h2 data-page-node-id="Yf3r8rZOnwL5kYIEn6Ior5">💻 编程实战 <span class="tag" id="labTag" data-page-node-id="3GKhOQIirF6S7Cn2AcofKT"></span></h2>
+    <div class="set-hint" data-i18n="个别实战卡的提示会引用后续章节的写法——先按已学内容完成核心部分，学完再回来进阶。">个别实战卡的提示会引用后续章节的写法——先按已学内容完成核心部分，学完再回来进阶。</div>
     <div class="lab-tools"><button class="btn small ghost" id="labToggle" data-act="lab-toggle-all">展开全部实战</button></div>
     <div class="lab-grid" id="labGrid" data-page-node-id="dcZq6noEs9RrIEnpKP36DG"></div>
   </div>
@@ -728,8 +731,10 @@ body.sbCollapsed .sb-toggle{display:flex;}
 <script src="world-depth-csharp.js?v=3"></script>
 <script src="world-quiz-en.js?v=3"></script>
 <script src="world-quiz-extra-en.js?v=1"></script>
-<script src="world-code-en.js?v=1"></script>
-<script src="world-xls-en.js?v=4"></script>
+<script src="world-code-en.js?v=3"></script>
+<script src="world-xls-en.js?v=5"></script>
+<script src="world-lab-starter-en.js?v=1"></script>
+<script src="ped-ext.js?v=1"></script>
 <script>
 /* 合并扩容题库：lang-quiz-extra.js（+2 题）与 lang-extra2.js（+2 判断 +2 填空），每阶段共 9 题，
    使「随机抽 4 题」既具备真实随机性，又能稳定抽到判断 / 填空等新题型。 */
@@ -1604,10 +1609,10 @@ function renderHeat(){
 function openDayDetail(date){
   var rec=data.daily[date]||{};
   var html='<h3>📅 '+escapeHtml(date)+'</h3>'+
-    '<div class="report">'+(isEn()?"New lessons":"新学课程")+'：'+(rec.lessons||0)+'\n'+
-    (isEn()?"Reviews":"复习")+'：'+(rec.reviews||0)+'\n'+
-    (isEn()?"Focus (min)":"专注分钟")+'：'+(rec.minutes||0)+'\n'+
-    (isEn()?"XP gained":"获得 XP")+'：'+(rec.xp||0)+'</div>'+
+    '<div class="report">'+(isEn()?"New lessons: ":"新学课程：")+(rec.lessons||0)+'\n'+
+    (isEn()?"Reviews: ":"复习：")+(rec.reviews||0)+'\n'+
+    (isEn()?"Focus (min): ":"专注分钟：")+(rec.minutes||0)+'\n'+
+    (isEn()?"XP gained: ":"获得 XP：")+(rec.xp||0)+'</div>'+
     '<div class="modal-actions"><button class="btn ghost" data-act="close-modal">'+escapeHtml(T("close"))+'</button></div>';
   showModal(html);
 }
@@ -1860,7 +1865,7 @@ function renderTerms(){
     var short = (XT_EN() && x.short_en) ? x.short_en : x.short;
     var vs = (XT_EN() && x.vs_en) ? x.vs_en : x.vs;
     var det = xtDet(x.term);
-    var h = '<div class="term"><h3>' + xtEsc(name) + "</h3>";
+    var h = '<div class="term"><h3>' + xtEsc(name) + (window.WORLD_EXT_MARKS && WORLD_EXT_MARKS.terms && WORLD_EXT_MARKS.terms[x.term] ? ' <span class="ext-badge">📖 ' + (XT_EN() ? "Extended" : "拓展") + '</span>' : "") + "</h3>";
     if (x.cat) h += '<div class="term-cat">' + xtEsc(xtCatDisp(x.cat)) + "</div>";
     h += '<div class="short">' + xtEsc(short) + "</div>";
     if (det.length) h += "<ul>" + det.map(function (d) { return "<li>" + xtEsc(d) + "</li>"; }).join("") + "</ul>";
@@ -2098,7 +2103,7 @@ function crossPanel(id){
     var g=xlGrp(g0);
     body+='<div class="xl-grp"><div class="xl-t">'+escapeHtml(g.n)+'</div>'+
       '<div class="xl-d">'+escapeHtml(g.t)+'</div>'+
-      '<div class="xl-warn"><b>⚠️ '+escapeHtml(T("xl_diff"))+'：</b>'+escapeHtml(g.w)+'</div>';
+      '<div class="xl-warn"><b>⚠️ '+escapeHtml(T("xl_diff"))+(isEn()?": ":"：")+'</b>'+escapeHtml(g.w)+'</div>';
     g0.m.forEach(function(e){
       if(e[1]===id)return;
       var L=langMeta(e[0]==="py"?"python":e[0]);
@@ -2115,7 +2120,7 @@ function crossPanel(id){
   });
   var pre=prereqOf(id);
   if(pre.length){
-    body+='<div class="xl-pre"><b>📌 '+escapeHtml(T("xl_prereq"))+'：</b>'+
+    body+='<div class="xl-pre"><b>📌 '+escapeHtml(T("xl_prereq"))+(isEn()?": ":"：")+'</b>'+
       pre.map(function(p){return '<a data-act="goto-lesson" data-lang="'+p.lang+'" data-id="'+p.id+'">'+langMeta(p.lang).icon+" "+escapeHtml(p.title)+'</a>';}).join(" · ")+'</div>';
   }
   return head+body+'</div>';
@@ -2360,7 +2365,7 @@ function openLab(stageId,k){
   var html='<h3>💻 '+escapeHtml(labT(s,k))+'</h3><div class="meta">'+escapeHtml(stName(s))+(multi?' · 💻 '+(k+1)+'/'+labList(s).length:'')+' · '+(lab.xp||20)+' XP</div>'+
     '<h4>📋 '+escapeHtml(T("lab_req"))+'</h4><ul class="lab-req">'+labReq(s,k).map(function(r){return "<li>"+escapeHtml(r)+"</li>";}).join("")+'</ul>'+
     '<h4>🧩 '+escapeHtml(T("lab_starter"))+'</h4><div class="copy-code"><button class="cp" data-act="copy-code">'+escapeHtml(T("copy"))+'</button><pre><code>'+codeBlock(labStarter(s,k)||"",curLang)+'</code></pre></div>'+
-    '<div class="pit">💡 '+escapeHtml(T("lab_hint"))+'：'+escapeHtml(labHint(s,k))+'</div>'+
+    '<div class="pit">💡 '+escapeHtml(T("lab_hint"))+(isEn()?": ":"：")+escapeHtml(labHint(s,k))+'</div>'+
     '<h4>✍️ '+escapeHtml(T("lab_code"))+'</h4><textarea class="code-area" id="labCode" placeholder="'+(isEn()?"Paste your code here…":"在这里粘贴你的代码…")+'">'+escapeHtml(rec.code||"")+'</textarea>'+
     '<h4>🖥️ '+escapeHtml(T("lab_out"))+'</h4><textarea class="out-area code-area" id="labOut" placeholder="'+(isEn()?"Paste your program output here…":"把程序的运行输出粘贴到这里…")+'">'+escapeHtml(rec.out||"")+'</textarea>'+
     '<div class="modal-actions">'+

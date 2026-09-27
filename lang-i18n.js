@@ -9,6 +9,7 @@ window.I18N = {
 
 /* ---------------- 界面框架 ---------------- */
 ui:{
+  "个别实战卡的提示会引用后续章节的写法——先按已学内容完成核心部分，学完再回来进阶。":{zh:"个别实战卡的提示会引用后续章节的写法——先按已学内容完成核心部分，学完再回来进阶。",en:"Some lab hints reference techniques taught later - finish the core with what you already know, then come back for the advanced bits."},
  app_alt:{zh:"R0:hello world",en:"R0:hello world"},
  app_sub:{zh:"Python · C · C++ · Java · JavaScript · C# · Go 七门通用语言 · 从零到深入",en:"Python · C · C++ · Java · JavaScript · C# · Go — from zero to depth"},
 
