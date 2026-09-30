@@ -20,7 +20,7 @@ L["py-s1"] = [
  {t:"用 REPL 做一台计算器",t_en:"A Calculator in the REPL",
   req:["在交互式解释器里依次算出 2**10、17%5、7//2 三个结果并记下输出","把 (1+2)*3 与 1+2*3 都算一遍，比较优先级差异","解释为什么 0.1+0.2 的结果不是 0.3"],
   req_en:["In the interactive shell compute 2**10, 17%5 and 7//2, and record the outputs","Evaluate (1+2)*3 and 1+2*3, and compare how precedence changes the result","Explain why 0.1+0.2 does not equal 0.3"],
-  starter:"# 在终端运行 python 进入 REPL，逐行输入：\n# 2**10\n# 17 % 5\n# 7 // 2\n# (1+2)*3\n# 1+2*3\nprint(\"把每次的输出抄到这里做对比\")",
+  starter: "# 在终端运行 python 进入交互式解释器（REPL），依次输入：\n# 2**10\n# 17 % 5\n# 7 // 2\n# (1+2)*3\n# 1+2*3\n# 把每次的输出抄到这里做对比",
   hint:"// 是整除、% 是取余、** 是幂；浮点误差来自二进制无法精确表示 0.1。",
   hint_en:"// is floor division, % is modulo, ** is power; the float error comes from binary representation.",
   xp:25},
