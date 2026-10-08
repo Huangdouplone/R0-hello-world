@@ -1,7 +1,7 @@
 /* R0：从零开始的编程之路（R0:hello world）Service Worker —— 提供离线缓存
  * 通过 http(s) 托管本目录时自动生效；file:// 直接打开时浏览器会拒绝注册，属正常现象。
  */
-const CACHE = "r0-hello-world-v57";
+const CACHE = "r0-hello-world-v60";
 /* ASSETS 必须与 index.html 里 <script src> 的 URL 逐字符一致（含 ?v=N 查询串）：
    缓存以「完整请求 URL」为键，裸文件名匹配不上带查询串的请求，会导致离线时取不到这些资源。 */
 const ASSETS = [
@@ -12,7 +12,7 @@ const ASSETS = [
   "lang-enhance-js.js", "lang-enhance-csharp.js", "lang-enhance-go.js",
   "lang-placement.js", "lang-placement-extra.js?v=1", "lang-crosslinks.js",
   "lang-i18n.js?v=26", "lang-i18n-content.js?v=43", "lang-i18n-extra.js?v=1",
-  "world-concept.js?v=2", "world-depth-go.js?v=3", "world-depth-js.js?v=3", "world-depth-csharp.js?v=3", "world-quiz-en.js?v=3", "world-quiz-extra-en.js?v=1", "world-code-en.js?v=3", "world-xls-en.js?v=5", "world-lab-starter-en.js?v=1", "lang-quiz-extra.js?v=1", "lang-lab-extra.js?v=2", "lang-extra2.js?v=1", "lang-lab-extra2.js?v=1", "ped-ext.js?v=1", "diagnose.html", "404.html",
+  "world-concept.js?v=3", "world-depth-go.js?v=3", "world-depth-js.js?v=3", "world-depth-csharp.js?v=3", "world-quiz-en.js?v=3", "world-quiz-extra-en.js?v=1", "world-code-en.js?v=3", "world-xls-en.js?v=5", "world-lab-starter-en.js?v=1", "lang-quiz-extra.js?v=1", "lang-lab-extra.js?v=2", "lang-extra2.js?v=1", "lang-lab-extra2.js?v=1", "ped-ext.js?v=1", "diagnose.html", "404.html",
   "lang-sw.js"
 ];
 self.addEventListener("install", function (e) {
