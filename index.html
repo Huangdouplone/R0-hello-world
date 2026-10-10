@@ -374,6 +374,12 @@ body.sbCollapsed .sb-toggle{display:flex;}
   .sb-sec,.sb-item,.sb-group-hd{min-height:40px;}
   .td-close{min-height:34px;padding:6px 10px;}
   .toast{max-width:calc(100vw - 32px);}
+  /* 章节行：图标+层级标签+进度+箭头把 294px 占到只剩 73px 给标题，
+     窄屏让它可换行并给标题一个真实起点（agi 同型问题更严重，见 agi 站）。 */
+  .stage-hd{flex-wrap:wrap;gap:8px 10px;}
+  .stage-hd .nm{flex:1 1 140px;}
+  .stage-hd .pg,.stage-hd .lv-tag,.stage-hd .ar{flex:0 0 auto;}
+  .report{overflow-x:hidden;}
 }
 
 .cele-mask{position:fixed;inset:0;background:rgba(10,18,32,.72);z-index:500;display:flex;align-items:center;justify-content:center;animation:fadeIn .3s;}
